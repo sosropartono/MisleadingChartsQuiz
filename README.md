@@ -11,6 +11,8 @@ mysql_secure_installation
 
 follow instructions to set a password
 
+run app.js to connect to MySQL and create database
+
 ```
 node app.js
 ```
