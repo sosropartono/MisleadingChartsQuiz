@@ -16,17 +16,18 @@ con.connect(function (err) {
 
   const createQuestionsTableSQL = `
     CREATE TABLE IF NOT EXISTS questions (
-        questionNumber INT AUTO_INCREMENT PRIMARY KEY,
-        question VARCHAR(255) NOT NULL
+      questionNumber INT AUTO_INCREMENT PRIMARY KEY,
+      question VARCHAR(255) NOT NULL
     )
 `;
 
   //1 for correct answer and 0 for wrong answer
   const createAnswersTableSQL = `
     CREATE TABLE IF NOT EXISTS answers (
-        questionNumber INT,
-        answer VARCHAR(255),
-        correctOrNot INT
+      questionNumber INT,
+      answer VARCHAR(255),
+      correctOrNot INT,
+      FOREIGN KEY (questionNumber) REFERENCES questions(questionNumber)
     )
 `;
 
@@ -40,12 +41,14 @@ con.connect(function (err) {
   `;
 
   const insertDataIntoQuestionsTable = `
-      INSERT INTO questions (questionNumber, question) VALUES
-        (1, 'Is there drought in California in September 2023?'),
-        (2, 'How many COVID hospitalizations in CA in Oct 2021?')
+      INSERT INTO questions (question) VALUES
+        ('Is there drought in California in September 2023?'),
+        ('How many COVID hospitalizations in CA in Oct 2021?')
       `;
 
-  con.query("DROP TABLE questions", (err) => {
+  const fetchQuestions = "SELECT questionNumber, question FROM questions";
+
+  con.query("DROP TABLE IF EXISTS questions", (err) => {
     if (err) {
       console.error("Error deleting Questions table", err);
     } else {
@@ -53,7 +56,7 @@ con.connect(function (err) {
     }
   });
 
-  con.query("DROP TABLE answers", (err) => {
+  con.query("DROP TABLE IF EXISTS answers", (err) => {
     if (err) {
       console.error("Error deleting Answers table", err);
     } else {
