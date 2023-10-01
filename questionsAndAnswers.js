@@ -37,13 +37,17 @@ con.connect(function (err) {
           (1, 'no', 0),
           (2, '200', 0),
           (2, '3400', 0),
-          (2, '5', 1)
+          (2, '5', 1),
+          (3, '23ft', 0),
+          (3, '34ft', 1),
+          (3, '13ft', 0)
   `;
 
   const insertDataIntoQuestionsTable = `
       INSERT INTO questions (question) VALUES
         ('Is there drought in California in September 2023?'),
-        ('How many COVID hospitalizations in CA in Oct 2021?')
+        ('How many COVID hospitalizations in CA in Oct 2021?'),
+        ('The water level of the Sacramento River in August 2023 is: ')
       `;
 
   const fetchQuestions = "SELECT questionNumber, question FROM questions";
