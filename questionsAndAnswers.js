@@ -1,9 +1,9 @@
-var mysql = require("mysql");
+const mysql = require("mysql");
 
-var con = mysql.createConnection({
+const con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "pw",
+  password: "",
   database: "mydb",
 });
 
@@ -16,7 +16,7 @@ con.connect(function (err) {
 
   const createQuestionsTableSQL = `
     CREATE TABLE IF NOT EXISTS questions (
-      questionNumber INT AUTO_INCREMENT PRIMARY KEY,
+      questionID INT AUTO_INCREMENT PRIMARY KEY,
       question VARCHAR(255) NOT NULL
     )
 `;
@@ -24,15 +24,14 @@ con.connect(function (err) {
   //1 for correct answer and 0 for wrong answer
   const createAnswersTableSQL = `
     CREATE TABLE IF NOT EXISTS answers (
-      questionNumber INT,
+      questionID INT,
       answer VARCHAR(255),
-      correctOrNot INT,
-      FOREIGN KEY (questionNumber) REFERENCES questions(questionNumber)
+      correctOrNot INT    
     )
 `;
 
   const insertDataIntoAnswersTable = `
-      INSERT INTO answers (questionNumber, answer, correctOrNot) VALUES
+      INSERT INTO answers (questionID, answer, correctOrNot) VALUES
           (1, 'yes', 1),
           (1, 'no', 0),
           (2, '200', 0),
@@ -50,21 +49,19 @@ con.connect(function (err) {
         ('The water level of the Sacramento River in August 2023 is: ')
       `;
 
-  const fetchQuestions = "SELECT questionNumber, question FROM questions";
+  con.query("DROP TABLE IF EXISTS answers", (err) => {
+    if (err) {
+      console.error("Error deleting Answers table", err);
+    } else {
+      console.log("Answers table deleted successfully");
+    }
+  });
 
   con.query("DROP TABLE IF EXISTS questions", (err) => {
     if (err) {
       console.error("Error deleting Questions table", err);
     } else {
       console.log("Questions table deleted successfully");
-    }
-  });
-
-  con.query("DROP TABLE IF EXISTS answers", (err) => {
-    if (err) {
-      console.error("Error deleting Answers table", err);
-    } else {
-      console.log("Answers table deleted successfully");
     }
   });
 
