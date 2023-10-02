@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
     <div class="container">
-        <!-- Welcome message on the home screen -->
-        <div id="home-content">
-            <h1>Welcome participants!</h1>
-            <p>
-                Thank you for being a part of our study to investigate the user impact of
-                misleading data visualization.
-            </p>
-            <!-- Start Survey button to begin the quiz -->
-            <button id="start-survey-button">Start Survey</button>
+      <div id="home-content">
+        <h1>Welcome participants!</h1>
+
+        <p>
+          Thank you for being a part of our study to investigate the user impact
+          of misleading data visualization.
+        </p>
+
+        <button id="start-survey-button">Start Survey</button>
+      </div>
+
+      <!-- Quiz content initially hidden -->
+      <div id="quiz-content" style="display: none">
+        <h2 id="question-container">Question 1</h2>
+
+        <div id="options">
+          <!-- Options will be displayed here -->
         </div>
 
-        <!-- Quiz content initially hidden -->
-        <div id="quiz-content" style="display: none;">
-            <h2 id="question">Question 1</h2>
-            <div id="options">
-                <!-- Options will be displayed here -->
-            </div>
-            <button id="next-button">Next</button>
-        </div>
+        <button id="next-button">Next</button>
+      </div>
     </div>
     <script src="quizsurvey.js"></script>
-</body>
+  </body>
 </html>
