@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "express": "^4.18.2",
     "mysql": "^2.18.1"
-  }
+  },
+  "name": "misleadingcharts",
+  "description": "MacOS:",
+  "version": "1.0.0",
+  "main": "createDatabase.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
