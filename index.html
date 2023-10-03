@@ -31,5 +31,26 @@
       </div>
     </div>
     <script src="quizsurvey.js"></script>
+
+    <div id="table">
+      <script type="text/javascript">
+        var opts = {
+          url: "http://localhost:3000/questions",
+        };
+
+        fetch(opts)
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            }
+          })
+          .then((questions) => {
+            for (let q of questions) {
+              // row will be a mysql row -- you can loop over these and do what you want with them
+            }
+          })
+          .catch(console.log);
+      </script>
+    </div>
   </body>
 </html>

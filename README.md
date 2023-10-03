@@ -4,6 +4,7 @@ MacOS:
 
 ```
 brew install mysql
+brew install node
 npm install mysql
 npm install express
 npm install dotenv
