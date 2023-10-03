@@ -56,4 +56,6 @@ node questionsAndAnswers.js
 node server.js
 ```
 
+In browser, type localhost:3000/index.html
+
 open localhost:3000/questions or localhost:3000/answers in browser to see data

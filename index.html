@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <title>Welcome</title>
   </head>
 
   <body>
@@ -16,41 +17,7 @@
           of misleading data visualization.
         </p>
 
-        <button id="start-survey-button">Start Survey</button>
+        <a id="start-button" href="quiz.html">Start Survey</a>
       </div>
-
-      <!-- Quiz content initially hidden -->
-      <div id="quiz-content" style="display: none">
-        <h2 id="question-container">Question 1</h2>
-
-        <div id="options">
-          <!-- Options will be displayed here -->
-        </div>
-
-        <button id="next-button">Next</button>
-      </div>
-    </div>
-    <script src="quizsurvey.js"></script>
-
-    <div id="table">
-      <script type="text/javascript">
-        var opts = {
-          url: "http://localhost:3000/questions",
-        };
-
-        fetch(opts)
-          .then((res) => {
-            if (res.ok) {
-              return res.json();
-            }
-          })
-          .then((questions) => {
-            for (let q of questions) {
-              // row will be a mysql row -- you can loop over these and do what you want with them
-            }
-          })
-          .catch(console.log);
-      </script>
-    </div>
   </body>
 </html>

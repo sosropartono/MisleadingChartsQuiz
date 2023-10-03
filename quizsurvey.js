@@ -37,8 +37,10 @@ let currentQuestionIndex = 0;
 
 // Function to show the quiz content and start the survey
 function startSurvey() {
-  homeContent.style.display = "none"; // Hide the welcome message
-  quizContent.style.display = "block"; // Show the quiz content
+  // homeContent.style.display = "none"; // Hide the welcome message
+  // quizContent.style.display = "block"; // Show the quiz content
+
+  startSurveyButton.style.display = "none";
 
   // Initialize the quiz
   displayQuestion();
@@ -99,9 +101,9 @@ function checkAnswer() {
   displayQuestion();
 }
 
-//Initially, show the welcome message and hide the quiz content
-homeContent.style.display = "block";
-quizContent.style.display = "none";
+// //Initially, show the welcome message and hide the quiz content
+// homeContent.style.display = "block";
+// quizContent.style.display = "none";
 
 //Add event listeners
 nextButton.addEventListener("click", checkAnswer);

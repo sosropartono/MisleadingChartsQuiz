@@ -8,7 +8,24 @@ const startSurveyButton = document.getElementById("start-survey-button");
 const baseQuestionUrl = "http://localhost:3000/questions";
 const baseAnsURl = "http://localhost:3000/answers";
 
-startSurveyButton.addEventListener("click", startSurvey);
+var opts = {
+  url: baseQuestionUrl,
+};
+
+fetch(opts)
+  .then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+  })
+  .then((questions) => {
+    for (let question of questions) {
+      console.log(question);
+    }
+  })
+  .catch(console.log);
+
+https: startSurveyButton.addEventListener("click", startSurvey);
 async function startSurvey(e) {
   e.preventDefault();
   const res = await fetch(baseQuestionUrl, {
