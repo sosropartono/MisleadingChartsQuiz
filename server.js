@@ -1,13 +1,16 @@
 const express = require("express");
 const mysql = require("mysql");
+const path = require("path");
+require("dotenv").config();
 
-const app = express();
+var app = express();
+app.use(express.static(path.join(__dirname, "")));
 
 const con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "*DinosavR89!",
-  database: "mydb",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 con.connect(function (err) {
@@ -27,6 +30,7 @@ con.connect(function (err) {
       } else {
         var fetchedData = JSON.parse(JSON.stringify(results));
         console.log(fetchedData);
+        res.send(fetchedData);
       }
     });
   });
