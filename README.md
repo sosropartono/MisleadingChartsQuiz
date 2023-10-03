@@ -29,12 +29,24 @@ mysql> exit
 ```
 
 SET UP .ENV
+Create .env file to store your MySQL credentials:
+
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=mydb
+```
+
+Add .env to .gitignore to hide your sensitive information
 
 ```
 touch .gitignore
 //open .gitignore and type '.env'
 //save .gitignore
 git add .gitignore
+git commit -m "added .env to .gitignore"
+git push
 
 ```
 
