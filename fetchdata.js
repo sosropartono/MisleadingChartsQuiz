@@ -1,9 +1,8 @@
 const questionElement = document.getElementById("question-container");
-const optionsElement = document.getElementById("options");
-const nextButton = document.getElementById("next-button");
-const homeContent = document.getElementById("home-content");
-const quizContent = document.getElementById("quiz-content");
-const startSurveyButton = document.getElementById("start-survey-button");
+const answersElement = document.getElementById("answers-from-database");
+const nextButton = document.getElementById("next-question");
+const quizContent = document.getElementById("quiz-container");
+const startSurveyButton = document.getElementById("test-start-button");
 
 const baseQuestionUrl = "http://localhost:3000/questions";
 const baseAnsURl = "http://localhost:3000/answers";
@@ -44,9 +43,6 @@ function displayQuestions(questions) {
     questionElement.textContent = `${index + 1}. ${question.question}`;
     // questionsElement.appendChild(questionElement);
   });
-
-  homeContent.style.display = "none";
-  quizContent.style.display = "block";
 }
 
 // let questionsNumberArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -67,9 +63,9 @@ function displayQuestions(questions) {
 
 // randomlyRearrangeQuestions();
 
-//Initially, show the welcome message and hide the quiz content
-homeContent.style.display = "block";
-quizContent.style.display = "none";
-
 //Add event listeners
 nextButton.addEventListener("click", checkAnswer);
+
+function checkAnswer() {
+  alert("selected.");
+}
