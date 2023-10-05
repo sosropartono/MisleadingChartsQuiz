@@ -1,4 +1,4 @@
-##To setup MySQL Database
+To setup MySQL Database
 
 MacOS:
 
