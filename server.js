@@ -11,94 +11,121 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 connection.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL:', err);
-        return;
-    }
-    console.log('Connected to MySQL database');
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL database');
 });
 
 let userCount = 0;
 let currentQuestionIndex = 0;
 
-const surveyData = [
-    {
-        question: "Question1?",
-        chartImage: "chart1.png",
-        options: ["Yes", "No"],
-        correctAnswer: "Yes"
-    },
-    {
-        question: "Question2?",
-        chartImage: "chart2.png",
-        options: ["Yes", "No"],
-        correctAnswer: "Yes"
-    },
-    {
-        question: "Question3?",
-        chartImage: "chart3.png",
-        options: ["Yes", "No"],
-        correctAnswer: "Yes"
-    },
-    {
-        question: "Question4?",
-        chartImage: "chart4.png",
-        options: ["Yes", "No"],
-        correctAnswer: "Yes"
-    },
-    // more questions need to be added
-];
+// Define a route to start the survey
+app.post('/start-survey', async (req, res) => {
+  userCount++;
+  const userId = "User" + userCount;
+  currentQuestionIndex = 0;
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+  try {
+    // Fetch the total number of questions
+    const totalQuestions = await getTotalNumberOfQuestionsFromDatabase();
+
+    // Fetch the first question from the database
+    const surveyData = await fetchNextQuestionFromDatabase();
+    const [questionData] = surveyData;
+
+    res.json({ userId, totalQuestions, question: questionData });
+  } catch (error) {
+    console.error('Error fetching next question:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-app.post('/start-survey', (req, res) => {
-    userCount=0;
-    const userId = "User" + (++userCount);
-    currentQuestionIndex = 0;
+// Define a route to submit a response
+app.post('/submit-response', async (req, res) => {
+  const { userId, userAnswer } = req.body;
 
-    res.json({ userId, question: surveyData[currentQuestionIndex] });
+  try {
+    // Fetch the current question from the database
+    const surveyData = await fetchNextQuestionFromDatabase();
+    const [currentQuestion] = surveyData;
+    const isCorrect = userAnswer === currentQuestion.correct_answer;
+
+    // Insert the response into the database
+    await insertResponseIntoDatabase(userId, currentQuestion, userAnswer, isCorrect);
+
+    // Move to the next question or end the survey
+    currentQuestionIndex++;
+
+    // Fetch the total number of questions
+    const totalQuestions = await getTotalNumberOfQuestionsFromDatabase();
+
+    if (currentQuestionIndex < totalQuestions) {
+      // Continue with the survey
+      const [nextQuestion] = await fetchNextQuestionFromDatabase();
+      res.json({ status: 'success', message: 'User response received', question: nextQuestion });
+    } else {
+      // End the survey
+      res.json({ status: 'success', message: 'Survey complete. Thank you for participating!' });
+    }
+  } catch (error) {
+    console.error('Error submitting response:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-app.post('/submit-response', (req, res) => {
-    const { userId, userAnswer } = req.body;
-
-    const currentQuestion = surveyData[currentQuestionIndex];
-    const isCorrect = userAnswer === currentQuestion.correctAnswer;
-    console.log('Received response from user:', userId, 'with answer:', userAnswer);
-
-    connection.query(
-        'INSERT INTO survey_responses (user_id, question, user_answer, is_correct) VALUES (?, ?, ?, ?)',
-        [userId, currentQuestion.question, userAnswer, isCorrect],
-        (err, results) => {
-            if (err) {
-                console.error('Error inserting data:', err);
-                res.status(500).json({ error: 'Internal Server Error' });
-            } else {
-                console.log('Data inserted successfully');
-
-                // Move to the next question or end the survey
-                currentQuestionIndex++;
-                const nextQuestion = surveyData[currentQuestionIndex];
-
-                if (nextQuestion) {
-                    res.json({ status: 'success', message: 'User response received', question: nextQuestion });
-                } else {
-                    res.json({ status: 'success', message: 'Survey complete. Thank you for participating!' });
-                }
-            }
-        }
-    );
-});
-
+// Start the server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
+
+// Function to fetch the next question from the database
+function fetchNextQuestionFromDatabase() {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT * FROM survey_questions LIMIT ?, 1';
+    connection.query(query, [currentQuestionIndex], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
+// Function to fetch the total number of questions from the database
+function getTotalNumberOfQuestionsFromDatabase() {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT COUNT(*) as total FROM survey_questions';
+    connection.query(query, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0].total);
+      }
+    });
+  });
+}
+
+// Function to insert a response into the database
+function insertResponseIntoDatabase(userId, question, userAnswer, isCorrect) {
+  return new Promise((resolve, reject) => {
+    const query = 'INSERT INTO survey_responses (user_id, question, user_answer, is_correct) VALUES (?, ?, ?, ?)';
+    connection.query(query, [userId, question.question_text, userAnswer, isCorrect], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
