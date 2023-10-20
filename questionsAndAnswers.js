@@ -39,8 +39,8 @@ con.connect(function (err) {
     INSERT INTO survey_questions (question_text, chart_image, options, correct_answer)
     VALUES
       ('Question1?', 'color_chart.png', '["yes", "no"]', 'yes'),
-      ('Question2?', 'exercise_chart.png', '["yes", "no"]', 'yes'),
-      ('Question3?', 'drought_chart.png', '["Yes", "No"]', 'Yes')
+      ('Question2?', 'color_chart.png', '["yes", "no"]', 'yes'),
+      ('Question3?', 'color_chart.png', '["Yes", "No"]', 'Yes')
   `;
 
   // Drop the table if already exist
