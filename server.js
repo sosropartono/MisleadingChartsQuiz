@@ -29,7 +29,7 @@ let userCount = 0;
 let currentQuestionIndex = 0;
 
 // Define a route to start the survey
-app.post("/start-survey", async (req, res) => {
+app.post("/claim-user-id", async (req, res) => {
   userCount++;
   const userId = "User" + userCount;
   currentQuestionIndex = 0;

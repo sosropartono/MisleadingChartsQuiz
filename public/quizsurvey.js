@@ -4,27 +4,35 @@ const nextButton = document.getElementById("next-button");
 const homeContent = document.getElementById("home-content");
 const quizContent = document.getElementById("quiz-content");
 const startSurveyButton = document.getElementById("start-survey-button");
+const claimUserIDButton = document.getElementById("claim-user-id");
+const showUserID = document.getElementById("show-user-id");
 
 let currentQuestionIndex = 0;
-let userId = 1; // Declare userId globally
+let userId; // Declare userId globally
 let tableData = [];
 let data2DArray = [];
-let questionOrder = [2, 0, 1]; //temporary array for testing
+let questionOrder = [
+  [2, 0, 1],
+  [1, 2, 0],
+  [0, 2, 1],
+]; //temporary array for testing
 
 // Function to display the question
 function displayQuestion() {
-  if (questionOrder) {
+  if (userId) {
     questionOrder.forEach((quest, index) => {
-      questionElement.textContent = data2DArray[quest][0];
+      quest = parseInt(userId.charAt(userId.length - 1)) - 1;
+
+      questionElement.textContent = data2DArray[questionOrder[quest][0]][0];
       optionsElement.innerHTML = "";
 
       // Create and append the image element
       const imageElement = document.createElement("img");
-      imageElement.src = data2DArray[quest][1];
+      imageElement.src = data2DArray[questionOrder[quest][1]][1];
       imageElement.alt = "Chart";
       optionsElement.appendChild(imageElement);
 
-      data2DArray[quest][2].forEach((option, index) => {
+      data2DArray[questionOrder[quest][2]][2].forEach((option, index) => {
         const label = document.createElement("label");
         const input = document.createElement("input");
         input.type = "radio";
@@ -44,31 +52,28 @@ function displayQuestion() {
   }
 }
 
-// // Function to show the quiz content and start the survey
-// async function startSurvey() {
-//   try {
-//     // Fetch userId from the server when starting the survey
-//     const response = await fetch("/start-survey", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
+// Function to show the quiz content and start the survey
+async function claimUserID() {
+  try {
+    // Fetch userId from the server when starting the survey
+    const response = await fetch("/claim-user-id", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-//     const data = await response.json();
-//     userId = data.userId; // Store the userId globally or in a scope accessible by the checkAnswer function
+    const data = await response.json();
+    userId = data.userId; // Store the userId globally or in a scope accessible by the checkAnswer function
+    showUserID.textContent = "Your user ID is: " + userId;
 
-//     homeContent.style.display = "none"; // Hide the welcome message
-//     quizContent.style.display = "block"; // Show the quiz content
+    console.log(userId);
+  } catch (error) {
+    console.error("Error claim user ID:", error);
+  }
+}
 
-//     // Initialize the quiz
-//     displayQuestion(data.question);
-//   } catch (error) {
-//     console.error("Error starting the survey:", error);
-//   }
-// }
-
-async function startSurvey2() {
+async function startSurvey() {
   try {
     const response = await fetch("/fetch-entire-table", {
       method: "GET",
@@ -106,7 +111,7 @@ function storeQuestionsInArray() {
 }
 
 // Function to check the answer and proceed to the next question
-async function checkAnswer() {
+async function checkIfAnswered() {
   const selectedOption = document.querySelector('input[name="answer"]:checked');
 
   if (!selectedOption) {
@@ -137,7 +142,8 @@ async function checkAnswer() {
 
 // Add event listeners
 nextButton.addEventListener("click", checkAnswer);
-startSurveyButton.addEventListener("click", startSurvey2);
+startSurveyButton.addEventListener("click", startSurvey);
+claimUserIDButton.addEventListener("click", claimUserID);
 
 // Initially, show the welcome message and hide the quiz content
 homeContent.style.display = "block";
