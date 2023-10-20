@@ -18,11 +18,19 @@ con.connect(function (err) {
 
   const createTableSQL = `
     CREATE TABLE IF NOT EXISTS survey_questions (
-      question_id INT PRIMARY KEY AUTO_INCREMENT,
       question_text VARCHAR(255) NOT NULL,
       chart_image VARCHAR(255) NOT NULL,
       options JSON NOT NULL,
       correct_answer VARCHAR(255) NOT NULL
+    )
+  `;
+
+  const createResponsesTableSQL = `
+    CREATE TABLE IF NOT EXISTS survey_responses (
+      user_id INT NOT NULL,
+      question VARCHAR(100),
+      user_answer VARCHAR(100),
+      is_correct VARCHAR(5) NOT NULL
     )
   `;
 
@@ -52,19 +60,48 @@ con.connect(function (err) {
           // insert data after creating the table
           con.query(insertDataIntoSurveyQuestionsTable, (err) => {
             if (err) {
-              console.error("Error inserting data into survey_questions table:", err);
+              console.error(
+                "Error inserting data into survey_questions table:",
+                err
+              );
             } else {
-              console.log("Data inserted into survey_questions table successfully");
-            }
+              console.log(
+                "Data inserted into survey_questions table successfully"
+              );
 
-            // Close the connection
-            con.end((error) => {
-              if (error) {
-                console.error("Error closing MySQL connection:", error);
-                return;
-              }
-              console.log("MySQL connection closed.");
-            });
+              con.query("DROP TABLE IF EXISTS survey_responses", (err) => {
+                if (err) {
+                  console.error("Error deleting survey_responses table:", err);
+                } else {
+                  console.log("survey_responses table deleted successfully");
+
+                  con.query(createResponsesTableSQL, (err) => {
+                    if (err) {
+                      console.error(
+                        "Error creating survey_responses table:",
+                        err
+                      );
+                    } else {
+                      console.log(
+                        "survey_responses table created successfully"
+                      );
+
+                      // Close the connection
+                      con.end((error) => {
+                        if (error) {
+                          console.error(
+                            "Error closing MySQL connection:",
+                            error
+                          );
+                          return;
+                        }
+                        console.log("MySQL connection closed.");
+                      });
+                    }
+                  });
+                }
+              });
+            }
           });
         }
       });
