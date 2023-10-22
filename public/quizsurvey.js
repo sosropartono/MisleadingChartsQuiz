@@ -7,8 +7,6 @@ const startSurveyButton = document.getElementById("start-survey-button");
 const claimUserIDButton = document.getElementById("claim-user-id");
 const showUserID = document.getElementById("show-user-id");
 const homeButton = document.getElementById("home-button");
-// var loadingBar = document.getElementById("countdown-bar");
-// var progress = 0;
 
 let currentQuestionIndex = 0;
 let userId; // Declare userId globally
@@ -24,6 +22,7 @@ let questionOrderRow;
 // Function to display the question
 function displayQuestion() {
   if (currentQuestionIndex < 3) {
+    nextButton.style.display = "block";
     questionOrderRow = parseInt(userId.charAt(userId.length - 1)) - 1;
 
     questionElement.textContent =
@@ -33,6 +32,7 @@ function displayQuestion() {
     // Create and append the image element
     const imageElement = document.createElement("img");
     imageElement.src =
+      "img/" +
       data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][1];
     imageElement.alt = "Chart";
     optionsElement.appendChild(imageElement);
@@ -56,7 +56,7 @@ function displayQuestion() {
     optionsElement.innerHTML = "";
     nextButton.style.display = "none";
     homeButton.style.display = "block";
-    // setInterval(updateProgress, 100);
+    currentQuestionIndex = 0;
   }
 }
 
@@ -97,6 +97,7 @@ async function startSurvey() {
 
     homeContent.style.display = "none"; // Hide the welcome message
     quizContent.style.display = "block"; // Show the quiz content
+    homeButton.style.display = "none";
 
     displayQuestion();
   } catch (error) {
@@ -150,11 +151,6 @@ async function checkAnswer() {
   } catch (error) {
     console.error("Error submitting response:", error);
   }
-}
-
-function updateProgress() {
-  progress += 0.1;
-  loadingBar.style.width = progress * 100 + "%";
 }
 
 // Add event listeners
