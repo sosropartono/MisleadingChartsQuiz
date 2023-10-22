@@ -27,10 +27,11 @@ con.connect(function (err) {
 
   const createResponsesTableSQL = `
     CREATE TABLE IF NOT EXISTS survey_responses (
-      user_id INT NOT NULL,
+      user_id VARCHAR(10) NOT NULL,
       question VARCHAR(100),
-      user_answer VARCHAR(100),
-      is_correct VARCHAR(5) NOT NULL
+      user_answer VARCHAR(10),
+      is_correct VARCHAR(5) NOT NULL,
+      timestamp VARCHAR(10)
     )
   `;
 
@@ -38,9 +39,9 @@ con.connect(function (err) {
   const insertDataIntoSurveyQuestionsTable = `
     INSERT INTO survey_questions (question_text, chart_image, options, correct_answer)
     VALUES
-      ('Question1?', 'color_chart.png', '["yes", "no"]', 'yes'),
-      ('Question2?', 'color_chart.png', '["yes", "no"]', 'yes'),
-      ('Question3?', 'color_chart.png', '["Yes", "No"]', 'Yes')
+      ('Question1?', 'color_chart.png', '["yes1", "no"]', 'yes'),
+      ('Question2?', 'color_chart.png', '["yes2", "no"]', 'yes'),
+      ('Question3?', 'color_chart.png', '["Yes3", "No"]', 'Yes')
   `;
 
   // Drop the table if already exist
