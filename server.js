@@ -29,7 +29,7 @@ let userCount = 0;
 let currentQuestionIndex = 0;
 
 // Define a route to start the survey
-app.post("/claim-user-id", async (req, res) => {
+app.get("/claim-user-id", async (req, res) => {
   userCount++;
   const userId = "User" + userCount;
   currentQuestionIndex = 0;
@@ -39,7 +39,7 @@ app.post("/claim-user-id", async (req, res) => {
     const totalQuestions = await getTotalNumberOfQuestionsFromDatabase();
 
     // Fetch the first question from the database
-    const surveyData = await fetchNextQuestionFromDatabase();
+    const surveyData = await fetchNextQuestionFromDatabase(0);
     const [questionData] = surveyData;
 
     res.json({ userId, totalQuestions, question: questionData });
@@ -61,20 +61,23 @@ app.get("/fetch-entire-table", async (req, res) => {
 
 // Define a route to submit a response
 app.post("/submit-response", async (req, res) => {
-  const { userId, userAnswer } = req.body;
+  const { userId, userAnswer, questionNumber } = req.body;
 
   try {
     // Fetch the current question from the database
-    const surveyData = await fetchNextQuestionFromDatabase();
+    const surveyData = await fetchNextQuestionFromDatabase(questionNumber);
     const [currentQuestion] = surveyData;
+
     const isCorrect = userAnswer === currentQuestion.correct_answer;
+    const timestamp = new Date();
 
     // Insert the response into the database
     await insertResponseIntoDatabase(
       userId,
-      currentQuestion,
+      currentQuestion.question_text,
       userAnswer,
-      isCorrect
+      isCorrect,
+      timestamp
     );
 
     // Move to the next question or end the survey
@@ -85,7 +88,9 @@ app.post("/submit-response", async (req, res) => {
 
     if (currentQuestionIndex < totalQuestions) {
       // Continue with the survey
-      const [nextQuestion] = await fetchNextQuestionFromDatabase();
+      const [nextQuestion] = await fetchNextQuestionFromDatabase(
+        questionNumber
+      );
       res.json({
         status: "success",
         message: "User response received",
@@ -110,10 +115,10 @@ app.listen(port, () => {
 });
 
 // Function to fetch the next question from the database
-function fetchNextQuestionFromDatabase() {
+function fetchNextQuestionFromDatabase(questionNumber) {
   return new Promise((resolve, reject) => {
     const query = "SELECT * FROM survey_questions LIMIT ?, 1";
-    connection.query(query, [currentQuestionIndex], (err, results) => {
+    connection.query(query, [questionNumber], (err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -138,13 +143,19 @@ function getTotalNumberOfQuestionsFromDatabase() {
 }
 
 // Function to insert a response into the database
-function insertResponseIntoDatabase(userId, question, userAnswer, isCorrect) {
+function insertResponseIntoDatabase(
+  userId,
+  question,
+  userAnswer,
+  isCorrect,
+  timestamp
+) {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO survey_responses (user_id, question, user_answer, is_correct) VALUES (?, ?, ?, ?)";
+      "INSERT INTO survey_responses (user_id, question, user_answer, is_correct, timestamp) VALUES (?, ?, ?, ?, ?)";
     connection.query(
       query,
-      [userId, question.question_text, userAnswer, isCorrect],
+      [userId, question, userAnswer, isCorrect, timestamp],
       (err, results) => {
         if (err) {
           reject(err);

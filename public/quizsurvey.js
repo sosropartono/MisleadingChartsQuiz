@@ -6,6 +6,14 @@ const quizContent = document.getElementById("quiz-content");
 const startSurveyButton = document.getElementById("start-survey-button");
 const claimUserIDButton = document.getElementById("claim-user-id");
 const showUserID = document.getElementById("show-user-id");
+const homeButton = document.getElementById("home-button");
+var loadingBar = document.getElementById("countdown-bar");
+var progress = 0;
+
+function updateProgress() {
+  progress += 0.1;
+  loadingBar.style.width = progress * 100 + "%";
+}
 
 let currentQuestionIndex = 0;
 let userId; // Declare userId globally
@@ -16,32 +24,35 @@ let questionOrder = [
   [1, 2, 0],
   [0, 2, 1],
 ]; //temporary array for testing
+let questionOrderRow;
 
 // Function to display the question
 function displayQuestion() {
-  if (userId) {
-    questionOrder.forEach((quest, index) => {
-      quest = parseInt(userId.charAt(userId.length - 1)) - 1;
+  if (currentQuestionIndex < 3) {
+    questionOrderRow = parseInt(userId.charAt(userId.length - 1)) - 1;
 
-      questionElement.textContent = data2DArray[questionOrder[quest][0]][0];
-      optionsElement.innerHTML = "";
+    questionElement.textContent =
+      data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][0];
+    optionsElement.innerHTML = "";
 
-      // Create and append the image element
-      const imageElement = document.createElement("img");
-      imageElement.src = data2DArray[questionOrder[quest][1]][1];
-      imageElement.alt = "Chart";
-      optionsElement.appendChild(imageElement);
+    // Create and append the image element
+    const imageElement = document.createElement("img");
+    imageElement.src =
+      data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][1];
+    imageElement.alt = "Chart";
+    optionsElement.appendChild(imageElement);
 
-      data2DArray[questionOrder[quest][2]][2].forEach((option, index) => {
-        const label = document.createElement("label");
-        const input = document.createElement("input");
-        input.type = "radio";
-        input.name = "answer";
-        input.value = option;
-        label.appendChild(input);
-        label.appendChild(document.createTextNode(option));
-        optionsElement.appendChild(label);
-      });
+    data2DArray[
+      questionOrder[questionOrderRow][currentQuestionIndex]
+    ][2].forEach((option, index) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "answer";
+      input.value = option;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(option));
+      optionsElement.appendChild(label);
     });
   } else {
     // Survey is complete
@@ -49,6 +60,8 @@ function displayQuestion() {
       "Survey complete. Thank you for participating!";
     optionsElement.innerHTML = "";
     nextButton.style.display = "none";
+    homeButton.style.display = "block";
+    setInterval(updateProgress, 100);
   }
 }
 
@@ -57,7 +70,7 @@ async function claimUserID() {
   try {
     // Fetch userId from the server when starting the survey
     const response = await fetch("/claim-user-id", {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
@@ -111,7 +124,7 @@ function storeQuestionsInArray() {
 }
 
 // Function to check the answer and proceed to the next question
-async function checkIfAnswered() {
+async function checkAnswer() {
   const selectedOption = document.querySelector('input[name="answer"]:checked');
 
   if (!selectedOption) {
@@ -127,14 +140,18 @@ async function checkIfAnswered() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId, userAnswer }),
+      body: JSON.stringify({
+        userId,
+        userAnswer,
+        questionNumber: questionOrder[questionOrderRow][currentQuestionIndex],
+      }),
     });
 
     const dataSubmit = await responseSubmit.json();
     console.log("Server response:", dataSubmit);
 
     currentQuestionIndex++;
-    displayQuestion(dataSubmit.question); // Update with the next question from the server
+    displayQuestion(); // Update with the next question from the server
   } catch (error) {
     console.error("Error submitting response:", error);
   }
@@ -144,6 +161,10 @@ async function checkIfAnswered() {
 nextButton.addEventListener("click", checkAnswer);
 startSurveyButton.addEventListener("click", startSurvey);
 claimUserIDButton.addEventListener("click", claimUserID);
+homeButton.addEventListener("click", () => {
+  homeContent.style.display = "block";
+  quizContent.style.display = "none";
+});
 
 // Initially, show the welcome message and hide the quiz content
 homeContent.style.display = "block";

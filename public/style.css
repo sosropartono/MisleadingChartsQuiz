@@ -1,0 +1,8 @@
+#countdown-bar {
+  width: 10%;
+  length: 30px;
+  background-color: aquamarine;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}

@@ -31,7 +31,7 @@ con.connect(function (err) {
       question VARCHAR(100),
       user_answer VARCHAR(10),
       is_correct VARCHAR(5) NOT NULL,
-      timestamp VARCHAR(10)
+      timestamp VARCHAR(40)
     )
   `;
 
@@ -39,9 +39,9 @@ con.connect(function (err) {
   const insertDataIntoSurveyQuestionsTable = `
     INSERT INTO survey_questions (question_text, chart_image, options, correct_answer)
     VALUES
-      ('Question1?', 'color_chart.png', '["yes1", "no"]', 'yes'),
-      ('Question2?', 'color_chart.png', '["yes2", "no"]', 'yes'),
-      ('Question3?', 'color_chart.png', '["Yes3", "No"]', 'Yes')
+      ('Question1?', 'color_chart.png', '["yes1", "no"]', 'yes1'),
+      ('Question2?', 'color_chart.png', '["yes2", "no"]', 'no'),
+      ('Question3?', 'color_chart.png', '["Yes3", "No"]', 'Yes3')
   `;
 
   // Drop the table if already exist
