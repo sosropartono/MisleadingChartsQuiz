@@ -7,13 +7,8 @@ const startSurveyButton = document.getElementById("start-survey-button");
 const claimUserIDButton = document.getElementById("claim-user-id");
 const showUserID = document.getElementById("show-user-id");
 const homeButton = document.getElementById("home-button");
-var loadingBar = document.getElementById("countdown-bar");
-var progress = 0;
-
-function updateProgress() {
-  progress += 0.1;
-  loadingBar.style.width = progress * 100 + "%";
-}
+// var loadingBar = document.getElementById("countdown-bar");
+// var progress = 0;
 
 let currentQuestionIndex = 0;
 let userId; // Declare userId globally
@@ -61,7 +56,7 @@ function displayQuestion() {
     optionsElement.innerHTML = "";
     nextButton.style.display = "none";
     homeButton.style.display = "block";
-    setInterval(updateProgress, 100);
+    // setInterval(updateProgress, 100);
   }
 }
 
@@ -155,6 +150,11 @@ async function checkAnswer() {
   } catch (error) {
     console.error("Error submitting response:", error);
   }
+}
+
+function updateProgress() {
+  progress += 0.1;
+  loadingBar.style.width = progress * 100 + "%";
 }
 
 // Add event listeners
