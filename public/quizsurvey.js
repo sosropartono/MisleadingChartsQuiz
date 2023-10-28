@@ -1,15 +1,29 @@
+import {
+  prestudyQuestions,
+  displayQuestionnaireQuestions,
+  questionnaireContent,
+  poststudyQuestions,
+  questionnaireMsgElement,
+  recordInteraction,
+  currentQuestion,
+  currentAnswer,
+} from "./questionnaire.js";
+
 const questionElement = document.getElementById("question");
 const optionsElement = document.getElementById("options");
 const nextButton = document.getElementById("next-button");
-const homeContent = document.getElementById("home-content");
+export const homeContent = document.getElementById("home-content");
 const quizContent = document.getElementById("quiz-content");
-const startSurveyButton = document.getElementById("start-survey-button");
+const startPrequizButton = document.getElementById("start-prequiz-button");
 const claimUserIDButton = document.getElementById("claim-user-id");
 const showUserID = document.getElementById("show-user-id");
-const homeButton = document.getElementById("home-button");
+export const homeButton = document.getElementById("home-button");
+export const beginPostQuizButton = document.getElementById("begin-postquiz");
+const chartPlaceholder = document.getElementById("chart");
 
 let currentQuestionIndex = 0;
-let userId; // Declare userId globally
+export let quizIsComplete = { value: 0 };
+export let userId; // Declare userId globally
 let tableData = [];
 let data2DArray = [];
 let questionOrder = [
@@ -25,9 +39,11 @@ function displayQuestion() {
     nextButton.style.display = "block";
     questionOrderRow = parseInt(userId.charAt(userId.length - 1)) - 1;
 
-    questionElement.textContent =
+    questionElement.textContent = currentQuestion.value =
       data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][0];
     optionsElement.innerHTML = "";
+    chartPlaceholder.innerHTML = "";
+    console.log(currentQuestion.value);
 
     // Create and append the image element
     const imageElement = document.createElement("img");
@@ -35,7 +51,7 @@ function displayQuestion() {
       "img/" +
       data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][1];
     imageElement.alt = "Chart";
-    optionsElement.appendChild(imageElement);
+    chartPlaceholder.appendChild(imageElement);
 
     data2DArray[
       questionOrder[questionOrderRow][currentQuestionIndex]
@@ -50,13 +66,17 @@ function displayQuestion() {
       optionsElement.appendChild(label);
     });
   } else {
-    // Survey is complete
+    // Quiz is complete
     questionElement.textContent =
-      "Survey complete. Thank you for participating!";
+      "Quiz complete. Thank you for participating! Please take some time to rate your experience in our postquiz.";
     optionsElement.innerHTML = "";
+    chartPlaceholder.innerHTML = "";
+
     nextButton.style.display = "none";
-    homeButton.style.display = "block";
+    homeButton.style.display = "none";
+    beginPostQuizButton.style.display = "block";
     currentQuestionIndex = 0;
+    quizIsComplete = 1;
   }
 }
 
@@ -71,9 +91,11 @@ async function claimUserID() {
       },
     });
 
+    quizIsComplete.value = 0;
     const data = await response.json();
     userId = data.userId; // Store the userId globally or in a scope accessible by the checkAnswer function
     showUserID.textContent = "Your user ID is: " + userId;
+    recordInteraction("Claim User ID");
 
     console.log(userId);
   } catch (error) {
@@ -81,7 +103,7 @@ async function claimUserID() {
   }
 }
 
-async function startSurvey() {
+export async function startPrequiz() {
   try {
     const response = await fetch("/fetch-entire-table", {
       method: "GET",
@@ -101,7 +123,7 @@ async function startSurvey() {
 
     displayQuestion();
   } catch (error) {
-    console.error("Error starting the survey:", error);
+    console.error("Error starting the quiz:", error);
   }
 }
 
@@ -128,7 +150,7 @@ async function checkAnswer() {
     return;
   }
 
-  const userAnswer = selectedOption.value;
+  const userAnswer = (currentAnswer.value = selectedOption.value);
 
   try {
     const responseSubmit = await fetch("/submit-response", {
@@ -154,14 +176,33 @@ async function checkAnswer() {
 }
 
 // Add event listeners
-nextButton.addEventListener("click", checkAnswer);
-startSurveyButton.addEventListener("click", startSurvey);
-claimUserIDButton.addEventListener("click", claimUserID);
+nextButton.addEventListener("click", () => {
+  checkAnswer();
+  recordInteraction("Next", 1);
+});
+
+startPrequizButton.addEventListener("click", () => {
+  recordInteraction("Start Prequiz");
+  homeContent.style.display = "none";
+  displayQuestionnaireQuestions(prestudyQuestions);
+});
+
+claimUserIDButton.addEventListener("click", () => {
+  claimUserID();
+});
 homeButton.addEventListener("click", () => {
   homeContent.style.display = "block";
   quizContent.style.display = "none";
 });
 
+beginPostQuizButton.addEventListener("click", () => {
+  recordInteraction("Begin PostQuiz");
+  quizContent.style.display = "none";
+  questionnaireMsgElement.textContent = "PostQuiz";
+  displayQuestionnaireQuestions(poststudyQuestions);
+});
+
 // Initially, show the welcome message and hide the quiz content
 homeContent.style.display = "block";
 quizContent.style.display = "none";
+questionnaireContent.style.display = "none";
