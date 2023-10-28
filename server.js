@@ -35,14 +35,7 @@ app.get("/claim-user-id", async (req, res) => {
   currentQuestionIndex = 0;
 
   try {
-    // Fetch the total number of questions
-    const totalQuestions = await getTotalNumberOfQuestionsFromDatabase();
-
-    // Fetch the first question from the database
-    const surveyData = await fetchNextQuestionFromDatabase(0);
-    const [questionData] = surveyData;
-
-    res.json({ userId, totalQuestions, question: questionData });
+    res.json({ userId });
   } catch (error) {
     console.error("Error fetching next question:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -181,3 +174,105 @@ function fetchEntireTableFromDatabase(tableName) {
     });
   });
 }
+
+function insertQuestionnaireResponseIntoDatabase(
+  tableName,
+  userId,
+  question,
+  userAnswer,
+  timestamp
+) {
+  return new Promise((resolve, reject) => {
+    const query =
+      "INSERT INTO " +
+      tableName +
+      " (user_id, question_text, user_answer, timestamp) VALUES (?, ?, ?, ?)";
+
+    connection.query(
+      query,
+      [userId, question, userAnswer, timestamp],
+      (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      }
+    );
+  });
+}
+
+app.post("/submit-questionnaire-response", async (req, res) => {
+  const { userId, userAnswer, question, responseTableName } = req.body;
+
+  try {
+    const timestamp = new Date();
+
+    // Insert the response into the database
+    await insertQuestionnaireResponseIntoDatabase(
+      responseTableName,
+      userId,
+      question,
+      userAnswer,
+      timestamp
+    );
+
+    res.json({
+      status: "success",
+      message: "User response received",
+    });
+  } catch (error) {
+    console.error("Error submitting response:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+function insertDataIntoMasterTable(
+  userId,
+  button,
+  question,
+  userAnswer,
+  timestamp
+) {
+  return new Promise((resolve, reject) => {
+    const query =
+      "INSERT INTO master_table (user_id, button_name, question_text, user_answer, timestamp) VALUES (?, ?, ?, ?, ?)";
+
+    connection.query(
+      query,
+      [userId, button, question, userAnswer, timestamp],
+      (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      }
+    );
+  });
+}
+
+app.post("/submit-user-interaction", async (req, res) => {
+  const { userId, buttonName, userAnswer, question } = req.body;
+
+  try {
+    const timestamp = new Date();
+
+    // Insert the response into the database
+    await insertDataIntoMasterTable(
+      userId,
+      buttonName,
+      question,
+      userAnswer,
+      timestamp
+    );
+
+    res.json({
+      status: "success",
+      message: "User response received",
+    });
+  } catch (error) {
+    console.error("Error submitting response:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
