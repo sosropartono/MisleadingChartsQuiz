@@ -1,0 +1,161 @@
+body {
+  background-image: url("img/background.jpg");
+  background-size: cover;
+}
+
+#home-content {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 300px;
+  margin: 0 auto;
+  vertical-align: middle;
+  font-size: 1.5em;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+}
+
+#home-content button {
+  background-image: linear-gradient(to bottom right, midnightblue, darkred);
+  border: none;
+  color: white;
+  padding: 8px 40px;
+  display: inline-block;
+  font-size: 15px;
+  transition-duration: 0.4s;
+  border-radius: 12px;
+  margin: 0 auto;
+  cursor: pointer;
+  position: absolute;
+  top: 87%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+}
+
+#home-content button:hover {
+  background-image: linear-gradient(to bottom right, midnightblue, darkred);
+  color: grey;
+}
+
+#questionnaire {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 300px;
+  margin: 0 auto;
+  vertical-align: middle;
+  font-size: 1em;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+}
+
+#questionnaire button {
+  background-image: linear-gradient(to bottom right, salmon, darkred);
+  border: none;
+  color: white;
+  padding: 10px 40px;
+  display: inline-block;
+  font-size: 14px;
+  transition-duration: 0.4s;
+  border-radius: 12px;
+  margin: 0 auto;
+  cursor: pointer;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -90%);
+}
+
+#questionnaire button:hover {
+  background-image: linear-gradient(to bottom right, salmon, darkred);
+  color: grey;
+}
+
+#questionnaire-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#questionnaire-options label {
+  display: block;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+#questionnaire-options input[type="radio"],
+#questionnaire-options input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+#quiz-content {
+  text-align: center;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  width: 800px;
+  height: 550px;
+  margin: 0 auto;
+  vertical-align: middle;
+  font-size: 1em;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+}
+
+#options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#options label {
+  display: block;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+#options input[type="radio"],
+#options input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+#quiz-content button {
+  background-image: linear-gradient(to bottom right, salmon, darkred);
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  display: inline-block;
+  font-size: 14px;
+  transition-duration: 0.4s;
+  border-radius: 12px;
+  margin: 0 auto;
+  cursor: pointer;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+}
+
+#quiz-content button:hover {
+  background-image: linear-gradient(to bottom right, salmon, darkred);
+  color: grey;
+}
+
+#questionnaire-msg {
+  font-weight: normal;
+}
