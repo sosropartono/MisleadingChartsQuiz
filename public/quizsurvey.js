@@ -98,12 +98,14 @@ async function claimUserID() {
     recordInteraction("Claim User ID");
 
     console.log(userId);
+    claimUserIDButton.style.display = "none";
+    startPrequizButton.style.display = "block";
   } catch (error) {
     console.error("Error claim user ID:", error);
   }
 }
 
-export async function startPrequiz() {
+export async function startQuiz() {
   try {
     const response = await fetch("/fetch-entire-table", {
       method: "GET",
@@ -119,6 +121,7 @@ export async function startPrequiz() {
 
     homeContent.style.display = "none"; // Hide the welcome message
     quizContent.style.display = "block"; // Show the quiz content
+
     homeButton.style.display = "none";
 
     displayQuestion();

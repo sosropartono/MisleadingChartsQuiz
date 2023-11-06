@@ -1,4 +1,4 @@
-import { userId, quizIsComplete, startPrequiz } from "./quizsurvey.js";
+import { userId, quizIsComplete, startQuiz } from "./quizsurvey.js";
 
 export const questionnaireContent = document.getElementById("questionnaire");
 const questionnaireQuestionElement = document.getElementById(
@@ -167,5 +167,5 @@ questionnaireNextButton.addEventListener("click", () => {
 beginButton.addEventListener("click", () => {
   recordInteraction("Begin Quiz");
   questionnaireContent.style.display = "none";
-  startPrequiz();
+  startQuiz();
 });
