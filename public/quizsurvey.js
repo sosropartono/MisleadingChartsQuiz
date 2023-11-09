@@ -20,6 +20,7 @@ const showUserID = document.getElementById("show-user-id");
 export const homeButton = document.getElementById("home-button");
 export const beginPostQuizButton = document.getElementById("begin-postquiz");
 const chartPlaceholder = document.getElementById("chart");
+const postQuizCongrats = document.getElementById("congrats-cat");
 
 let currentQuestionIndex = 0;
 export let quizIsComplete = { value: 0 };
@@ -32,6 +33,7 @@ let questionOrder = [
   [0, 2, 1],
 ]; //temporary array for testing
 let questionOrderRow;
+export let currentQuestionId;
 
 // Function to display the question
 function displayQuestion() {
@@ -43,6 +45,7 @@ function displayQuestion() {
       data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][0];
     optionsElement.innerHTML = "";
     chartPlaceholder.innerHTML = "";
+    currentQuestionId = questionOrder[questionOrderRow][currentQuestionIndex];
     console.log(currentQuestion.value);
 
     // Create and append the image element
@@ -51,6 +54,8 @@ function displayQuestion() {
       "img/" +
       data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][1];
     imageElement.alt = "Chart";
+    imageElement.style.width = "600px"; // Set the desired width
+    imageElement.style.height = "auto"; // Set the desired height
     chartPlaceholder.appendChild(imageElement);
 
     data2DArray[
@@ -67,11 +72,11 @@ function displayQuestion() {
     });
   } else {
     // Quiz is complete
+    postQuizCongrats.style.display = "block";
     questionElement.textContent =
       "Quiz complete. Thank you for participating! Please take some time to rate your experience in our postquiz.";
     optionsElement.innerHTML = "";
     chartPlaceholder.innerHTML = "";
-
     nextButton.style.display = "none";
     homeButton.style.display = "none";
     beginPostQuizButton.style.display = "block";
@@ -95,7 +100,7 @@ async function claimUserID() {
     const data = await response.json();
     userId = data.userId; // Store the userId globally or in a scope accessible by the checkAnswer function
     showUserID.textContent = "Your user ID is: " + userId;
-    recordInteraction("Claim User ID");
+    recordInteraction("Claim User ID", false, false);
 
     console.log(userId);
     claimUserIDButton.style.display = "none";
@@ -136,9 +141,16 @@ function storeQuestionsInArray() {
     const chartImage = entry.chart_image;
     const options = entry.options;
     const correctAnswer = entry.correct_answer;
+    const questionID = entry.questionId;
 
     //temp array with extracted data
-    const rowArray = [questionText, chartImage, options, correctAnswer];
+    const rowArray = [
+      questionText,
+      chartImage,
+      options,
+      correctAnswer,
+      questionID,
+    ];
 
     data2DArray.push(rowArray);
   }
@@ -181,11 +193,11 @@ async function checkAnswer() {
 // Add event listeners
 nextButton.addEventListener("click", () => {
   checkAnswer();
-  recordInteraction("Next", 1);
+  recordInteraction("Next", true, false);
 });
 
 startPrequizButton.addEventListener("click", () => {
-  recordInteraction("Start Prequiz");
+  recordInteraction("Start Prequiz", false, false);
   homeContent.style.display = "none";
   displayQuestionnaireQuestions(prestudyQuestions);
 });
@@ -199,7 +211,9 @@ homeButton.addEventListener("click", () => {
 });
 
 beginPostQuizButton.addEventListener("click", () => {
-  recordInteraction("Begin PostQuiz");
+  currentQuestionId = null;
+  console.log(currentQuestionId);
+  recordInteraction("Begin PostQuiz", false, false);
   quizContent.style.display = "none";
   questionnaireMsgElement.textContent = "PostQuiz";
   displayQuestionnaireQuestions(poststudyQuestions);

@@ -1,4 +1,9 @@
-import { userId, quizIsComplete, startQuiz } from "./quizsurvey.js";
+import {
+  userId,
+  quizIsComplete,
+  startQuiz,
+  currentQuestionId,
+} from "./quizsurvey.js";
 
 export const questionnaireContent = document.getElementById("questionnaire");
 const questionnaireQuestionElement = document.getElementById(
@@ -21,7 +26,7 @@ export let currentQuestion = { value: "" };
 export let currentAnswer = { value: "" };
 export const prestudyQuestions = [
   [
-    ["Specify your age range:", ["10-25", "25+"]],
+    ["Specify your age range:", ["10-25", "26+"]],
     ["Do you work with charts often?", ["yes", "no"]],
     ["Have you ever been a part of a user study?", ["Absolutely", "No"]],
   ],
@@ -117,42 +122,45 @@ async function recordQuestionnaireAnswer() {
   }
 }
 
-export async function recordInteraction(buttonName, quest) {
+export async function recordInteraction(
+  buttonName,
+  isMainQuiz,
+  isQuestionnaire
+) {
+  let localQuestionId = null;
+  let localQuestion = null;
+  let localUserAnswer = null;
+
+  if (!isMainQuiz && !isQuestionnaire) {
+    localQuestionId = null;
+    localQuestion = null;
+    localUserAnswer = null;
+  } else if (isQuestionnaire && !isMainQuiz) {
+    localQuestionId = null;
+    localQuestion = currentQuestion.value;
+    localUserAnswer = currentAnswer.value;
+  } else if (isMainQuiz && !isQuestionnaire) {
+    localQuestionId = currentQuestionId + 1;
+    localQuestion = currentQuestion.value;
+    localUserAnswer = currentAnswer.value;
+  }
   try {
-    if (quest == null) {
-      const responseSubmit = await fetch("/submit-user-interaction", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          buttonName,
-          question: null,
-          userAnswer: null,
-        }),
-      });
+    const responseSubmit = await fetch("/submit-user-interaction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        buttonName,
+        questionId: localQuestionId,
+        question: localQuestion,
+        userAnswer: localUserAnswer,
+      }),
+    });
 
-      const dataSubmit = await responseSubmit.json();
-      console.log("Server response:", dataSubmit);
-    } else {
-      console.log("recordInteraction " + currentQuestion.value);
-      const responseSubmit = await fetch("/submit-user-interaction", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          buttonName,
-          question: currentQuestion.value,
-          userAnswer: currentAnswer.value,
-        }),
-      });
-
-      const dataSubmit = await responseSubmit.json();
-      console.log("Server response:", dataSubmit);
-    }
+    const dataSubmit = await responseSubmit.json();
+    console.log("Server response:", dataSubmit);
   } catch (error) {
     console.error("Error submitting response:", error);
   }
@@ -161,11 +169,12 @@ export async function recordInteraction(buttonName, quest) {
 // Add event listeners
 questionnaireNextButton.addEventListener("click", () => {
   recordQuestionnaireAnswer();
-  recordInteraction("Next", 1);
+  console.log(currentQuestionId);
+  recordInteraction("Next", false, true);
 });
 
 beginButton.addEventListener("click", () => {
-  recordInteraction("Begin Quiz");
+  recordInteraction("Begin Quiz", false, false);
   questionnaireContent.style.display = "none";
   startQuiz();
 });
