@@ -67,6 +67,7 @@ app.post("/submit-response", async (req, res) => {
     // Insert the response into the database
     await insertResponseIntoDatabase(
       userId,
+      questionNumber,
       currentQuestion.question_text,
       userAnswer,
       isCorrect,
@@ -138,6 +139,7 @@ function getTotalNumberOfQuestionsFromDatabase() {
 // Function to insert a response into the database
 function insertResponseIntoDatabase(
   userId,
+  questionId,
   question,
   userAnswer,
   isCorrect,
@@ -145,10 +147,10 @@ function insertResponseIntoDatabase(
 ) {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO survey_responses (user_id, question, user_answer, is_correct, timestamp) VALUES (?, ?, ?, ?, ?)";
+      "INSERT INTO survey_responses (user_id, question_id, question, user_answer, is_correct, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
     connection.query(
       query,
-      [userId, question, userAnswer, isCorrect, timestamp],
+      [userId, questionId, question, userAnswer, isCorrect, timestamp],
       (err, results) => {
         if (err) {
           reject(err);
@@ -230,17 +232,18 @@ app.post("/submit-questionnaire-response", async (req, res) => {
 function insertDataIntoMasterTable(
   userId,
   button,
+  questionId,
   question,
   userAnswer,
   timestamp
 ) {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO master_table (user_id, button_name, question_text, user_answer, timestamp) VALUES (?, ?, ?, ?, ?)";
+      "INSERT INTO master_table (user_id, button_name, question_id, question_text, user_answer, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
-      [userId, button, question, userAnswer, timestamp],
+      [userId, button, questionId, question, userAnswer, timestamp],
       (err, results) => {
         if (err) {
           reject(err);
@@ -253,7 +256,7 @@ function insertDataIntoMasterTable(
 }
 
 app.post("/submit-user-interaction", async (req, res) => {
-  const { userId, buttonName, userAnswer, question } = req.body;
+  const { userId, buttonName, questionId, userAnswer, question } = req.body;
 
   try {
     const timestamp = new Date();
@@ -262,6 +265,7 @@ app.post("/submit-user-interaction", async (req, res) => {
     await insertDataIntoMasterTable(
       userId,
       buttonName,
+      questionId,
       question,
       userAnswer,
       timestamp
