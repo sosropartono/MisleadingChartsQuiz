@@ -102,11 +102,11 @@ body {
 #quiz-content {
   text-align: center;
   position: absolute;
-  top: 40%;
+  top: 20%;
   left: 50%;
-  transform: translate(-50%, -40%);
-  width: 800px;
-  height: 550px;
+  transform: translate(-50%, -20%);
+  width: 1000px;
+  height: 700px;
   margin: 0 auto;
   vertical-align: middle;
   font-size: 1em;
@@ -118,14 +118,14 @@ body {
 
 #options {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 
 #options label {
   display: block;
-  margin: 5px 0;
+  margin: 10px 0;
   cursor: pointer;
 }
 
@@ -156,6 +156,30 @@ body {
   color: grey;
 }
 
+#quiz-content p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 35px;
+  margin-right: 35px;
+  margin-top: 35px;
+}
+
 #questionnaire-msg {
   font-weight: normal;
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
+#chart {
+  position: relative;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+}
+
+#congrats-cat {
+  position: relative;
+  top: 11%;
+  left: 50%;
+  transform: translate(-50%, -15%);
 }
