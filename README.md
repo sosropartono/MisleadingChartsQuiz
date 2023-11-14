@@ -25,7 +25,7 @@ if "Error connecting to MySQL: Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does no
 ```
 mysql -u root -p //then enter password as prompted
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YourPassword';
-mysql> exit
+mysql> exit;
 ```
 
 SET UP .ENV
@@ -38,18 +38,6 @@ DB_PASSWORD=
 DB_NAME=mydb
 ```
 
-Add .env to .gitignore to hide your sensitive information
-
-```
-touch .gitignore
-//open .gitignore and type '.env'
-//save .gitignore
-git add .gitignore
-git commit -m "added .env to .gitignore"
-git push
-
-```
-
 ```
 node createDatabase.js
 node questionsAndAnswers.js
@@ -58,4 +46,31 @@ node server.js
 
 In browser, type localhost:3000/index.html
 
-open localhost:3000/questions or localhost:3000/answers in browser to see data
+WINDOWS:
+install MySQL installer https://dev.mysql.com/downloads/installer/
+follow prompts to install MySQL Workbench and Server
+
+install Node.js https://nodejs.org/en/ download "Recommended For Most Users" version
+
+add .env file
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=mydb
+```
+
+if error "sqlMessage: 'Client does not support authentication protocol requested by server; consider upgrading MySQL client'", execute in MySQL Workbench to troubleshoot:
+```
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'yourpassword';
+flush privileges;
+```
+
+in PowerShell
+```
+node createDatabase.js
+node questionsAndAnswers.js
+node server.js
+```
+
+In browser, type localhost:3000/index.html
