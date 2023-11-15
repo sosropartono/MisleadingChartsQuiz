@@ -141,7 +141,7 @@ function storeQuestionsInArray() {
     const chartImage = entry.chart_image;
     const options = entry.options;
     const correctAnswer = entry.correct_answer;
-    const questionID = entry.questionId;
+    const questionID = entry.question_id;
 
     //temp array with extracted data
     const rowArray = [
