@@ -44,7 +44,7 @@ app.get("/claim-user-id", async (req, res) => {
 
 app.get("/fetch-entire-table", async (req, res) => {
   try {
-    const tableData = await fetchEntireTableFromDatabase("survey_questions");
+    const tableData = await fetchEntireTableFromDatabase("test_questions");
     res.json({ data: tableData });
   } catch (error) {
     console.error("Error fetching table data:", error);
@@ -111,7 +111,7 @@ app.listen(port, () => {
 // Function to fetch the next question from the database
 function fetchNextQuestionFromDatabase(questionNumber) {
   return new Promise((resolve, reject) => {
-    const query = "SELECT * FROM survey_questions LIMIT ?, 1";
+    const query = "SELECT * FROM test_questions LIMIT ?, 1";
     connection.query(query, [questionNumber], (err, results) => {
       if (err) {
         reject(err);
@@ -125,7 +125,7 @@ function fetchNextQuestionFromDatabase(questionNumber) {
 // Function to fetch the total number of questions from the database
 function getTotalNumberOfQuestionsFromDatabase() {
   return new Promise((resolve, reject) => {
-    const query = "SELECT COUNT(*) as total FROM survey_questions";
+    const query = "SELECT COUNT(*) as total FROM test_questions";
     connection.query(query, (err, results) => {
       if (err) {
         reject(err);
@@ -147,7 +147,7 @@ function insertResponseIntoDatabase(
 ) {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO survey_responses (user_id, question_id, question, user_answer, is_correct, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO test_responses (user_id, question_id, question, user_answer, is_correct, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
     connection.query(
       query,
       [userId, questionId, question, userAnswer, isCorrect, timestamp],
@@ -177,8 +177,7 @@ function fetchEntireTableFromDatabase(tableName) {
   });
 }
 
-function insertQuestionnaireResponseIntoDatabase(
-  tableName,
+function insertPrestudyResponseIntoDatabase(
   userId,
   question,
   userAnswer,
@@ -186,9 +185,7 @@ function insertQuestionnaireResponseIntoDatabase(
 ) {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO " +
-      tableName +
-      " (user_id, question_text, user_answer, timestamp) VALUES (?, ?, ?, ?)";
+      "INSERT INTO prestudy_responses (user_id, question_text, user_answer, timestamp) VALUES (?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -204,15 +201,14 @@ function insertQuestionnaireResponseIntoDatabase(
   });
 }
 
-app.post("/submit-questionnaire-response", async (req, res) => {
-  const { userId, userAnswer, question, responseTableName } = req.body;
+app.post("/submit-prestudy-response", async (req, res) => {
+  const { userId, userAnswer, question } = req.body;
 
   try {
     const timestamp = new Date();
 
     // Insert the response into the database
-    await insertQuestionnaireResponseIntoDatabase(
-      responseTableName,
+    await insertPrestudyResponseIntoDatabase(
       userId,
       question,
       userAnswer,

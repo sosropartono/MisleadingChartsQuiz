@@ -10,41 +10,51 @@
     <div id="home-content">
       <h1>Hello & Welcome</h1>
       <p>Thank you for being a part of our study on COVID statistics.</p>
+      <p id="prestudy-notif" style="display:none">Before you start the main study, we have a few questions to ask you as part of a our prestudy questionnaire.</p>
 
       <button id="claim-user-id">CLAIM YOUR USER ID</button>
       <p id="show-user-id"></p>
 
-      <button id="start-prequiz-button" style="display: none">
-        START PREQUIZ
+      <button id="start-prestudy-button" style="display: none">
+        START PRESTUDY
       </button>
     </div>
 
-    <div id="questionnaire" style="display: none">
-      <p id="questionnaire-msg">
+    <div id="prestudy" style="display: none">
+      <p id="prestudy-msg">
         Thank you for being a part of our study. Please answer the following
-        questions as part of our prestudy questionnaire.
+        questions as part of our prestudy.
       </p>
-      <h2 id="questionnaire-question"></h2>
-      <div id="questionnaire-options">
-        <!-- Options will be displayed here -->
-      </div>
-      <button id="questionnaire-next-button">NEXT</button>
+
+      <div id="prestudy-chart"></div>
+
+      <p id="prestudy-question"></p>
+
+      <input type="text" id="inputText" placeholder="Type here..."/>
+
+      <button id="prestudy-next-button">NEXT</button>
       <button id="begin-button" style="display: none">BEGIN</button>
     </div>
 
-    <!-- Quiz content initially hidden -->
-    <div id="quiz-content" style="display: none">
+    <div id="calibration-screen" style="display: none">
+        <p>+</p>
+    </div>
+
+    <!-- Study content initially hidden -->
+    <div id="study-content" style="display: none">
       <div id="chart"></div>
+
       <p id="question">Question 1</p>
+
       <img id="congrats-cat" src="img/happy-cat.png" style="display: none"></img>
       <div id="options">
         <!-- Options will be displayed here -->
       </div>
       <button id="next-button">NEXT</button>
-      <button id="home-button" style="display: none">Home</button>
-      <button id="begin-postquiz" style="display: none">GO TO POSTQUIZ</button>
     </div>
-    <script type="module" src="quizsurvey.js"></script>
-    <script type="module" src="questionnaire.js"></script>
+    
+    <script type="module" src="mainstudy.js"></script>
+    <script type="module" src="prestudy.js"></script>
+    <script type="module" src="mainStudyOrderSequence.js"></script>
   </body>
 </html>
