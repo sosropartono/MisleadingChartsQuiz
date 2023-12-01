@@ -1,11 +1,17 @@
-import { userId, startMainStudy, currentQuestionId } from "./mainstudy.js";
+import {
+  userId,
+  beginMainStudyButton,
+  currentQuestionId,
+} from "./mainstudy.js";
 
 export const prestudyContent = document.getElementById("prestudy");
 const prestudyQuestionElement = document.getElementById("prestudy-question");
-const prestudyNextButton = document.getElementById("prestudy-next-button");
-const beginButton = document.getElementById("begin-button");
+const prestudySubmitButton = document.getElementById("prestudy-submit-button");
+const startCalibrationButton = document.getElementById(
+  "start-calibration-button"
+);
 export const prestudyMsgElement = document.getElementById("prestudy-msg");
-const calibrationScreen = document.getElementById("calibration-screen");
+export const calibrationScreen = document.getElementById("calibration-screen");
 const prestudyChart = document.getElementById("prestudy-chart");
 var inputElement = document.getElementById("inputText");
 
@@ -47,8 +53,8 @@ export let prestudyQuestions = [
 //display prestudy questions 1 by 1
 export function displayPrestudyQuestions(questions) {
   prestudyContent.style.display = "block";
-  prestudyNextButton.style.display = "block";
-  beginButton.style.display = "none";
+  prestudySubmitButton.style.display = "block";
+  startCalibrationButton.style.display = "none";
 
   console.log("displayPrestudyQuestions is called");
 
@@ -70,11 +76,11 @@ export function displayPrestudyQuestions(questions) {
     }
   } else {
     // Survey is complete
-    beginButton.style.display = "block";
+    startCalibrationButton.style.display = "block";
     prestudyMsgElement.textContent =
-      "Prestudy completed! When you click BEGIN, you will be shown a blank screen with a tiny plus sign at the center, please focus your eyes on it for 5 seconds. ";
+      "Prestudy completed! When you click NEXT, you will be shown a blank screen with a tiny plus sign at the center, please focus your eyes on it for 5 seconds. ";
     prestudyQuestionElement.innerHTML = "";
-    prestudyNextButton.style.display = "none";
+    prestudySubmitButton.style.display = "none";
     currentQuestionIndex = 0;
     prestudyChart.innerHTML = "";
     inputElement.style.display = "none";
@@ -129,11 +135,11 @@ export async function recordInteraction(buttonName, isMainStudy, isPrestudy) {
     localUserAnswer = null;
   } else if (isPrestudy && !isMainStudy) {
     localQuestionId = null;
-    localQuestion = currentQuestion.value.substring(0, 130);
+    localQuestion = currentQuestion.value.substring(0, 80);
     localUserAnswer = currentAnswer.value;
   } else if (isMainStudy && !isPrestudy) {
     localQuestionId = currentQuestionId + 1;
-    localQuestion = currentQuestion.value.substring(0, 130);
+    localQuestion = currentQuestion.value.substring(0, 80);
     localUserAnswer = currentAnswer.value;
   }
   try {
@@ -158,21 +164,20 @@ export async function recordInteraction(buttonName, isMainStudy, isPrestudy) {
   }
 }
 
-//Records prestudy response and user click when prestudyNextButton is clicked
-prestudyNextButton.addEventListener("click", () => {
+//Record prestudy response and user click when prestudySubmitButton is clicked in prestudy_responses
+prestudySubmitButton.addEventListener("click", () => {
   recordPrestudyResponse();
-  recordInteraction("Next", false, true);
+  recordInteraction("Submit", false, true);
 });
 
 //records user click, hides prestudy content, displays calibration screen, and hides calibration
 //screen while starting main study (after 5 seconds) when beginButton is clicked
-
-beginButton.addEventListener("click", () => {
-  recordInteraction("Begin Study", false, false);
+startCalibrationButton.addEventListener("click", () => {
+  recordInteraction("Start Calibration", false, false);
   prestudyContent.style.display = "none";
   calibrationScreen.style.display = "block";
   setTimeout(() => {
-    startMainStudy();
+    beginMainStudyButton.style.display = "block";
     calibrationScreen.style.display = "none";
-  }, 6000);
+  }, 5000);
 });

@@ -5,6 +5,7 @@ import {
   recordInteraction,
   currentQuestion,
   currentAnswer,
+  calibrationScreen,
 } from "./prestudy.js";
 
 import { questionOrder } from "./mainStudyOrderSequence.js";
@@ -13,8 +14,12 @@ import { questionOrder } from "./mainStudyOrderSequence.js";
 const studyContent = document.getElementById("study-content");
 const questionElement = document.getElementById("question");
 const optionsElement = document.getElementById("options");
-const nextButton = document.getElementById("next-button");
+const submitButton = document.getElementById("submit-button");
 const prestudyNotif = document.getElementById("prestudy-notif");
+const beginStudyButton = document.getElementById("begin-study-button");
+export const beginMainStudyButton = document.getElementById(
+  "begin-main-study-button"
+);
 
 //welcome screen or home screen
 export const homeContent = document.getElementById("home-content");
@@ -22,7 +27,7 @@ const claimUserIDButton = document.getElementById("claim-user-id");
 const showUserID = document.getElementById("show-user-id");
 
 //prestudy elements
-const startPrestudyButton = document.getElementById("start-prestudy-button");
+const beginPrestudyButton = document.getElementById("begin-prestudy-button");
 const chartPlaceholder = document.getElementById("chart");
 
 //end of study
@@ -40,7 +45,7 @@ let data2DArray = []; //stores all queries from test_questions in database local
 //display main study questions 1 by 1
 function displayQuestion() {
   if (currentQuestionIndex < 3) {
-    nextButton.style.display = "block";
+    submitButton.style.display = "block";
     questionOrderRow = userId - 1;
 
     //assign value to question
@@ -88,7 +93,7 @@ function displayQuestion() {
       "Study complete. Thank you for participating!";
     optionsElement.innerHTML = "";
     chartPlaceholder.innerHTML = "";
-    nextButton.style.display = "none";
+    submitButton.style.display = "none";
   }
 }
 
@@ -111,14 +116,14 @@ async function claimUserID() {
 
     console.log("User Id: " + userId);
     claimUserIDButton.style.display = "none";
-    startPrestudyButton.style.display = "block";
+    beginPrestudyButton.style.display = "block";
   } catch (error) {
     console.error("Error claim user ID:", error);
   }
 }
 
 //Start the main study
-export async function startMainStudy() {
+export async function beginMainStudy() {
   try {
     const response = await fetch("/fetch-entire-table", {
       method: "GET",
@@ -134,6 +139,7 @@ export async function startMainStudy() {
 
     homeContent.style.display = "none"; // Hide the welcome message
     studyContent.style.display = "block"; // Show the study content
+    beginMainStudyButton.style.display = "none";
 
     displayQuestion(); //display main study question
   } catch (error) {
@@ -201,13 +207,13 @@ async function checkAnswer() {
 }
 
 // Add event listeners
-nextButton.addEventListener("click", () => {
+submitButton.addEventListener("click", () => {
   checkAnswer();
-  recordInteraction("Next", true, false);
+  recordInteraction("Submit", true, false);
 });
 
-startPrestudyButton.addEventListener("click", () => {
-  recordInteraction("Start Prestudy", false, false);
+beginPrestudyButton.addEventListener("click", () => {
+  recordInteraction("Begin Prestudy", false, false);
   homeContent.style.display = "none";
   displayPrestudyQuestions(prestudyQuestions);
 });
@@ -216,7 +222,18 @@ claimUserIDButton.addEventListener("click", () => {
   claimUserID();
 });
 
+beginStudyButton.addEventListener("click", () => {
+  recordInteraction("Begin Study", false, false);
+  homeContent.style.display = "block";
+  beginStudyButton.style.display = "none";
+});
+
+beginMainStudyButton.addEventListener("click", () => {
+  recordInteraction("Begin Main Study", false, false);
+  beginMainStudy();
+});
+
 // Initially, show the welcome message and hide the study content
-homeContent.style.display = "block";
+homeContent.style.display = "none";
 studyContent.style.display = "none";
 prestudyContent.style.display = "none";

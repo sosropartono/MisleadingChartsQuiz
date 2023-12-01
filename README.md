@@ -1,4 +1,4 @@
-To setup MySQL Database
+To setup:
 
 MacOS:
 
@@ -40,7 +40,7 @@ DB_NAME=mydb
 
 ```
 node createDatabase.js
-node questionsAndAnswers.js
+node createTables.js
 node server.js
 ```
 
@@ -53,6 +53,7 @@ follow prompts to install MySQL Workbench and Server
 install Node.js https://nodejs.org/en/ download "Recommended For Most Users" version
 
 add .env file
+
 ```
 DB_HOST=localhost
 DB_USER=root
@@ -61,15 +62,17 @@ DB_NAME=mydb
 ```
 
 if error "sqlMessage: 'Client does not support authentication protocol requested by server; consider upgrading MySQL client'", execute in MySQL Workbench to troubleshoot:
+
 ```
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'yourpassword';
 flush privileges;
 ```
 
 in PowerShell
+
 ```
 node createDatabase.js
-node questionsAndAnswers.js
+node createTables.js
 node server.js
 ```
 

@@ -10,6 +10,11 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+//Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -55,7 +60,7 @@ app.post("/submit-response", async (req, res) => {
   try {
     const timestamp = new Date();
 
-    //Insert the response into the database
+    //Insert the response into the test_responses
     await insertResponseIntoDatabase(
       userId,
       questionNumber,
@@ -73,11 +78,6 @@ app.post("/submit-response", async (req, res) => {
     console.error("Error submitting response:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-});
-
-//Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
 });
 
 //Insert a response into test_responses

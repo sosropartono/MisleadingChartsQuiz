@@ -31,6 +31,19 @@ button:hover {
   color: grey;
 }
 
+#begin-study-button,
+#begin-main-study-button {
+  padding: 10px 20px;
+  font-size: 25px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#prestudy-notif {
+  font-size: 1em;
+}
+
 #prestudy {
   font-size: 1em;
   text-align: left;
