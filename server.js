@@ -25,14 +25,9 @@ connection.connect((err) => {
   console.log("Connected to MySQL database");
 });
 
-let userCount = 0;
-let currentQuestionIndex = 0;
-
-// Define a route to start the survey
+let userId = 0;
 app.get("/claim-user-id", async (req, res) => {
-  userCount++;
-  const userId = "User" + userCount;
-  currentQuestionIndex = 0;
+  userId++;
 
   try {
     res.json({ userId });
@@ -42,6 +37,7 @@ app.get("/claim-user-id", async (req, res) => {
   }
 });
 
+//fetch entire table test_questions at once
 app.get("/fetch-entire-table", async (req, res) => {
   try {
     const tableData = await fetchEntireTableFromDatabase("test_questions");
@@ -52,91 +48,39 @@ app.get("/fetch-entire-table", async (req, res) => {
   }
 });
 
-// Define a route to submit a response
+//Define a route to submit a response
 app.post("/submit-response", async (req, res) => {
-  const { userId, userAnswer, questionNumber } = req.body;
+  const { userId, userAnswer, questionNumber, question, isCorrect } = req.body;
 
   try {
-    // Fetch the current question from the database
-    const surveyData = await fetchNextQuestionFromDatabase(questionNumber);
-    const [currentQuestion] = surveyData;
-
-    const isCorrect = userAnswer === currentQuestion.correct_answer;
     const timestamp = new Date();
 
-    // Insert the response into the database
+    //Insert the response into the database
     await insertResponseIntoDatabase(
       userId,
       questionNumber,
-      currentQuestion.question_text,
+      question,
       userAnswer,
       isCorrect,
       timestamp
     );
 
-    // Move to the next question or end the survey
-    currentQuestionIndex++;
-
-    // Fetch the total number of questions
-    const totalQuestions = await getTotalNumberOfQuestionsFromDatabase();
-
-    if (currentQuestionIndex < totalQuestions) {
-      // Continue with the survey
-      const [nextQuestion] = await fetchNextQuestionFromDatabase(
-        questionNumber
-      );
-      res.json({
-        status: "success",
-        message: "User response received",
-        question: nextQuestion,
-      });
-    } else {
-      // End the survey
-      res.json({
-        status: "success",
-        message: "Survey complete. Thank you for participating!",
-      });
-    }
+    res.json({
+      status: "success submitting response to test_responses",
+      message: "User response received",
+    });
   } catch (error) {
     console.error("Error submitting response:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Start the server
+//Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-// Function to fetch the next question from the database
-function fetchNextQuestionFromDatabase(questionNumber) {
-  return new Promise((resolve, reject) => {
-    const query = "SELECT * FROM test_questions LIMIT ?, 1";
-    connection.query(query, [questionNumber], (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results);
-      }
-    });
-  });
-}
-
-// Function to fetch the total number of questions from the database
-function getTotalNumberOfQuestionsFromDatabase() {
-  return new Promise((resolve, reject) => {
-    const query = "SELECT COUNT(*) as total FROM test_questions";
-    connection.query(query, (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results[0].total);
-      }
-    });
-  });
-}
-
-// Function to insert a response into the database
+//Insert a response into test_responses
 function insertResponseIntoDatabase(
   userId,
   questionId,
@@ -216,7 +160,7 @@ app.post("/submit-prestudy-response", async (req, res) => {
     );
 
     res.json({
-      status: "success",
+      status: "success submitting responses to prestudy_responses",
       message: "User response received",
     });
   } catch (error) {
@@ -251,6 +195,7 @@ function insertDataIntoMasterTable(
   });
 }
 
+//Submit user click to master_table
 app.post("/submit-user-interaction", async (req, res) => {
   const { userId, buttonName, questionId, userAnswer, question } = req.body;
 
@@ -268,7 +213,7 @@ app.post("/submit-user-interaction", async (req, res) => {
     );
 
     res.json({
-      status: "success",
+      status: "success submitting to master_table",
       message: "User response received",
     });
   } catch (error) {

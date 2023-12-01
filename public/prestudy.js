@@ -1,4 +1,4 @@
-import { userId, startStudy, currentQuestionId } from "./mainstudy.js";
+import { userId, startMainStudy, currentQuestionId } from "./mainstudy.js";
 
 export const prestudyContent = document.getElementById("prestudy");
 const prestudyQuestionElement = document.getElementById("prestudy-question");
@@ -14,36 +14,37 @@ let userAnswer;
 export let currentQuestion = { value: "" };
 export let currentAnswer = { value: "" };
 export let prestudyQuestions = [
-  ["What's your name?", null],
+  ["What's your age?", null],
   ["What's your major?", null],
   [
     "The graph above shows the percentage of people who die from different types of cancer." +
-      "\nAbout what percentage of people who die from cancer die from cancer B, cancer C, and cancer D combined?",
+      "<br><br>About what percentage of people who die from cancer die from cancer B, cancer C, and cancer D combined?",
     "pie-chart.png",
   ],
   [
     "You see two magazines advertisements on separate pages. Each advertisement is for a different " +
       "drug for treating heart disease. Each advertisement has a graph for showing the effectiveness of the drug " +
-      "compared to a placebo (sugar pill).\nCompared to the placebo, which treatment leads to a larger decrease " +
-      "in the percentage of patients who die? \n Please enter an answer from the following: Crosicol, Hertinol, They are equal, Can't say",
+      "compared to a placebo (sugar pill).<br><br>Compared to the placebo, which treatment leads to a larger decrease " +
+      "in the percentage of patients who die? <br><br> Please enter an answer from the following: Crosicol, Hertinol, They are equal, Can't say",
     "bar-graph.png",
   ],
 
   [
-    "The graph above shows the number of men and women with disease X. The total number of circles is 100.\n" +
+    "The graph above shows the number of men and women with disease X. The total number of circles is 100.<br><br>" +
       "How many more men than women are there among 100 patients with disease X?",
     "dots.png",
   ],
 
   [
     "You see two newspaper advertisements on separate pages. Each advertisement is for a different treatment of a skin " +
-      "disease. Each advertisement has a graph showing the effectiveness of the treatment over time.\n" +
+      "disease. Each advertisement has a graph showing the effectiveness of the treatment over time.<br><br>" +
       "Which of the treatments show a larger decrease in the percentage of sick patients?" +
-      "\nPlease enter an answer from the following: Apsoriatin, Nopsorian, They are equal, Can't say",
+      "<br><br>Please enter an answer from the following: Apsoriatin, Nopsorian, They are equal, Can't say",
     "line-graph.png",
   ],
 ];
 
+//display prestudy questions 1 by 1
 export function displayPrestudyQuestions(questions) {
   prestudyContent.style.display = "block";
   prestudyNextButton.style.display = "block";
@@ -52,7 +53,7 @@ export function displayPrestudyQuestions(questions) {
   console.log("displayPrestudyQuestions is called");
 
   if (currentQuestionIndex < 6) {
-    prestudyQuestionElement.textContent = currentQuestion.value =
+    prestudyQuestionElement.innerHTML = currentQuestion.value =
       questions[currentQuestionIndex][0];
     prestudyChart.innerHTML = "";
 
@@ -72,7 +73,7 @@ export function displayPrestudyQuestions(questions) {
     beginButton.style.display = "block";
     prestudyMsgElement.textContent =
       "Prestudy completed! When you click BEGIN, you will be shown a blank screen with a tiny plus sign at the center, please focus your eyes on it for 5 seconds. ";
-    prestudyQuestionElement.textContent = "";
+    prestudyQuestionElement.innerHTML = "";
     prestudyNextButton.style.display = "none";
     currentQuestionIndex = 0;
     prestudyChart.innerHTML = "";
@@ -80,6 +81,7 @@ export function displayPrestudyQuestions(questions) {
   }
 }
 
+//record user response to prestudy questions to database (table prestudy_responses)
 async function recordPrestudyResponse() {
   var inputValue = inputElement.value;
 
@@ -100,7 +102,7 @@ async function recordPrestudyResponse() {
       body: JSON.stringify({
         userId,
         userAnswer,
-        question: prestudyQuestionElement.textContent,
+        question: currentQuestion.value.substring(0, 80),
       }),
     });
 
@@ -115,22 +117,23 @@ async function recordPrestudyResponse() {
   inputElement.value = "";
 }
 
-export async function recordInteraction(buttonName, isMainStudy, isprestudy) {
+//record every button click in database (master_table)
+export async function recordInteraction(buttonName, isMainStudy, isPrestudy) {
   let localQuestionId = null;
   let localQuestion = null;
   let localUserAnswer = null;
 
-  if (!isMainStudy && !isprestudy) {
+  if (!isMainStudy && !isPrestudy) {
     localQuestionId = null;
     localQuestion = null;
     localUserAnswer = null;
-  } else if (isprestudy && !isMainStudy) {
+  } else if (isPrestudy && !isMainStudy) {
     localQuestionId = null;
-    localQuestion = currentQuestion.value;
+    localQuestion = currentQuestion.value.substring(0, 130);
     localUserAnswer = currentAnswer.value;
-  } else if (isMainStudy && !isprestudy) {
+  } else if (isMainStudy && !isPrestudy) {
     localQuestionId = currentQuestionId + 1;
-    localQuestion = currentQuestion.value;
+    localQuestion = currentQuestion.value.substring(0, 130);
     localUserAnswer = currentAnswer.value;
   }
   try {
@@ -155,18 +158,21 @@ export async function recordInteraction(buttonName, isMainStudy, isprestudy) {
   }
 }
 
-// Add event listeners
+//Records prestudy response and user click when prestudyNextButton is clicked
 prestudyNextButton.addEventListener("click", () => {
   recordPrestudyResponse();
   recordInteraction("Next", false, true);
 });
+
+//records user click, hides prestudy content, displays calibration screen, and hides calibration
+//screen while starting main study (after 5 seconds) when beginButton is clicked
 
 beginButton.addEventListener("click", () => {
   recordInteraction("Begin Study", false, false);
   prestudyContent.style.display = "none";
   calibrationScreen.style.display = "block";
   setTimeout(() => {
-    startStudy();
+    startMainStudy();
     calibrationScreen.style.display = "none";
   }, 6000);
 });

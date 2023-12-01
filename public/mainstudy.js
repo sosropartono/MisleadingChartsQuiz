@@ -14,6 +14,7 @@ const studyContent = document.getElementById("study-content");
 const questionElement = document.getElementById("question");
 const optionsElement = document.getElementById("options");
 const nextButton = document.getElementById("next-button");
+const prestudyNotif = document.getElementById("prestudy-notif");
 
 //welcome screen or home screen
 export const homeContent = document.getElementById("home-content");
@@ -27,20 +28,22 @@ const chartPlaceholder = document.getElementById("chart");
 //end of study
 const postStudyCongrats = document.getElementById("congrats-cat");
 
+export let currentQuestionId;
 let currentQuestionIndex = 0;
-export let userId; //Declare userId globally
+let currentCorrectAnswer;
+export let userId = 0; //Declare userId globally
+let questionOrderRow;
+
 let tableData = [];
 let data2DArray = []; //stores all queries from test_questions in database locally
 
-let questionOrderRow;
-export let currentQuestionId;
-
-// Function to display the question
+//display main study questions 1 by 1
 function displayQuestion() {
   if (currentQuestionIndex < 3) {
     nextButton.style.display = "block";
-    questionOrderRow = parseInt(userId.charAt(userId.length - 1)) - 1;
+    questionOrderRow = userId - 1;
 
+    //assign value to question
     questionElement.textContent = currentQuestion.value =
       currentQuestionIndex +
       1 +
@@ -50,6 +53,10 @@ function displayQuestion() {
     chartPlaceholder.innerHTML = "";
     currentQuestionId = questionOrder[questionOrderRow][currentQuestionIndex];
     console.log(currentQuestion.value);
+
+    //assign this question's correct answer to currentCorrectAnswer for answer checking
+    currentCorrectAnswer =
+      data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][3];
 
     // Create and append the image element
     const imageElement = document.createElement("img");
@@ -74,21 +81,20 @@ function displayQuestion() {
       optionsElement.appendChild(label);
     });
   } else {
-    // Study is complete
+    //Study is complete
+    currentQuestionIndex = 0;
     postStudyCongrats.style.display = "block";
     questionElement.textContent =
       "Study complete. Thank you for participating!";
     optionsElement.innerHTML = "";
     chartPlaceholder.innerHTML = "";
     nextButton.style.display = "none";
-    currentQuestionIndex = 0;
   }
 }
 
-// Function to show the study content and start the survey
 async function claimUserID() {
   try {
-    // Fetch userId from the server when starting the survey
+    //Fetch userId from the server when starting the survey
     const response = await fetch("/claim-user-id", {
       method: "GET",
       headers: {
@@ -101,7 +107,9 @@ async function claimUserID() {
     showUserID.textContent = "Your user ID is: " + userId;
     recordInteraction("Claim User ID", false, false);
 
-    console.log(userId);
+    prestudyNotif.style.display = "block";
+
+    console.log("User Id: " + userId);
     claimUserIDButton.style.display = "none";
     startPrestudyButton.style.display = "block";
   } catch (error) {
@@ -109,7 +117,8 @@ async function claimUserID() {
   }
 }
 
-export async function startStudy() {
+//Start the main study
+export async function startMainStudy() {
   try {
     const response = await fetch("/fetch-entire-table", {
       method: "GET",
@@ -126,7 +135,7 @@ export async function startStudy() {
     homeContent.style.display = "none"; // Hide the welcome message
     studyContent.style.display = "block"; // Show the study content
 
-    displayQuestion();
+    displayQuestion(); //display main study question
   } catch (error) {
     console.error("Error starting the study:", error);
   }
@@ -149,20 +158,22 @@ function storeQuestionsInArray() {
       questionID,
     ];
 
-    data2DArray.push(rowArray);
+    data2DArray.push(rowArray); //store all fetched data from table_questions into local 2d array data2DArray
   }
 }
 
 // Function to check the answer and proceed to the next question
 async function checkAnswer() {
-  const selectedOption = document.querySelector('input[name="answer"]:checked');
+  let selectedOption = (currentAnswer.value = document.querySelector(
+    'input[name="answer"]:checked'
+  ).value);
+
+  console.log(currentAnswer.value);
 
   if (!selectedOption) {
     alert("Please select an answer.");
     return;
   }
-
-  const userAnswer = (currentAnswer.value = selectedOption.value);
 
   try {
     const responseSubmit = await fetch("/submit-response", {
@@ -172,8 +183,10 @@ async function checkAnswer() {
       },
       body: JSON.stringify({
         userId,
-        userAnswer,
-        questionNumber: questionOrder[questionOrderRow][currentQuestionIndex],
+        userAnswer: selectedOption,
+        questionNumber: currentQuestionId + 1,
+        question: currentQuestion.value.substring(0, 100),
+        isCorrect: selectedOption === currentCorrectAnswer,
       }),
     });
 
@@ -181,7 +194,7 @@ async function checkAnswer() {
     console.log("Server response:", dataSubmit);
 
     currentQuestionIndex++;
-    displayQuestion(); // Update with the next question from the server
+    displayQuestion();
   } catch (error) {
     console.error("Error submitting response:", error);
   }

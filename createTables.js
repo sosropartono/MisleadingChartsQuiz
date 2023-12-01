@@ -57,8 +57,7 @@ con.connect(function (err) {
   )
 `;
 
-  //1 for correct answer and 0 for wrong answer
-  const insertDataIntoSurveyQuestionsTable = `
+  const insertDataIntoTestQuestionsTable = `
     INSERT INTO test_questions (question_text, chart_image, options, correct_answer) VALUES
     ('According to the chart, there was a day (or days) where there were virtually no new COVID cases.', 'truncated_bar_chart.png', '["True", "False"]', 'False'),
     ('Between January 7th and January 8th, the number of new cases more than doubled.', 'truncated_bar_chart_normal.png', '["True", "False"]', 'False'),
@@ -112,16 +111,6 @@ con.connect(function (err) {
     ('The total number of vaccines administered at the beginning of March was around 100000.', 'truncated-line-chart-normal.png', '["True", "False"]', 'True')
     `;
 
-  // Drop the table if already exist
-  con.query("DROP TABLE IF EXISTS test_questions", (err) => {
-    if (err) {
-      console.error("Error deleting test_questions table", err);
-    } else {
-      console.log("test_questions table deleted successfully");
-    }
-  });
-
-  // create table after dropping the table
   con.query(createTestQuestionsTable, (err) => {
     if (err) {
       console.error("Error creating test_questions table:", err);
@@ -131,19 +120,11 @@ con.connect(function (err) {
   });
 
   // insert data after creating the table
-  con.query(insertDataIntoSurveyQuestionsTable, (err) => {
+  con.query(insertDataIntoTestQuestionsTable, (err) => {
     if (err) {
       console.error("Error inserting data into test_questions table:", err);
     } else {
       console.log("Data inserted into test_questions table successfully");
-    }
-  });
-
-  con.query("DROP TABLE IF EXISTS test_responses", (err) => {
-    if (err) {
-      console.error("Error deleting test_responses table:", err);
-    } else {
-      console.log("test_responses table deleted successfully");
     }
   });
 
@@ -155,14 +136,6 @@ con.connect(function (err) {
     }
   });
 
-  con.query("DROP TABLE IF EXISTS prestudy_responses", (err) => {
-    if (err) {
-      console.error("Error deleting test_responses table:", err);
-    } else {
-      console.log("test_responses table deleted successfully");
-    }
-  });
-
   con.query(createPrestudyResponsesTable, (err) => {
     if (err) {
       console.error("Error creating poststudy_questions table:", err);
@@ -171,15 +144,6 @@ con.connect(function (err) {
     }
   });
 
-  con.query("DROP TABLE IF EXISTS master_table", (err) => {
-    if (err) {
-      console.error("Error deleting master_table", err);
-    } else {
-      console.log("master_table deleted successfully");
-    }
-  });
-
-  // create table after dropping the table
   con.query(createMasterTable, (err) => {
     if (err) {
       console.error("Error creating master_table:", err);

@@ -44,14 +44,15 @@ button:hover {
 
 #inputText {
   position: absolute;
-  top: 580px;
-  margin: 0 auto;
+  top: 620px;
+  margin: 20 auto;
   width: 150px;
+  height: 20px;
 }
 
 #prestudy button {
   position: absolute;
-  top: 620px;
+  top: 660px;
   margin: 0 auto;
 }
 
