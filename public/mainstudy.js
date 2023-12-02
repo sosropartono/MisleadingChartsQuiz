@@ -44,7 +44,7 @@ let data2DArray = []; //stores all queries from test_questions in database local
 
 //display main study questions 1 by 1
 function displayQuestion() {
-  if (currentQuestionIndex < 3) {
+  if (currentQuestionIndex < 50) {
     submitButton.style.display = "block";
     questionOrderRow = userId - 1;
 
