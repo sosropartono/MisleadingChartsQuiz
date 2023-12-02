@@ -120,13 +120,13 @@ con.connect(function (err) {
   });
 
   // insert data after creating the table
-  // con.query(insertDataIntoTestQuestionsTable, (err) => {
-  //   if (err) {
-  //     console.error("Error inserting data into test_questions table:", err);
-  //   } else {
-  //     console.log("Data inserted into test_questions table successfully");
-  //   }
-  // });
+  con.query(insertDataIntoTestQuestionsTable, (err) => {
+    if (err) {
+      console.error("Error inserting data into test_questions table:", err);
+    } else {
+      console.log("Data inserted into test_questions table successfully");
+    }
+  });
 
   con.query(createResponsesTableSQL, (err) => {
     if (err) {
