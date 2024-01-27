@@ -42,6 +42,16 @@ app.get("/claim-user-id", async (req, res) => {
   }
 });
 
+app.get("/fetch-prestudy-table", async (req, res) => {
+  try {
+    const tableData = await fetchEntireTableFromDatabase("prestudy_test_questions");
+    res.json({ data: tableData });
+  } catch (error) {
+    console.error("Error fetching table data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 //fetch entire table test_questions at once
 app.get("/fetch-entire-table", async (req, res) => {
   try {

@@ -1,5 +1,4 @@
 import {
-  prestudyQuestions,
   displayPrestudyQuestions,
   prestudyContent,
   recordInteraction,
@@ -41,6 +40,11 @@ let questionOrderRow;
 
 let tableData = [];
 let data2DArray = []; //stores all queries from test_questions in database locally
+
+export let prestudyTableData = [];
+export let prestudyData2DArray = [];
+
+
 
 //display main study questions 1 by 1
 function displayQuestion() {
@@ -122,6 +126,46 @@ async function claimUserID() {
   }
 }
 
+export async function beginPrestudy() {
+  try {
+    const response = await fetch("/fetch-prestudy-table", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+
+    const data = await response.json();
+    prestudyTableData = data;
+    storePrestudyQuestionsInArray();
+
+
+  } catch (error) {
+    console.error("Error starting the study:", error);
+  }
+}
+
+function storePrestudyQuestionsInArray() {
+  for (const entry of prestudyTableData.data) {
+    const questionText = entry.question_text;
+    const options = entry.options;
+    const correctAnswer = entry.correct_answer;
+    const questionID = entry.question_id;
+
+    //temp array with extracted data
+    const rowArray = [
+      questionText,
+      options,
+      correctAnswer,
+      questionID,
+    ];
+
+    prestudyData2DArray.push(rowArray); //store all fetched data from table_questions into local 2d array data2DArray
+    console.log("adding to this " + prestudyData2DArray)
+
+  }
+}
 //Start the main study
 export async function beginMainStudy() {
   try {
@@ -215,7 +259,11 @@ submitButton.addEventListener("click", () => {
 beginPrestudyButton.addEventListener("click", () => {
   recordInteraction("Begin Prestudy", false, false);
   homeContent.style.display = "none";
-  displayPrestudyQuestions(prestudyQuestions);
+  // prestudyquestions here must be populated right
+  beginPrestudy()
+  console.log("after button length is" + prestudyData2DArray.length)
+
+  displayPrestudyQuestions(prestudyData2DArray);
 });
 
 claimUserIDButton.addEventListener("click", () => {

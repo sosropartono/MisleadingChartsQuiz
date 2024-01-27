@@ -26,6 +26,16 @@ con.connect(function (err) {
     )
   `;
 
+  const createPrestudyTestQuestionsTable = `
+  CREATE TABLE IF NOT EXISTS prestudy_test_questions (
+    question_id int PRIMARY KEY AUTO_INCREMENT,
+    question_text VARCHAR(255) NOT NULL,
+    options JSON NOT NULL,
+    correct_answer VARCHAR(255) NOT NULL
+  )
+`;
+
+
   const createResponsesTableSQL = `
   CREATE TABLE IF NOT EXISTS test_responses (
     user_id VARCHAR(10) NOT NULL,
@@ -38,8 +48,10 @@ con.connect(function (err) {
 `;
 
   const createPrestudyResponsesTable = `
-  CREATE TABLE IF NOT EXISTS prestudy_responses (
+  CREATE TABLE IF NOT EXISTS master_table (
     user_id VARCHAR(10) NOT NULL,
+    button_name VARCHAR(100),
+    question_id INT,
     question_text VARCHAR(700),
     user_answer VARCHAR(255),
     timestamp VARCHAR(40)
@@ -111,6 +123,23 @@ con.connect(function (err) {
     ('The total number of vaccines administered at the beginning of March was around 100000.', 'truncated-line-chart-normal.png', '["True", "False"]', 'True')
     `;
 
+  const insertPrestudy  = `
+  INSERT INTO prestudy_test_questions (question_text, options, correct_answer) VALUES
+  ("Can I park here?", '["Sorry, I did that.", "It is the same place.", "Only for half an hour."]', "Only for half an hour."),
+  ("What colour will you paint the childrens bedroom?", '["I hope it was right.", "We can not decide.", "It was not very difficult."]', "We can not decide."),
+  ("I can not understand this email.", '["Would you like some help?", "Do not you know?", "I suppose you can."]', "I suppose you can."),
+  ("I would like two tickets for tomorrow night.", '["How much did you pay?", "Afternoon and evening.", "I will just check for you."]', "Afternoon and evening."),
+  ("Shall we go to the gym now?", '["I am too tired.", "It is very good.", "Not at all."]', "I am too tired."),
+  ("His eyes were ...... bad that he couldnt read the number plate of the car in front.", '["such", "so", "too", "very"]', "so"),
+  ("The company needs to decide ...... and for all what its position is on this point.", '["here", "once", "first", "finally"]', "once"),
+  ("Do not put your cup on the ...... of the table someone will knock it off.", '["outside", "edge", "boundary", "border"]', "edge"),
+  ("Al oír del accidente de su buen amigo, Paco se puso _____", '["hope", "think", "mean", "suppose"]', "mean"),
+  ("No puedo comprarlo porque me _____ dinero", '["falta", "dan", "presta", "regalan"]', "regalan"),
+  ("Tuvo que guardar cama por estar _____ .", '["enfermo", "vestido", "ocupado", "parado"]', "parado"),
+  ("Aquí está tu café, Juanito. No te quemes, que está muy _____", '["dulce", "amargo", "agrio", "caliente"]', "caliente"),
+  ("Al romper los anteojos, Juan se asustó porque no podía _____ sin ellos", '["discurrir", "oir", "ver", "entender"]', "entender");
+
+  `;
   con.query(createTestQuestionsTable, (err) => {
     if (err) {
       console.error("Error creating test_questions table:", err);
@@ -136,11 +165,27 @@ con.connect(function (err) {
     }
   });
 
-  con.query(createPrestudyResponsesTable, (err) => {
+  con.query(createPrestudyTestQuestionsTable, (err) => {
     if (err) {
-      console.error("Error creating poststudy_questions table:", err);
+      console.error("Error creating prestudy_questions:", err);
+    } else {
+      console.log("prestudy_questions_table created successfully");
+    }
+  });
+
+  con.query(insertPrestudy, (err) => {
+    if (err) {
+      console.error("Error inserting prestudy_test_questions table:", err);
     } else {
       console.log("poststudy_questions table created successfully");
+    }
+  });
+
+  con.query(createPrestudyResponsesTable, (err) => {
+    if (err) {
+      console.error("Error creating prestudy table:", err);
+    } else {
+      console.log("prestudy_responses table created successfully");
     }
   });
 
@@ -151,6 +196,7 @@ con.connect(function (err) {
       console.log("master_table created successfully");
     }
   });
+
 
   // Close the connection
   con.end((error) => {

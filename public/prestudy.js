@@ -2,6 +2,7 @@ import {
   userId,
   beginMainStudyButton,
   currentQuestionId,
+  prestudyData2DArray
 } from "./mainstudy.js";
 
 export const prestudyContent = document.getElementById("prestudy");
@@ -19,35 +20,9 @@ let currentQuestionIndex = 0;
 let userAnswer;
 export let currentQuestion = { value: "" };
 export let currentAnswer = { value: "" };
-export let prestudyQuestions = [
+export let localQuestions = [
   ["What's your age?", null],
   ["What's your major?", null],
-  [
-    "The graph above shows the percentage of people who die from different types of cancer." +
-      "<br><br>About what percentage of people who die from cancer die from cancer B, cancer C, and cancer D combined?",
-    "pie-chart.png",
-  ],
-  [
-    "You see two magazines advertisements on separate pages. Each advertisement is for a different " +
-      "drug for treating heart disease. Each advertisement has a graph for showing the effectiveness of the drug " +
-      "compared to a placebo (sugar pill).<br><br>Compared to the placebo, which treatment leads to a larger decrease " +
-      "in the percentage of patients who die? <br><br> Please enter an answer from the following: Crosicol, Hertinol, They are equal, Can't say",
-    "bar-graph.png",
-  ],
-
-  [
-    "The graph above shows the number of men and women with disease X. The total number of circles is 100.<br><br>" +
-      "How many more men than women are there among 100 patients with disease X?",
-    "dots.png",
-  ],
-
-  [
-    "You see two newspaper advertisements on separate pages. Each advertisement is for a different treatment of a skin " +
-      "disease. Each advertisement has a graph showing the effectiveness of the treatment over time.<br><br>" +
-      "Which of the treatments show a larger decrease in the percentage of sick patients?" +
-      "<br><br>Please enter an answer from the following: Apsoriatin, Nopsorian, They are equal, Can't say",
-    "line-graph.png",
-  ],
 ];
 
 //display prestudy questions 1 by 1
@@ -55,26 +30,39 @@ export function displayPrestudyQuestions(questions) {
   prestudyContent.style.display = "block";
   prestudySubmitButton.style.display = "block";
   startCalibrationButton.style.display = "none";
+  console.log("this is questions length"+ questions.length)
 
-  console.log("displayPrestudyQuestions is called");
 
-  if (currentQuestionIndex < 6) {
+  if (currentQuestionIndex < 2) {
     prestudyQuestionElement.innerHTML = currentQuestion.value =
-      questions[currentQuestionIndex][0];
+      localQuestions[currentQuestionIndex][0];
     prestudyChart.innerHTML = "";
+    
+  } 
+  else if (currentQuestionIndex < 12){
+    inputElement.style.display = "none"
+    console.log("chosen")
+    console.log(questions)
 
-    console.log(currentQuestion.value);
+      prestudyQuestionElement.textContent = currentQuestion.value = currentQuestionIndex +
+      1 + ". " +
+      questions[
+        [questionOrderRow][currentQuestionIndex]
+      ][2].forEach((option, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = option;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(option));
+        optionsElement.appendChild(label);
+      });
 
-    var imageElement = document.createElement("img");
-    if (questions[currentQuestionIndex][1] != null) {
-      imageElement.src =
-        "img/prestudy-img/" + questions[currentQuestionIndex][1];
-      imageElement.alt = "prestudy Chart";
-      imageElement.style.width = "auto";
-      imageElement.style.height = "400px";
-      prestudyChart.appendChild(imageElement);
-    }
-  } else {
+      console.log("second thing called")
+  }
+  else {
+    console.log("called")
     // Survey is complete
     startCalibrationButton.style.display = "block";
     prestudyMsgElement.textContent =
@@ -89,38 +77,44 @@ export function displayPrestudyQuestions(questions) {
 
 //record user response to prestudy questions to database (table prestudy_responses)
 async function recordPrestudyResponse() {
-  var inputValue = inputElement.value;
 
-  if (!inputValue) {
-    alert("Please enter an answer.");
-    return;
+  if (currentQuestionIndex < 2){
+    var inputValue = inputElement.value;
+
+    if (!inputValue) {
+      alert("Please enter an answer.");
+      return;
+    }
+    console.log(inputValue);
+  
+    userAnswer = currentAnswer.value = inputValue;
+  
+    try {
+      const responseSubmit = await fetch("/submit-prestudy-response", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          userAnswer,
+          question: currentQuestion.value.substring(0, 80),
+        }),
+      });
+  
+      const dataSubmit = await responseSubmit.json();
+      console.log("Server response:", dataSubmit);
+  
+      currentQuestionIndex++;
+      displayPrestudyQuestions(prestudyData2DArray);
+    } catch (error) {
+      console.error("Error submitting response:", error);
+    }
+    inputElement.value = "";
+  } else {
+    inputElement.style = "display: none"
   }
-  console.log(inputValue);
-
-  userAnswer = currentAnswer.value = inputValue;
-
-  try {
-    const responseSubmit = await fetch("/submit-prestudy-response", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        userAnswer,
-        question: currentQuestion.value.substring(0, 80),
-      }),
-    });
-
-    const dataSubmit = await responseSubmit.json();
-    console.log("Server response:", dataSubmit);
-
-    currentQuestionIndex++;
-    displayPrestudyQuestions(prestudyQuestions);
-  } catch (error) {
-    console.error("Error submitting response:", error);
-  }
-  inputElement.value = "";
+ 
 }
 
 //record every button click in database (master_table)
