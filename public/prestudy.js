@@ -2,7 +2,7 @@ import {
   userId,
   beginMainStudyButton,
   currentQuestionId,
-  prestudyData2DArray
+  prestudyData2DArray,
 } from "./mainstudy.js";
 
 export const prestudyContent = document.getElementById("prestudy");
@@ -13,9 +13,10 @@ const startCalibrationButton = document.getElementById(
 );
 export const prestudyMsgElement = document.getElementById("prestudy-msg");
 export const calibrationScreen = document.getElementById("calibration-screen");
+const prestudyOption = document.getElementById("prestudy-options")
 const prestudyChart = document.getElementById("prestudy-chart");
 var inputElement = document.getElementById("inputText");
-
+let correct_ans
 let currentQuestionIndex = 0;
 let userAnswer;
 export let currentQuestion = { value: "" };
@@ -42,13 +43,12 @@ export function displayPrestudyQuestions(questions) {
   else if (currentQuestionIndex < 12){
     inputElement.style.display = "none"
     console.log("chosen")
-    console.log(questions)
+    prestudyOption.innerHTML = ""
 
-      prestudyQuestionElement.textContent = currentQuestion.value = currentQuestionIndex +
-      1 + ". " +
-      questions[
-        [questionOrderRow][currentQuestionIndex]
-      ][2].forEach((option, index) => {
+    console.log(questions[currentQuestionIndex][1])
+
+      prestudyQuestionElement.innerHTML = questions[currentQuestionIndex][0];
+      questions[currentQuestionIndex][1].forEach((option, index) => {
         const label = document.createElement("label");
         const input = document.createElement("input");
         input.type = "radio";
@@ -56,7 +56,7 @@ export function displayPrestudyQuestions(questions) {
         input.value = option;
         label.appendChild(input);
         label.appendChild(document.createTextNode(option));
-        optionsElement.appendChild(label);
+        prestudyOption.appendChild(label);
       });
 
       console.log("second thing called")
@@ -111,11 +111,48 @@ async function recordPrestudyResponse() {
       console.error("Error submitting response:", error);
     }
     inputElement.value = "";
-  } else {
-    inputElement.style = "display: none"
-  }
- 
-}
+  }else{
+
+    let selectedOption = (currentAnswer.value = document.querySelector(
+      'input[name="answer"]:checked'
+    ).value);
+    let currentCorrectAnswer = prestudyData2DArray[currentQuestionIndex][2]
+  
+    console.log(currentAnswer.value);
+  
+    if (!selectedOption) {
+      alert("Please select an answer.");
+      return;
+    }
+  
+    try {
+      const responseSubmit = await fetch("/submit-response", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          userAnswer: selectedOption,
+          questionNumber: currentQuestionId + 1,
+          question: currentQuestion.value.substring(0, 100),
+          isCorrect: selectedOption === currentCorrectAnswer,
+        }),
+      });
+  
+      const dataSubmit = await responseSubmit.json();
+      console.log("Server response:", dataSubmit);
+  
+      currentQuestionIndex++;
+      displayPrestudyQuestions(prestudyData2DArray);
+    } catch (error) {
+      console.error("Error submitting response:", error);
+    }
+
+  }}
+  
+
+        
 
 //record every button click in database (master_table)
 export async function recordInteraction(buttonName, isMainStudy, isPrestudy) {
