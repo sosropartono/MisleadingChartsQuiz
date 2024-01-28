@@ -47,16 +47,17 @@ con.connect(function (err) {
   )
 `;
 
-  const createPrestudyResponsesTable = `
-  CREATE TABLE IF NOT EXISTS master_table (
-    user_id VARCHAR(10) NOT NULL,
-    button_name VARCHAR(100),
-    question_id INT,
-    question_text VARCHAR(700),
-    user_answer VARCHAR(255),
-    timestamp VARCHAR(40)
-  )
+const createPrestudyResponsesTable = `
+CREATE TABLE IF NOT EXISTS prestudy_responses (
+  user_id VARCHAR(10) NOT NULL,
+  question_text VARCHAR(700),
+  user_answer VARCHAR(255),
+  is_correct VARCHAR(5) NOT NULL,
+  timestamp VARCHAR(40)
+)
 `;
+
+
 
   const createMasterTable = `
   CREATE TABLE IF NOT EXISTS master_table (

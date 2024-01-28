@@ -1,6 +1,18 @@
-body {
-  margin: 0 auto;
+html, body {
+  height: 100%;
+  margin: 0;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+#prestudy-options{
+  display: flex;
+  row-gap: 20px;
+  min-width: 500px;
+  width: 20em;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
 }
 
 #home-content {
@@ -45,9 +57,12 @@ button:hover {
 }
 
 #prestudy {
-  font-size: 1em;
-  text-align: left;
-  position: absolute;
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: space-between;
+  text-align: center;
   top: 50px;
   left: 70px;
   right: 70px;
@@ -56,33 +71,22 @@ button:hover {
 }
 
 #inputText {
-  position: absolute;
-  top: 620px;
-  margin: 20 auto;
-  width: 150px;
-  height: 20px;
+  width: 200px;
+  height: 3em;
+  font-size: 3em;
 }
 
 #prestudy button {
-  position: absolute;
   top: 660px;
   margin: 0 auto;
 }
 
-#prestudy-chart {
-  position: absolute;
-  top: 65px;
-  margin: 0 auto;
-}
-
 #prestudy-question {
-  position: absolute;
-  top: 500px;
   margin: 0 auto;
+  font-size: 2em;
 }
 
 #show-user-id {
-  position: absolute;
   top: 300px;
   left: 0px;
   margin: 0 auto;
@@ -104,8 +108,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: left;
-  justify-content: left;
-  position: absolute;
+  justify-content: center;
   left: 20px;
   top: 640px;
 }
@@ -116,9 +119,6 @@ button:hover {
   cursor: pointer;
 }
 
-#options input[type="radio"],
-#options input[type="checkbox"] {
-}
 
 #study-content button {
   position: absolute;

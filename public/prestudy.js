@@ -14,7 +14,6 @@ const startCalibrationButton = document.getElementById(
 export const prestudyMsgElement = document.getElementById("prestudy-msg");
 export const calibrationScreen = document.getElementById("calibration-screen");
 const prestudyOption = document.getElementById("prestudy-options")
-const prestudyChart = document.getElementById("prestudy-chart");
 var inputElement = document.getElementById("inputText");
 let correct_ans
 let currentQuestionIndex = 0;
@@ -31,23 +30,22 @@ export function displayPrestudyQuestions(questions) {
   prestudyContent.style.display = "block";
   prestudySubmitButton.style.display = "block";
   startCalibrationButton.style.display = "none";
-  console.log("this is questions length"+ questions.length)
 
 
   if (currentQuestionIndex < 2) {
     prestudyQuestionElement.innerHTML = currentQuestion.value =
       localQuestions[currentQuestionIndex][0];
-    prestudyChart.innerHTML = "";
     
   } 
-  else if (currentQuestionIndex < 12){
+  else if (currentQuestionIndex < questions.length){
     inputElement.style.display = "none"
-    console.log("chosen")
+    prestudyQuestionElement.innerHTML = ""
     prestudyOption.innerHTML = ""
+    prestudyMsgElement.textContent = "Below is a prompt in English. Answer the following prompt with the most appropriate response."
 
-    console.log(questions[currentQuestionIndex][1])
 
-      prestudyQuestionElement.innerHTML = questions[currentQuestionIndex][0];
+      prestudyQuestionElement.innerHTML = currentQuestion.value = questions[currentQuestionIndex][0];
+
       questions[currentQuestionIndex][1].forEach((option, index) => {
         const label = document.createElement("label");
         const input = document.createElement("input");
@@ -59,21 +57,29 @@ export function displayPrestudyQuestions(questions) {
         prestudyOption.appendChild(label);
       });
 
-      console.log("second thing called")
   }
   else {
-    console.log("called")
     // Survey is complete
     startCalibrationButton.style.display = "block";
     prestudyMsgElement.textContent =
       "Prestudy completed! When you click NEXT, you will be shown a blank screen with a tiny plus sign at the center, please focus your eyes on it for 5 seconds. ";
-    prestudyQuestionElement.innerHTML = "";
+    
+      prestudyQuestionElement.innerHTML = "";
     prestudySubmitButton.style.display = "none";
     currentQuestionIndex = 0;
-    prestudyChart.innerHTML = "";
     inputElement.style.display = "none";
+    prestudyQuestionElement.style.display = "none"
+    prestudyOption.style.display = "none"
   }
 }
+
+
+// user_id VARCHAR(10) NOT NULL,
+// question_id INT,
+// question VARCHAR(255),
+// user_answer VARCHAR(255),
+// is_correct VARCHAR(5) NOT NULL,
+// timestamp VARCHAR(40)
 
 //record user response to prestudy questions to database (table prestudy_responses)
 async function recordPrestudyResponse() {
@@ -85,9 +91,9 @@ async function recordPrestudyResponse() {
       alert("Please enter an answer.");
       return;
     }
-    console.log(inputValue);
   
     userAnswer = currentAnswer.value = inputValue;
+    let ans = true
   
     try {
       const responseSubmit = await fetch("/submit-prestudy-response", {
@@ -102,8 +108,12 @@ async function recordPrestudyResponse() {
         }),
       });
   
+
+      console.log(userId, currentQuestionIndex + 1, question, userAnswer, ans)
+
+  
       const dataSubmit = await responseSubmit.json();
-      console.log("Server response:", dataSubmit);
+      console.log("server response", dataSubmit)
   
       currentQuestionIndex++;
       displayPrestudyQuestions(prestudyData2DArray);
@@ -116,9 +126,8 @@ async function recordPrestudyResponse() {
     let selectedOption = (currentAnswer.value = document.querySelector(
       'input[name="answer"]:checked'
     ).value);
-    let currentCorrectAnswer = prestudyData2DArray[currentQuestionIndex][2]
   
-    console.log(currentAnswer.value);
+    let currentCorrectAnswer = prestudyData2DArray[currentQuestionIndex][2]
   
     if (!selectedOption) {
       alert("Please select an answer.");
@@ -126,16 +135,16 @@ async function recordPrestudyResponse() {
     }
   
     try {
-      const responseSubmit = await fetch("/submit-response", {
+      const responseSubmit = await fetch("/submit-prestudy-response", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId,
-          userAnswer: selectedOption,
-          questionNumber: currentQuestionId + 1,
+          questionNumber: currentQuestionIndex + 1,
           question: currentQuestion.value.substring(0, 100),
+          userAnswer: selectedOption,
           isCorrect: selectedOption === currentCorrectAnswer,
         }),
       });

@@ -42,16 +42,6 @@ app.get("/claim-user-id", async (req, res) => {
   }
 });
 
-app.get("/fetch-prestudy-table", async (req, res) => {
-  try {
-    const tableData = await fetchEntireTableFromDatabase("prestudy_test_questions");
-    res.json({ data: tableData });
-  } catch (error) {
-    console.error("Error fetching table data:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 //fetch entire table test_questions at once
 app.get("/fetch-entire-table", async (req, res) => {
   try {
@@ -131,6 +121,17 @@ function fetchEntireTableFromDatabase(tableName) {
   });
 }
 
+
+app.get("/fetch-prestudy-table", async (req, res) => {
+  try {
+    const tableData = await fetchEntireTableFromDatabase("prestudy_test_questions");
+    res.json({ data: tableData });
+  } catch (error) {
+    console.error("Error fetching table data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 function insertPrestudyResponseIntoDatabase(
   userId,
   question,
@@ -139,11 +140,11 @@ function insertPrestudyResponseIntoDatabase(
 ) {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO prestudy_responses (user_id, question_text, user_answer, timestamp) VALUES (?, ?, ?, ?)";
+      "INSERT INTO prestudy_responses (user_id, question_text, user_answer, is_correct timestamp) VALUES (?, ?, ?, ?)";
 
     connection.query(
       query,
-      [userId, question, userAnswer, timestamp],
+      [userId, question, userAnswer, timestamp, isCorrect],
       (err, results) => {
         if (err) {
           reject(err);
@@ -156,7 +157,7 @@ function insertPrestudyResponseIntoDatabase(
 }
 
 app.post("/submit-prestudy-response", async (req, res) => {
-  const { userId, userAnswer, question } = req.body;
+  const { userId, userAnswer, question, isCorrect } = req.body;
 
   try {
     const timestamp = new Date();
@@ -166,6 +167,7 @@ app.post("/submit-prestudy-response", async (req, res) => {
       userId,
       question,
       userAnswer,
+      isCorrect,
       timestamp
     );
 

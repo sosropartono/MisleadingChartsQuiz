@@ -146,6 +146,7 @@ export async function beginPrestudy() {
   }
 }
 
+
 function storePrestudyQuestionsInArray() {
   for (const entry of prestudyTableData.data) {
     const questionText = entry.question_text;
@@ -162,7 +163,6 @@ function storePrestudyQuestionsInArray() {
     ];
 
     prestudyData2DArray.push(rowArray); //store all fetched data from table_questions into local 2d array data2DArray
-    console.log("adding to this " + prestudyData2DArray)
 
   }
 }
