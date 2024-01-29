@@ -92,16 +92,15 @@ button:hover {
   margin: 0 auto;
 }
 
-#question {
-  position: absolute;
-  top: 600px;
-  left: 20px;
+#study-content{
+  display: flex;
+  align-content: space-between
 }
 
-#chart {
-  position: absolute;
-  top: 10px;
-  left: 20px;
+#image {
+  max-height: 100%;
+  max-width: 40%;
+  overflow: hidden;
 }
 
 #options {
@@ -119,11 +118,9 @@ button:hover {
   cursor: pointer;
 }
 
-
-#study-content button {
-  position: absolute;
-  top: 720px;
-  left: 20px;
+#study-content {
+  height: 100%;
+  width: 100%;
 }
 
 #study-content button:hover {
@@ -150,3 +147,5 @@ button:hover {
   align-items: center;
   justify-content: center;
 }
+
+

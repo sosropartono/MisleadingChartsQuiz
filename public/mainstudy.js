@@ -27,7 +27,7 @@ const showUserID = document.getElementById("show-user-id");
 
 //prestudy elements
 const beginPrestudyButton = document.getElementById("begin-prestudy-button");
-const chartPlaceholder = document.getElementById("chart");
+const imagePlaceholder = document.getElementById("image");
 
 //end of study
 const postStudyCongrats = document.getElementById("congrats-cat");
@@ -49,34 +49,44 @@ export let prestudyData2DArray = [];
 //display main study questions 1 by 1
 function displayQuestion() {
   if (currentQuestionIndex < 50) {
+    questionElement.innerText = "Below is an article, please select the option that you would like to see recommended to you"
     submitButton.style.display = "block";
     questionOrderRow = userId - 1;
 
     //assign value to question
+    // let val = data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][0];
+    let val = data2DArray[0][2][0]
+
     questionElement.textContent = currentQuestion.value =
       currentQuestionIndex +
       1 +
-      ". " +
-      data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][0];
+      ". " + val
+      
+      
     optionsElement.innerHTML = "";
-    chartPlaceholder.innerHTML = "";
-    currentQuestionId = questionOrder[questionOrderRow][currentQuestionIndex];
-    console.log(currentQuestion.value);
+    imagePlaceholder.innerHTML = "";
+    // currentQuestionId = questionOrder[questionOrderRow][currentQuestionIndex];
 
     //assign this question's correct answer to currentCorrectAnswer for answer checking
-    currentCorrectAnswer =
-      data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][3];
+    // currentCorrectAnswer =
+    //   data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][3];
 
     // Create and append the image element
+
+
     const imageElement = document.createElement("img");
     imageElement.src =
-      "img/" +
-      data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][1];
-    imageElement.alt = "Chart";
-    imageElement.style.width = "auto"; // Set the desired width
-    imageElement.style.height = "600px"; // Set the desired height
-    chartPlaceholder.appendChild(imageElement);
+      "img/" + data2DArray[0][2][0];
+    imageElement.alt = "image";
+    imageElement.width = "600px"
+    imageElement.height = "600px"
 
+    imagePlaceholder.appendChild(imageElement);
+    console.log(imagePlaceholder)
+
+
+    // option a or option b
+    // we need to iterate and generate those things
     data2DArray[
       questionOrder[questionOrderRow][currentQuestionIndex]
     ][2].forEach((option, index) => {
@@ -193,19 +203,19 @@ export async function beginMainStudy() {
 
 function storeQuestionsInArray() {
   for (const entry of tableData.data) {
-    const questionText = entry.question_text;
-    const chartImage = entry.chart_image;
+    const category = entry.category;
+    const note = entry.note;
+    const article_images = entry.article_images;
     const options = entry.options;
-    const correctAnswer = entry.correct_answer;
     const questionID = entry.question_id;
 
     //temp array with extracted data
     const rowArray = [
-      questionText,
-      chartImage,
+      category,
+      note,
+      article_images,
       options,
-      correctAnswer,
-      questionID,
+      questionID
     ];
 
     data2DArray.push(rowArray); //store all fetched data from table_questions into local 2d array data2DArray

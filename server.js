@@ -157,22 +157,22 @@ function insertPrestudyResponseIntoDatabase(
 }
 
 app.post("/submit-prestudy-response", async (req, res) => {
-  const { userId, userAnswer, question, isCorrect } = req.body;
+  const { userId, question, userAnswer, isCorrect  } = req.body;
 
   try {
     const timestamp = new Date();
 
     // Insert the response into the database
-    await insertPrestudyResponseIntoDatabase(
+    await insertDataIntoMasterTable(
       userId,
+      questionId,
       question,
-      userAnswer,
       isCorrect,
       timestamp
     );
 
     res.json({
-      status: "success submitting responses to prestudy_responses",
+      status: "success submitting to prestudy_table_responses",
       message: "User response received",
     });
   } catch (error) {

@@ -22,7 +22,8 @@ con.connect(function (err) {
       category VARCHAR(255) NOT NULL,
       note VARCHAR(255) NOT NULL, 
       article_images JSON NOT NULL,
-      options JSON NOT NULL
+      options JSON NOT NULL,
+      question_id VARCHAR(3)
       
     )
   `;
@@ -40,7 +41,6 @@ con.connect(function (err) {
   const createResponsesTableSQL = `
   CREATE TABLE IF NOT EXISTS test_responses (
     user_id VARCHAR(10) NOT NULL,
-    question_id INT,
     question VARCHAR(255),
     user_answer VARCHAR(255),
     is_correct VARCHAR(5) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS prestudy_responses (
 `;
 
   const insertDataIntoTestQuestionsTable = `
-  INSERT INTO test_questions (category, note, article_images, options) VALUES
+  INSERT INTO test_questions (category, note, article_images, options, question_id) VALUES
   ('Politics, Governments & Events 1', 'Mexico', '["pge1-mex-eng.png", "pge1-mex-esp.png"]', '[
     [
         "Mexico decriminalizes abortion, extending Latin American trend of widening access",
