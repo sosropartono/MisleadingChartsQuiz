@@ -78,8 +78,8 @@ function displayQuestion() {
     imageElement.src =
       "img/" + data2DArray[0][2][0];
     imageElement.alt = "image";
-    imageElement.width = "600px"
-    imageElement.height = "600px"
+    imageElement.style.width = "100%"
+    imageElement.style.height = "auto"
 
     imagePlaceholder.appendChild(imageElement);
     console.log(imagePlaceholder)
