@@ -9,19 +9,16 @@ html, body {
 #prestudy-options{
   display: flex;
   row-gap: 20px;
-  min-width: 500px;
-  width: 20em;
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: space-between;
+  margin: 0px 400px 0 20px;
 }
 
 #home-content {
   font-size: 1.5em;
   text-align: left;
-  position: absolute;
-  top: 100px;
-  left: 70px;
+  margin: 50px
 }
 
 button {
@@ -44,6 +41,17 @@ button:hover {
   color: grey;
 }
 
+#claim-user-id {
+  margin-top: 10px !important;
+  position: unset;
+}
+
+#begin-prestudy-button {
+  margin: 0px !important; 
+  margin-top: 10px !important;
+  position: unset;
+}
+
 #begin-study-button,
 #begin-main-study-button {
   padding: 10px 20px;
@@ -63,7 +71,6 @@ button:hover {
   flex-direction: row;
   justify-content: center;
   align-content: space-between;
-  text-align: center;
   top: 50px;
   left: 70px;
   right: 70px;
@@ -71,20 +78,27 @@ button:hover {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+#prestudy-msg {
+  text-align: center;
+}
+
 #inputText {
-  width: 200px;
-  height: 3em;
-  font-size: 3em;
+  width: auto;
+  height: 1em;
+  font-size: 1.5em;
+  text-align: left;
+  margin: 0 20px;
 }
 
 #prestudy button {
-  top: 660px;
-  margin: 0 auto;
+  margin: 50px 20px;
+  position: unset;
 }
 
 #prestudy-question {
-  margin: 0 auto;
-  font-size: 2em;
+  text-align: left;
+  margin: 10px 20px;
+  font-size: 1.5em;
 }
 
 #show-user-id {
@@ -98,21 +112,38 @@ button:hover {
   align-content: space-between
 }
 
+#question {
+  margin-bottom: 5px;
+}
+
+#study-content-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 90%;
+}
+
 #image {
   padding: 5px;
-
   max-width: 40%;
   height: 100%;
   overflow: hidden;
 }
 
 #options {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: left;
   justify-content: center;
   left: 20px;
   top: 640px;
+}
+
+#submit-button {
+  margin: 0px !important; 
+  margin-top: 10px !important;
+  position: unset;
 }
 
 #options label {

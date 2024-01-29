@@ -55,14 +55,31 @@
     <div id="study-content" style="display: none">
 
       <p id="question">Question 1</p>
-      <div id="image"></div>
+      <div id="study-content-container">
+        <div id="image"></div>
+        <div id="study-content-option-button">
+          <div id="options">
+            <!-- Options will be displayed here -->
+          </div>
+          <div id="study-options">
+            <p>Choose your preferred list of recommendations</p>
+            <label>
+              <input type="radio" name="answer" value="Option A"> 
+              Option A
+            </label>
+            <label>
+              <input type="radio" name="answer" value="Option B"> 
+              Option B
+            </label>
+          </div>
+          <button id="submit-button">SUBMIT</button>
+        </div>
+      </div>
+
 
 
       <img id="congrats-cat" src="img/happy-cat.png" style="display: none"></img>
-      <div id="options">
-        <!-- Options will be displayed here -->
-      </div>
-      <button id="submit-button">SUBMIT</button>
+      
     </div>
     
     <script type="module" src="mainstudy.js"></script>
