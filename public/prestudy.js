@@ -32,33 +32,33 @@ export function displayPrestudyQuestions(questions) {
   startCalibrationButton.style.display = "none";
 
 
-  // if (currentQuestionIndex < 2) {
-  //   prestudyQuestionElement.innerHTML = currentQuestion.value =
-  //     localQuestions[currentQuestionIndex][0];
+  if (currentQuestionIndex < 2) {
+    prestudyQuestionElement.innerHTML = currentQuestion.value =
+      localQuestions[currentQuestionIndex][0];
     
-  // } 
-  // else if (currentQuestionIndex < questions.length){
-  //   inputElement.style.display = "none"
-  //   prestudyQuestionElement.innerHTML = ""
-  //   prestudyOption.innerHTML = ""
-  //   prestudyMsgElement.textContent = "Below is a prompt in English. Answer the following prompt with the most appropriate response."
+  } 
+  else if (currentQuestionIndex < questions.length){
+    inputElement.style.display = "none"
+    prestudyQuestionElement.innerHTML = ""
+    prestudyOption.innerHTML = ""
+    prestudyMsgElement.textContent = "Below is a prompt in English. Answer the following prompt with the most appropriate response."
 
 
-  //     prestudyQuestionElement.innerHTML = currentQuestion.value = questions[currentQuestionIndex][0];
+      prestudyQuestionElement.innerHTML = currentQuestion.value = questions[currentQuestionIndex][0];
 
-  //     questions[currentQuestionIndex][1].forEach((option, index) => {
-  //       const label = document.createElement("label");
-  //       const input = document.createElement("input");
-  //       input.type = "radio";
-  //       input.name = "answer";
-  //       input.value = option;
-  //       label.appendChild(input);
-  //       label.appendChild(document.createTextNode(option));
-  //       prestudyOption.appendChild(label);
-  //     });
+      questions[currentQuestionIndex][1].forEach((option, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = option;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(option));
+        prestudyOption.appendChild(label);
+      });
 
-  // }
-  // else {
+  }
+  else {
     // Survey is complete
     startCalibrationButton.style.display = "block";
     prestudyMsgElement.textContent =
@@ -71,7 +71,7 @@ export function displayPrestudyQuestions(questions) {
     prestudyQuestionElement.style.display = "none"
     prestudyOption.style.display = "none"
   }
-// }
+}
 
 
 // user_id VARCHAR(10) NOT NULL,

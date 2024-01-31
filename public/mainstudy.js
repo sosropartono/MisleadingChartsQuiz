@@ -19,6 +19,10 @@ const beginStudyButton = document.getElementById("begin-study-button");
 export const beginMainStudyButton = document.getElementById(
   "begin-main-study-button"
 );
+const optionA = document.getElementById("option-a-list")
+const optionB = document.getElementById("option-b-list")
+
+
 
 //welcome screen or home screen
 export const homeContent = document.getElementById("home-content");
@@ -49,7 +53,6 @@ export let prestudyData2DArray = [];
 //display main study questions 1 by 1
 function displayQuestion() {
   if (currentQuestionIndex < 50) {
-    questionElement.innerText = "Below is an article, please select the option that you would like to see recommended to you"
     submitButton.style.display = "block";
     questionOrderRow = userId - 1;
 
@@ -60,10 +63,10 @@ function displayQuestion() {
     questionElement.textContent = currentQuestion.value =
       currentQuestionIndex +
       1 +
-      ". " + val
+      ". " + "Below is an article, please select the option that you would like to see recommended to you"
       
       
-    optionsElement.innerHTML = "";
+    optionsElement.style.display = "flex"
     imagePlaceholder.innerHTML = "";
     // currentQuestionId = questionOrder[questionOrderRow][currentQuestionIndex];
 
@@ -82,6 +85,10 @@ function displayQuestion() {
     imageElement.style.height = "auto"
 
     imagePlaceholder.appendChild(imageElement);
+    generateColumn()
+    console.log(optionA)
+    console.log(optionB)
+
     console.log(imagePlaceholder)
 
 
@@ -157,6 +164,37 @@ export async function beginPrestudy() {
 }
 
 
+
+const generateColumn = () => {
+  for(let i = 0; i < 6; i++){
+    for(let z = 0; z < 2; z++ ){
+      console.log(i)
+      let new_elem = document.createElement("li")
+      let val = data2DArray[0][3][z]
+      console.log(data2DArray)
+      console.log(val)
+      new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
+      optionA.appendChild(new_elem)
+      
+    }
+
+    
+  }
+
+  for(let j = 6; j < 12; j++) {
+    for(let p = 0; p < 2; p++ ){
+      console.log(j)
+      let new_elem = document.createElement("li")
+      let val = data2DArray[j][3][p]
+
+      new_elem.textContent = val
+      optionB.appendChild(new_elem)
+      
+    }
+  }
+
+
+}
 function storePrestudyQuestionsInArray() {
   for (const entry of prestudyTableData.data) {
     const questionText = entry.question_text;
@@ -192,7 +230,7 @@ export async function beginMainStudy() {
     storeQuestionsInArray();
 
     homeContent.style.display = "none"; // Hide the welcome message
-    studyContent.style.display = "block"; // Show the study content
+    studyContent.style.display = "flex"; // Show the study content
     beginMainStudyButton.style.display = "none";
 
     displayQuestion(); //display main study question
@@ -200,6 +238,9 @@ export async function beginMainStudy() {
     console.error("Error starting the study:", error);
   }
 }
+
+
+
 
 function storeQuestionsInArray() {
   for (const entry of tableData.data) {

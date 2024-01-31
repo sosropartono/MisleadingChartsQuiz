@@ -1,9 +1,8 @@
 html, body {
   height: 100%;
   margin: 0;
-  overflow: hidden;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-
+  overflow: hidden;
 }
 
 #prestudy-options{
@@ -13,6 +12,13 @@ html, body {
   justify-content: space-between;
   align-content: space-between;
   margin: 0px 400px 0 20px;
+}
+
+#study-options{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+
 }
 
 #home-content {
@@ -65,6 +71,12 @@ button:hover {
   font-size: 1em;
 }
 
+#right {
+  display: flex;
+  height: 100%;
+  width: 50%;
+}
+
 #prestudy {
   font-size: 1.2em;
   display: flex;
@@ -106,27 +118,23 @@ button:hover {
   left: 0px;
   margin: 0 auto;
 }
-
-#study-content{
-  display: flex;
-  align-content: space-between
-}
-
 #question {
   margin-bottom: 5px;
 }
 
 #study-content-container {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+
   align-items: flex-start;
-  height: 90%;
+  min-width: 50%;
+
+  height: 100%;
 }
 
 #image {
-  padding: 5px;
-  max-width: 40%;
+  max-width: 50%;
+  min-width: 50%;
   height: 100%;
   overflow: hidden;
 }
@@ -155,6 +163,8 @@ button:hover {
 #study-content {
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
 #study-content button:hover {

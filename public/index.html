@@ -12,7 +12,7 @@
     <!-- Welcome message on the home screen -->
     <div id="home-content" style="display: none">
       <h1>Hello & Welcome</h1>
-      <p>Thank you for being a part of our study on COVID statistics.</p>
+      <p>Thank you for being a part of our study!</p>
       <p id="prestudy-notif" style="display:none">Before you start the main study, we have a few questions to ask you as part of a our prestudy questionnaire.</p>
 
       <button id="claim-user-id">CLAIM YOUR USER ID</button>
@@ -53,27 +53,37 @@
 
     <!-- Study content initially hidden -->
     <div id="study-content" style="display: none">
+      <div id="image"></div>
 
+    <div id="study-content-container">
       <p id="question">Question 1</p>
-      <div id="study-content-container">
-        <div id="image"></div>
-        <div id="study-content-option-button">
           <div id="options">
+            <p>Choose your preferred list of recommendations</p>
+
+            <div id="study-options">
+              <div id="option-a">
+                <label>
+                  <input type="radio" name="answer" value="Option A"> 
+                  Option A
+                </label>
+                <ul id="option-a-list">
+
+                </ul>
+              </div>
+              <div id="option-b">
+                <label>
+                  <input type="radio" name="answer" value="Option B"> 
+                  Option B
+                </label>
+                <ul id="option-b-list"></ul>
+              </div>
+              </div>
+
+            <button id="submit-button">SUBMIT</button>
+
             <!-- Options will be displayed here -->
           </div>
-          <div id="study-options">
-            <p>Choose your preferred list of recommendations</p>
-            <label>
-              <input type="radio" name="answer" value="Option A"> 
-              Option A
-            </label>
-            <label>
-              <input type="radio" name="answer" value="Option B"> 
-              Option B
-            </label>
-          </div>
-          <button id="submit-button">SUBMIT</button>
-        </div>
+
       </div>
 
 
