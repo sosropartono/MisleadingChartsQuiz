@@ -79,44 +79,44 @@ CREATE TABLE IF NOT EXISTS prestudy_responses (
         "Mexico''s Supreme Court threw out all federal criminal penalties for abortion Wednesday, ruling that national laws prohibiting the procedure are unconstitutional and violate women''s rights in a sweeping decision that extended Latin American''s trend of widening abortion access."
     ],
     [
-        "Mexico has decriminalized abortion, but politics could decide access",
-        "In a sweeping decision that would have once seemed almost impossible in this Catholic country, where women were jailed for ending pregnancies, Mexico''s Supreme Court this week declared it unconstitutional for the federal government to criminalize abortion."
-    ],
-    [
-        "Court decriminalises abortion across Mexico",
-        "The judgement comes two years after the court ruled in favour of a challenge to the existing law in the northern state of Coahuila. It had ruled that criminal penalties for terminating pregnancies were unconstitutional."
-    ],
-    [
-        "The judgement comes two years after the court ruled in favour of a challenge to the existing law in the northern state of Coahuila. It had ruled that criminal penalties for terminating pregnancies were unconstitutional.",
-        "The decision builds on an earlier high court ruling and reflects how Latin American countries are expanding women''s rights."
-    ],
-    [
-        "Mexico''s Supreme Court Orders Federal Decriminalization of Abortion",
-        "Mexico''s Supreme Court ruled this week that Congress must eliminate federal criminal penalties for abortion, which means all federal health facilities should provide abortion care, a massive victory for human rights."
-    ],
-    [
-        "Mexico becomes latest country in Latin America to loosen restrictions on abortion",
-        "In a sweeping decision this week, Mexico''s Supreme Court broadened abortion rights in the country. Ali Rogin reports on the trend across Latin America and Geoff Bennett discusses the Mexico ruling with Maria Antonieta Alcalde of Ipas Latin America and the Caribbean."
-    ],
-    [
         "5 preguntas para entender qué pasa en México tras la despenalización del aborto en todo el país",
         "México ocupó titulares de medios de todo el mundo este miércoles cuando se conoció que el aborto quedaba despenalizado en todo el país."
+    ],
+    [
+        "Mexico has decriminalized abortion, but politics could decide access",
+        "In a sweeping decision that would have once seemed almost impossible in this Catholic country, where women were jailed for ending pregnancies, Mexico''s Supreme Court this week declared it unconstitutional for the federal government to criminalize abortion."
     ],
     [
         "México despenaliza el aborto al eliminarlo del código penal",
         "La Suprema Corte de Justicia de la Nación de México ha despenalizado el aborto."
     ],
     [
+        "Court decriminalises abortion across Mexico",
+        "The judgement comes two years after the court ruled in favour of a challenge to the existing law in the northern state of Coahuila. It had ruled that criminal penalties for terminating pregnancies were unconstitutional."
+    ],
+    [
         "La Suprema Corte de Justicia Despenaliza el Aborto en todo México",
         "La Suprema Corte de Justicia de México despenalizó el miércoles el aborto en todo el país en una decisión histórica que impedirá que cualquier mujer vaya a la cárcel por interrumpir su embarazo."
+    ],
+    [
+        "The judgement comes two years after the court ruled in favour of a challenge to the existing law in the northern state of Coahuila. It had ruled that criminal penalties for terminating pregnancies were unconstitutional.",
+        "The decision builds on an earlier high court ruling and reflects how Latin American countries are expanding women''s rights."
     ],
     [
         "La Suprema Corte de Justicia despenaliza el aborto en todo México",
         "La Suprema Corte de México despenalizó el aborto a nivel federal, en una decisión que mueve al país en la línea de otros países de América Latina a favor del acceso a la interrupción del embarazo."
     ],
     [
+        "Mexico''s Supreme Court Orders Federal Decriminalization of Abortion",
+        "Mexico''s Supreme Court ruled this week that Congress must eliminate federal criminal penalties for abortion, which means all federal health facilities should provide abortion care, a massive victory for human rights."
+    ],
+    [
         "México: la Suprema Corte de Justicia despenaliza el aborto en todo el país",
         "El Tribunal Superior mexicano anunció este miércoles 6 de septiembre que despenaliza el aborto a nivel federal. Aunque la capital del país legitimó la interrupción voluntaria del embarazo hace 15 años, algunas regiones de la nación aún lo consideran ilegal. El pronunciamiento de la Suprema Corte llega tras un proceso agotador de despenalización del proceso, estado por estado, en los últimos años."
+    ],
+    [
+        "Mexico becomes latest country in Latin America to loosen restrictions on abortion",
+        "In a sweeping decision this week, Mexico''s Supreme Court broadened abortion rights in the country. Ali Rogin reports on the trend across Latin America and Geoff Bennett discusses the Mexico ruling with Maria Antonieta Alcalde of Ipas Latin America and the Caribbean."
     ],
     [
         "Así se articuló el movimiento feminista para despenalizar el aborto en México",
