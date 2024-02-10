@@ -165,7 +165,6 @@ app.post("/submit-prestudy-response", async (req, res) => {
     // Insert the response into the database
     await insertDataIntoMasterTable(
       userId,
-      questionId,
       question,
       isCorrect,
       timestamp

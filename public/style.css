@@ -4,6 +4,13 @@ html, body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   overflow: hidden;
 }
+/* create the same box size, so we can have each of them to be a certian size, overflow hidden */
+li {
+  
+  overflow: hidden;
+  height: 100px;
+  width: auto
+}
 
 #prestudy-options{
   display: flex;
@@ -14,10 +21,18 @@ html, body {
   margin: 0px 400px 0 20px;
 }
 
+#submit-container{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 10px
+}
+
 #study-options{
   display: flex;
   justify-content: space-around;
   flex-direction: row;
+  overflow: hidden;
 
 }
 
@@ -94,6 +109,14 @@ button:hover {
   text-align: center;
 }
 
+#study-content > input[type="radio"]{
+  appearance: none;
+  list-style-type: none;
+}
+
+.label{
+  text-align: center;
+}
 #inputText {
   width: auto;
   height: 1em;
@@ -121,6 +144,7 @@ button:hover {
 #question {
   margin-bottom: 5px;
 }
+/* How does it mix in with set height? I thought flex box strechted the last one down to fill out the last part?  */
 
 #study-content-container {
   display: flex;
@@ -136,28 +160,21 @@ button:hover {
   max-width: 50%;
   min-width: 50%;
   height: 100%;
-  overflow: hidden;
-}
-
-#options {
-  display: none;
-  flex-direction: column;
-  align-items: left;
-  justify-content: center;
-  left: 20px;
-  top: 640px;
+  overflow: scroll;
 }
 
 #submit-button {
   margin: 0px !important; 
   margin-top: 10px !important;
   position: unset;
+  height: 50px;
+  width: 10%;
 }
 
-#options label {
+label {
   display: block;
-  margin: 5px 0;
   cursor: pointer;
+  font-weight: bold;
 }
 
 #study-content {
@@ -168,13 +185,20 @@ button:hover {
   margin: 20px;
 }
 
-#study-content-option-button {
-  margin: 0 10px;
-}
 
 #study-content button:hover {
   background-image: linear-gradient(to bottom right, salmon, darkred);
   color: grey;
+}
+
+.container{
+  padding: 10px 
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 10px;
 }
 
 #congrats-cat {

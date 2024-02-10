@@ -12,16 +12,19 @@ import { questionOrder } from "./mainStudyOrderSequence.js";
 //main study elements
 const studyContent = document.getElementById("study-content");
 const questionElement = document.getElementById("question");
-const optionsElement = document.getElementById("options");
+// const optionsElement = document.getElementById("options");
 const submitButton = document.getElementById("submit-button");
 const prestudyNotif = document.getElementById("prestudy-notif");
 const beginStudyButton = document.getElementById("begin-study-button");
 export const beginMainStudyButton = document.getElementById(
   "begin-main-study-button"
 );
-const optionA = document.getElementById("option-a-list")
-const optionB = document.getElementById("option-b-list")
-
+const optionAContainer = document.getElementById("option-a-container")
+const optionBContainer = document.getElementById("option-b-container")
+const optionA = document.getElementById("option-a")
+const optionB = document.getElementById("option-b")
+const optionAList = document.getElementById("option-a-list")
+const optionBList = document.getElementById("option-b-list")
 
 
 //welcome screen or home screen
@@ -59,14 +62,15 @@ function displayQuestion() {
     //assign value to question
     // let val = data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][0];
     let val = data2DArray[0][2][0]
-
+    console.log(data2DArray)
+    console.log(val)
     questionElement.textContent = currentQuestion.value =
       currentQuestionIndex +
-      1 +
-      ". " + "Below is an article, please select the option that you would like to see recommended to you"
+      1 + ". " + "Choose your preferred list of recommendations \n" + 
+      "." + "Below is an article, please select the option that you would like to see recommended to you"
       
       
-    optionsElement.style.display = "flex"
+    // optionsElement.style.display = "flex"
     imagePlaceholder.innerHTML = "";
     // currentQuestionId = questionOrder[questionOrderRow][currentQuestionIndex];
 
@@ -86,6 +90,7 @@ function displayQuestion() {
 
     imagePlaceholder.appendChild(imageElement);
     generateColumn()
+
     console.log(optionA)
     console.log(optionB)
 
@@ -94,18 +99,18 @@ function displayQuestion() {
 
     // option a or option b
     // we need to iterate and generate those things
-    data2DArray[
-      questionOrder[questionOrderRow][currentQuestionIndex]
-    ][2].forEach((option, index) => {
-      const label = document.createElement("label");
-      const input = document.createElement("input");
-      input.type = "radio";
-      input.name = "answer";
-      input.value = option;
-      label.appendChild(input);
-      label.appendChild(document.createTextNode(option));
-      optionsElement.appendChild(label);
-    });
+    // data2DArray[
+    //   questionOrder[questionOrderRow][currentQuestionIndex]
+    // ][2].forEach((option, index) => {
+    //   const label = document.createElement("label");
+    //   const input = document.createElement("input");
+    //   input.type = "radio";
+    //   input.name = "answer";
+    //   input.value = option;
+    //   label.appendChild(input);
+    //   label.appendChild(document.createTextNode(option));
+    //   optionsElement.appendChild(label);
+    // });
   } else {
     //Study is complete
     currentQuestionIndex = 0;
@@ -117,6 +122,8 @@ function displayQuestion() {
     submitButton.style.display = "none";
   }
 }
+
+
 
 async function claimUserID() {
   try {
@@ -164,31 +171,98 @@ export async function beginPrestudy() {
 }
 
 
+const optionAClicked = () => {
+  optionA.checked = !optionA.checked;
+  if(optionA.checked){
+    optionAContainer.style.backgroundColor = "#d1ffbd"
+    optionBContainer.style.backgroundColor = "#ffffff"
+  } else{
+    optionAContainer.style.backgroundColor = "#ffffff"
 
+  }
+  optionB.checked = false;
+
+  
+}
+
+const optionBClicked = () => {
+  optionB.checked = !optionB.checked;
+  if(optionB.checked){
+    optionBContainer.style.backgroundColor = "#d1ffbd"
+    optionAContainer.style.backgroundColor = "#ffffff"
+  }else{
+    optionBContainer.style.backgroundColor = "#ffffff"
+
+  }
+  optionA.checked = false;
+
+
+}
+
+// const generateMultiLingual() => {
+//   for(let i = 0; i < 6; i++){
+//     for(let z = 0; z < 2; z++ ){
+//       if(z == 0){
+//         new_elem.style.fontWeight = "bold";
+//       }
+//       let new_elem = document.createElement("li")
+//       // this is to generate the multilingual
+//       if(i % 2 == 0){
+        
+//       }
+//       console.log(i)
+//       let new_elem = document.createElement("li")
+//       let val = data2DArray[0][3][z]
+//       console.log(val)
+
+//       new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
+//       optionAList.appendChild(new_elem)
+//       optionAContainer.addEventListener("click", optionAClicked)
+      
+//     }
+
+    
+//   }
+// }
 const generateColumn = () => {
   for(let i = 0; i < 6; i++){
     for(let z = 0; z < 2; z++ ){
       console.log(i)
       let new_elem = document.createElement("li")
       let val = data2DArray[0][3][z]
-      console.log(data2DArray)
       console.log(val)
+      if(z == 0){
+        new_elem.style.fontWeight = "bold";
+      }
+      new_elem.style.padding = "10px"
       new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
-      optionA.appendChild(new_elem)
+      optionAList.appendChild(new_elem)
+      optionAContainer.addEventListener("click", optionAClicked)
       
     }
 
     
   }
 
+  // batch A:
+  // English article
+  // Option A: monolingual english
+  // Option B: multilingual block eng and esp
+
   for(let j = 6; j < 12; j++) {
     for(let p = 0; p < 2; p++ ){
       console.log(j)
       let new_elem = document.createElement("li")
+      if(p == 0){
+        new_elem.style.fontWeight = "bold"
+      }
       let val = data2DArray[j][3][p]
+      new_elem.style.paddingTop = "10px"
 
       new_elem.textContent = val
-      optionB.appendChild(new_elem)
+      optionBList.appendChild(new_elem)
+      optionBContainer.addEventListener("click", optionBClicked)
+    
       
     }
   }
@@ -269,7 +343,7 @@ async function checkAnswer() {
     'input[name="answer"]:checked'
   ).value);
 
-  console.log(currentAnswer.value);
+  console.log(selectedOption);
 
   if (!selectedOption) {
     alert("Please select an answer.");

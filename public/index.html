@@ -57,41 +57,35 @@
 
     <div id="study-content-container">
       <p id="question">Question 1</p>
-      <div id="study-content-container">
-        <div id="image"></div>
-        <div id="study-content-option-button">
-          <div id="options">
-            <!-- Options will be displayed here -->
-          </div>
-          <div id="study-options">
-            <p>Choose your preferred list of recommendations</p>
+        
 
             <div id="study-options">
-              <div id="option-a">
-                <label>
-                  <input type="radio" name="answer" value="Option A"> 
+              <div id="option-a-container" class="container">
+                <label class="label" for="option-a">
+                  <input type="radio" id="option-a" name="answer" value="Option A"  display="none"> 
                   Option A
                 </label>
                 <ul id="option-a-list">
 
                 </ul>
               </div>
-              <div id="option-b">
-                <label>
-                  <input type="radio" name="answer" value="Option B"> 
+              <div id="option-b-container" class="container">
+                <label class="label" for="option-b">
+                  <input type="radio" id="option-b" name="answer" value="Option B" display="none"> 
                   Option B
                 </label>
                 <ul id="option-b-list"></ul>
               </div>
-              </div>
 
-            <button id="submit-button">SUBMIT</button>
+            </div>
+            <div id="submit-container">
+              <button id="submit-button">SUBMIT</button>
 
-            <!-- Options will be displayed here -->
-          </div>
-          <button id="submit-button">SUBMIT</button>
-        </div>
+            </div>
+
+
       </div>
+
 
 
 
