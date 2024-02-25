@@ -46,7 +46,7 @@ export let userId = 0; //Declare userId globally
 let questionOrderRow;
 
 let tableData = [];
-let data2DArray = []; //stores all queries from test_questions in database locally
+export let data2DArray = []; //stores all queries from test_questions in database locally
 
 export let prestudyTableData = [];
 export let prestudyData2DArray = [];
@@ -62,11 +62,11 @@ function displayQuestion() {
     //assign value to question
     // let val = data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][0];
     let val = data2DArray[0][2][0]
-    console.log(data2DArray)
-    console.log(val)
+
+    console.log("current data at 020", data2DArray)
     questionElement.textContent = currentQuestion.value =
       currentQuestionIndex +
-      1 + ". " + "Choose your preferred list of recommendations \n" + 
+      1 + ". " + "Choose your preferred list of recommendations\n" + 
       "." + "Below is an article, please select the option that you would like to see recommended to you"
       
       
@@ -83,7 +83,7 @@ function displayQuestion() {
 
     const imageElement = document.createElement("img");
     imageElement.src =
-      "img/" + data2DArray[0][2][0];
+      "img/" + data2DArray[questionOrder][2][0];
     imageElement.alt = "image";
     imageElement.style.width = "100%"
     imageElement.style.height = "auto"
@@ -229,12 +229,17 @@ const generateColumn = () => {
     for(let z = 0; z < 2; z++ ){
       console.log(i)
       let new_elem = document.createElement("li")
-      let val = data2DArray[0][3][z]
+      let val = data2DArray[currentQuestionIndex][3][z]
       console.log(val)
       if(z == 0){
         new_elem.style.fontWeight = "bold";
+        new_elem.classList = "rec-title"
+      } else{
+      new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
       }
-      new_elem.style.padding = "10px"
+   
+
       new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
       optionAList.appendChild(new_elem)
       optionAContainer.addEventListener("click", optionAClicked)
@@ -255,10 +260,17 @@ const generateColumn = () => {
       let new_elem = document.createElement("li")
       if(p == 0){
         new_elem.style.fontWeight = "bold"
-      }
-      let val = data2DArray[j][3][p]
-      new_elem.style.paddingTop = "10px"
+        new_elem.classList = "rec-title"
 
+      }
+      else{
+        new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
+
+
+      }
+
+      let val = data2DArray[j][3][p]
       new_elem.textContent = val
       optionBList.appendChild(new_elem)
       optionBContainer.addEventListener("click", optionBClicked)

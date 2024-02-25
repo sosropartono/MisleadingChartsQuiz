@@ -1,5 +1,7 @@
 //the order in which each user will receive their questions. For example, row 0 is for user 1.
 //50 rows in 2d array in total, each for a user
+
+// 72 questions needs to be evenly distributed? 
 export const questionOrder = [
   [
     7, 42, 31, 18, 25, 29, 47, 0, 8, 28, 46, 14, 33, 9, 11, 22, 37, 41, 6, 26,
