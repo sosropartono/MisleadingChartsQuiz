@@ -399,7 +399,7 @@ const generateBatchB = (current) => {
 const generateBatchA = (current) =>{
 
 // Option A
-  for(let i = 0; i < 3; i++){
+  for(let i = 0; i < 6; i++){
     for(let z = 0; z < 2; z++ ){
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][0][i][z]
@@ -423,17 +423,17 @@ const generateBatchA = (current) =>{
 
 
   // Option B
-  for(let j = 3; j < 6; j++) {
+  for(let j = 0; j < 6; j++) {
     for(let p = 0; p < 2; p++ ){
       let new_elem = document.createElement("li")
       let val
       // Eng block
-      if (j < 9){
+      if (j < 3){
         val = data2DArray[current][3][0][j][p]
       } else {
-        val = data2DArray[current][3][1][j][p]
-        
+        val = data2DArray[current][3][1][j][p] 
       }
+
       new_elem.textContent = val
       if(p == 0){
         new_elem.style.fontWeight = "bold"
@@ -441,9 +441,7 @@ const generateBatchA = (current) =>{
       }
       else{
         new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "20px"
-
-
+        new_elem.style.paddingBottom = "20px"
       }
 
 
