@@ -251,7 +251,7 @@ const generateBatchD = (current) => {
         new_elem.classList = "rec-title"
       } else{
       new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "20px"
+      new_elem.style.paddingBottom = "50px"
       }
       new_elem.textContent = val
       optionAList.appendChild(new_elem)
@@ -283,7 +283,7 @@ const generateBatchD = (current) => {
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "20px"
+          new_elem.style.paddingBottom = "50px"
         }
 
         optionBList.appendChild(new_elem)
@@ -309,7 +309,7 @@ const generateBatchD = (current) => {
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "20px"
+          new_elem.style.paddingBottom = "50px"
         }
 
         optionBList.appendChild(new_elem)
@@ -335,7 +335,7 @@ const generateBatchC = (current) => {
         new_elem.classList = "rec-title"
       } else{
       new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "20px"
+      new_elem.style.paddingBottom = "50px"
       }
    
       new_elem.textContent = val
@@ -368,7 +368,7 @@ const generateBatchC = (current) => {
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "20px"
+          new_elem.style.paddingBottom = "50px"
         }
 
         optionBList.appendChild(new_elem)
@@ -449,9 +449,10 @@ const generateBatchB = (current) => {
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
         }
+        //place padding if its a description 
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "20px"
+          new_elem.style.paddingBottom = "50px"
         }
         
         
@@ -480,7 +481,7 @@ const generateBatchB = (current) => {
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "20px"
+          new_elem.style.paddingBottom = "50px"
         }
         
         
@@ -506,7 +507,7 @@ const generateBatchA = (current) =>{
         new_elem.classList = "rec-title"
       } else{
       new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "20px"
+      new_elem.style.paddingBottom = "50px"
       }
    
 
@@ -540,7 +541,7 @@ const generateBatchA = (current) =>{
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "20px"
+          new_elem.style.paddingBottom = "50px"
         }
         
         
@@ -569,7 +570,7 @@ const generateBatchA = (current) =>{
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "20px"
+          new_elem.style.paddingBottom = "50px"
         }
         
         
@@ -661,8 +662,6 @@ async function checkAnswer() {
   let selectedOption = (currentAnswer.value = document.querySelector(
     'input[name="answer"]:checked'
   ).value);
-
-  console.log(selectedOption);
 
   if (!selectedOption) {
     alert("Please select an answer.");

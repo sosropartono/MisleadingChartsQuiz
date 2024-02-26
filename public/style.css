@@ -112,6 +112,14 @@ button:hover {
   appearance: none;
 }
 
+#option-a-container{
+  width: 50%;
+}
+#option-b-container{
+  width: 50%;
+}
+
+
 
 #inputText {
   width: auto;
@@ -148,6 +156,8 @@ button:hover {
 
   align-items: flex-start;
   min-width: 50%;
+  max-width: 50%;
+  padding-left: 5px;
 
   height: 100%;
 }
@@ -213,7 +223,7 @@ ul{
 .rec-desc{
   display: block;
   max-height: 3.6em;
-  line-height: 1.25em;
+  line-height: 1em;
 }
 
 #congrats-cat {
