@@ -296,7 +296,7 @@ const generateBatchD = (current) => {
 
 
 const generateBatchC = (current) => {
-  for(let i = 0; i < 3; i++){
+  for(let i = 0; i < 6; i++){
     for(let z = 0; z < 2; z++ ){
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][1][i][z]
@@ -308,8 +308,7 @@ const generateBatchC = (current) => {
       new_elem.style.paddingBottom = "20px"
       }
    
-
-      new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
+      new_elem.textContent = val
       optionAList.appendChild(new_elem)
       optionAContainer.addEventListener("click", optionAClicked)
       
@@ -318,35 +317,35 @@ const generateBatchC = (current) => {
 
   //Interleaved, so try to get both a and b
   let eng_esp_counter = 0
-  for(let j = 3; j < 6; j++) {
+  for(let j = 0; j < 6; j++) {
     
     for(let p = 0; p < 2; p++ ){
       let new_elem = document.createElement("li")
+      let val
+
+      val = data2DArray[current][3][eng_esp_counter][j][p]
       
-      if (eng_esp_counter == 0){
-        eng_esp_counter = 1
-        val = data2DArray[current][3][eng_esp_counter][j][p]
-      }
-      else{
-        eng_esp_counter = 0
-        val = data2DArray[current][3][eng_esp_counter][j][p]
-      }
+      console.log(val)
       if(p == 0){
         new_elem.style.fontWeight = "bold"
         new_elem.classList = "rec-title"
-
       }
       else{
         new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "20px"
-
-
+        new_elem.style.paddingBottom = "20px"
       }
+
       new_elem.textContent = val
       optionBList.appendChild(new_elem)
-      eng_esp_counter += 1
       optionBContainer.addEventListener("click", optionBClicked)
     }
+    if (eng_esp_counter == 0){
+      eng_esp_counter = 1
+    }
+    else{
+      eng_esp_counter = 0
+    }
+    // eng_esp_counter += 1
   }
 }
 
