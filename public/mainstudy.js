@@ -59,6 +59,10 @@ export let prestudyData2DArray = [];
 
 
 
+// Look at main question console log
+// See what batch range it is 
+// then look at that function to make sure it's displaying correctly
+// enough to fill up the page
 const decideBatch = (mainQuestion) => {
 
   // A: Eng B: Esp C: Eng, D: Esp
@@ -70,27 +74,29 @@ const decideBatch = (mainQuestion) => {
   imageElement.style.height = "auto"
   
 
-  console.log("main question" , mainQuestion)
-
-  if (mainQuestion >= 1 && mainQuestion <= 18) {
+  console.log("Main Question Index", mainQuestion)
+//Batch A
+if (mainQuestion >= 1 && mainQuestion <= 18) {
     imageElement.src = "img/" + data2DArray[mainQuestion][2][0];
     imagePlaceholder.appendChild(imageElement);
-
     generateBatchA(mainQuestion)
-} else if (mainQuestion >= 19 && mainQuestion <= 36) {
+} 
+//Batch B
+else if (mainQuestion >= 19 && mainQuestion <= 36) {
   imageElement.src = "img/" + data2DArray[mainQuestion][2][1];
   imagePlaceholder.appendChild(imageElement);
-  
   generateBatchB(mainQuestion)
-} else if (mainQuestion >= 37 && mainQuestion <= 54) {
+} 
+//Batch C
+else if (mainQuestion >= 37 && mainQuestion <= 54) {
   imageElement.src = "img/" + data2DArray[mainQuestion][2][0];
   imagePlaceholder.appendChild(imageElement);
-
   generateBatchC(mainQuestion)
-} else if (mainQuestion >= 55 && mainQuestion <= 72) {
+} 
+//Batch D
+else if (mainQuestion >= 55 && mainQuestion <= 72) {
   imageElement.src = "img/" + data2DArray[mainQuestion][2][1];
   imagePlaceholder.appendChild(imageElement);
-
   generateBatchD(mainQuestion)
 } else {
     console.log("Number is outside the specified tiers");
@@ -238,10 +244,8 @@ const generateBatchD = (current) => {
   // Column A
   for(let i = 0; i < 6; i++){
     for(let z = 0; z < 2; z++ ){
-      console.log(i)
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][1][i][z]
-      console.log(val)
       if(z == 0){
         new_elem.style.fontWeight = "bold";
         new_elem.classList = "rec-title"
@@ -294,10 +298,8 @@ const generateBatchD = (current) => {
 const generateBatchC = (current) => {
   for(let i = 0; i < 3; i++){
     for(let z = 0; z < 2; z++ ){
-      console.log(i)
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][1][i][z]
-      console.log(val)
       if(z == 0){
         new_elem.style.fontWeight = "bold";
         new_elem.classList = "rec-title"
@@ -353,10 +355,8 @@ const generateBatchC = (current) => {
 const generateBatchB = (current) => {
   for(let i = 0; i < 3; i++){
     for(let z = 0; z < 2; z++ ){
-      console.log(i)
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][1][i][z]
-      console.log(val)
       if(z == 0){
         new_elem.style.fontWeight = "bold";
         new_elem.classList = "rec-title"
@@ -375,7 +375,6 @@ const generateBatchB = (current) => {
 
   for(let j = 6; j < 12; j++) {
     for(let p = 0; p < 2; p++ ){
-      console.log(j)
       let new_elem = document.createElement("li")
       if(p == 0){
         new_elem.style.fontWeight = "bold"
@@ -399,10 +398,9 @@ const generateBatchB = (current) => {
 
 const generateBatchA = (current) =>{
 
-// batchA is List A: Monolingual English; List B is Multilingual block, 3 eng, 3 esp
+// Option A
   for(let i = 0; i < 3; i++){
     for(let z = 0; z < 2; z++ ){
-      console.log(i)
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][0][i][z]
       if(z == 0){
@@ -423,11 +421,8 @@ const generateBatchA = (current) =>{
     
   }
 
-  // batch A:
-  // English article
-  // Option A: monolingual english
-  // Option B: multilingual block eng and esp
 
+  // Option B
   for(let j = 3; j < 6; j++) {
     for(let p = 0; p < 2; p++ ){
       let new_elem = document.createElement("li")
@@ -439,7 +434,6 @@ const generateBatchA = (current) =>{
         val = data2DArray[current][3][1][j][p]
         
       }
-      console.log(val)
       new_elem.textContent = val
       if(p == 0){
         new_elem.style.fontWeight = "bold"
