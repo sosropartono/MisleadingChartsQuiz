@@ -370,32 +370,67 @@ const generateBatchB = (current) => {
     }
   }
 
-  for(let j = 0; j < 6; j++) {
-    for(let p = 0; p < 2; p++ ){
-      let new_elem = document.createElement("li")
-      let val
-      // Eng block
-      if (j < 3){
-        val = data2DArray[current][3][0][j][p]
-      } else {
-        val = data2DArray[current][3][1][j][p] 
-      }
+  // Option B
+  for(let i = 0; i < 6; i++) {
+    let num_arr = []
+    for(let j = 0; j < 3; j++) {
+      let num 
 
-      new_elem.textContent = val
-      if(p == 0){
-        new_elem.style.fontWeight = "bold"
-        new_elem.classList = "rec-title"
-
-      }
-      else{
-        new_elem.classList = "rec-desc"
-        new_elem.style.paddingBottom = "20px"
-
-      }
-
-      optionBList.appendChild(new_elem)
-      optionBContainer.addEventListener("click", optionBClicked)
+      do {
+        num = Math.floor(Math.random() * 6);
+        for(let p = 0; p < 2; p++ ){
+          let new_elem = document.createElement("li")
+          let val
+          // Eng block
+          val = data2DArray[current][3][0][num][p]
+          new_elem.textContent = val
+          if(p == 0){
+            new_elem.style.fontWeight = "bold"
+            new_elem.classList = "rec-title"
+          }
+          else{
+            new_elem.classList = "rec-desc"
+            new_elem.style.paddingBottom = "20px"
+          }
+          
+          
+          optionBList.appendChild(new_elem)
+          
+        }
+      } while(num_arr.includes(num));
+      num_arr.push(num) 
     }
+
+    num_arr = []
+
+    for(let j = 3; j < 6; j++) {
+      let num 
+
+      do {
+        num = Math.floor(Math.random() * 6);
+        for(let p = 0; p < 2; p++ ){
+          let new_elem = document.createElement("li")
+          let val
+          // Eng block
+          val = data2DArray[current][3][1][num][p]
+          new_elem.textContent = val
+          if(p == 0){
+            new_elem.style.fontWeight = "bold"
+            new_elem.classList = "rec-title"
+          }
+          else{
+            new_elem.classList = "rec-desc"
+            new_elem.style.paddingBottom = "20px"
+          }
+          
+          
+          optionBList.appendChild(new_elem)
+          
+        }
+      } while(num_arr.includes(num));
+      num_arr.push(num) 
+    }
+    optionBContainer.addEventListener("click", optionBClicked)
   }
 }
 
@@ -426,33 +461,67 @@ const generateBatchA = (current) =>{
 
 
   // Option B
-  for(let j = 0; j < 6; j++) {
-    for(let p = 0; p < 2; p++ ){
-      let new_elem = document.createElement("li")
-      let val
-      // Eng block
-      if (j < 3){
-        val = data2DArray[current][3][0][j][p]
-      } else {
-        val = data2DArray[current][3][1][j][p] 
-      }
+  for(let i = 0; i < 6; i++) {
+    let num_arr = []
+    for(let j = 0; j < 3; j++) {
+      let num 
 
-      new_elem.textContent = val
-      if(p == 0){
-        new_elem.style.fontWeight = "bold"
-        new_elem.classList = "rec-title"
-      }
-      else{
-        new_elem.classList = "rec-desc"
-        new_elem.style.paddingBottom = "20px"
-      }
+      do {
+        num = Math.floor(Math.random() * 6);
+        for(let p = 0; p < 2; p++ ){
+          let new_elem = document.createElement("li")
+          let val
+          // Eng block
+          val = data2DArray[current][3][0][num][p]
+          new_elem.textContent = val
+          if(p == 0){
+            new_elem.style.fontWeight = "bold"
+            new_elem.classList = "rec-title"
+          }
+          else{
+            new_elem.classList = "rec-desc"
+            new_elem.style.paddingBottom = "20px"
+          }
+          
+          
+          optionBList.appendChild(new_elem)
+          
+        }
+      } while(num_arr.includes(num));
+      num_arr.push(num) 
+    }
 
+    num_arr = []
 
-      optionBList.appendChild(new_elem)
-      optionBContainer.addEventListener("click", optionBClicked)
-    
+    for(let j = 3; j < 6; j++) {
+      let num 
+
+      do {
+        num = Math.floor(Math.random() * 6);
+        for(let p = 0; p < 2; p++ ){
+          let new_elem = document.createElement("li")
+          let val
+          // Eng block
+          val = data2DArray[current][3][1][num][p]
+          new_elem.textContent = val
+          if(p == 0){
+            new_elem.style.fontWeight = "bold"
+            new_elem.classList = "rec-title"
+          }
+          else{
+            new_elem.classList = "rec-desc"
+            new_elem.style.paddingBottom = "20px"
+          }
+          
+          
+          optionBList.appendChild(new_elem)
+          
+        }
+      } while(num_arr.includes(num));
+      num_arr.push(num) 
+    }
+    optionBContainer.addEventListener("click", optionBClicked)
   }
-}
 }
 
 function storePrestudyQuestionsInArray() {
