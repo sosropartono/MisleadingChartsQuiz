@@ -26,6 +26,11 @@ const optionB = document.getElementById("option-b")
 const optionAList = document.getElementById("option-a-list")
 const optionBList = document.getElementById("option-b-list")
 
+const configuration = ""
+
+
+
+
 
 //welcome screen or home screen
 export const homeContent = document.getElementById("home-content");
@@ -52,18 +57,34 @@ export let prestudyTableData = [];
 export let prestudyData2DArray = [];
 
 
+const decideBatch = (currentQuestion) => {
+
+  if (num >= 1 && num <= 18) {
+    generateBatchA(currentQuestion)
+    
+    
+} else if (num >= 19 && num <= 36) {
+  generateBatchB(currentQuestion)
+} else if (num >= 37 && num <= 54) {
+  generateBatchC(currentQuestion)
+} else if (num >= 55 && num <= 72) {
+  generateBatchD(currentQuestion)
+} else {
+    console.log("Number is outside the specified tiers");
+}
+
+}
 
 //display main study questions 1 by 1
 function displayQuestion() {
-  if (currentQuestionIndex < 50) {
+  if (currentQuestionIndex < 72) {
     submitButton.style.display = "block";
-    questionOrderRow = userId - 1;
+    questionOrderRow = (userId - 1) % questionOrder.length;
+    currentQuestion = questionOrderRow[currentQuestionIndex]
 
-    //assign value to question
-    // let val = data2DArray[questionOrder[questionOrderRow][currentQuestionIndex]][0];
-    let val = data2DArray[0][2][0]
+    decideBatch(currentQuestion)
 
-    console.log("current data at 020", data2DArray)
+
     questionElement.textContent = currentQuestion.value =
       currentQuestionIndex +
       1 + ". " + "Choose your preferred list of recommendations\n" + 
@@ -82,14 +103,15 @@ function displayQuestion() {
 
 
     const imageElement = document.createElement("img");
-    imageElement.src =
-      "img/" + data2DArray[questionOrder][2][0];
+    imageElement.src = "img/" + data2DArray[questionOrder][2][0];
+
+      // "img/" + data2DArray[0][2][0];
     imageElement.alt = "image";
     imageElement.style.width = "100%"
     imageElement.style.height = "auto"
 
     imagePlaceholder.appendChild(imageElement);
-    generateColumn()
+    generateColumn(currentQuestion)
 
     console.log(optionA)
     console.log(optionB)
@@ -199,37 +221,14 @@ const optionBClicked = () => {
 
 }
 
-// const generateMultiLingual() => {
-//   for(let i = 0; i < 6; i++){
-//     for(let z = 0; z < 2; z++ ){
-//       if(z == 0){
-//         new_elem.style.fontWeight = "bold";
-//       }
-//       let new_elem = document.createElement("li")
-//       // this is to generate the multilingual
-//       if(i % 2 == 0){
-        
-//       }
-//       console.log(i)
-//       let new_elem = document.createElement("li")
-//       let val = data2DArray[0][3][z]
-//       console.log(val)
+// Batch D: Englishh Article: Mono esp, Multi Interleaved
 
-//       new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
-//       optionAList.appendChild(new_elem)
-//       optionAContainer.addEventListener("click", optionAClicked)
-      
-//     }
-
-    
-//   }
-// }
-const generateColumn = () => {
-  for(let i = 0; i < 6; i++){
+const generateBatchD = (current) => {
+  for(let i = 0; i < 3; i++){
     for(let z = 0; z < 2; z++ ){
       console.log(i)
       let new_elem = document.createElement("li")
-      let val = data2DArray[currentQuestionIndex][3][z]
+      let val = data2DArray[current][3][1][i][z]
       console.log(val)
       if(z == 0){
         new_elem.style.fontWeight = "bold";
@@ -245,9 +244,210 @@ const generateColumn = () => {
       optionAContainer.addEventListener("click", optionAClicked)
       
     }
+  }
+
+  let eng_esp_counter = 0
+  for(let j = 3; j < 6; j++) {
+    
+    for(let p = 0; p < 2; p++ ){
+      let new_elem = document.createElement("li")
+      
+      if (eng_esp_counter == 0){
+        eng_esp_counter = 1
+        val = data2DArray[current][3][eng_esp_counter][j][p]
+      }
+      else{
+        eng_esp_counter = 0
+        val = data2DArray[current][3][eng_esp_counter][j][p]
+      }
+      if(p == 0){
+        new_elem.style.fontWeight = "bold"
+        new_elem.classList = "rec-title"
+
+      }
+      else{
+        new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
+
+
+      }
+      new_elem.textContent = val
+      optionBList.appendChild(new_elem)
+      eng_esp_counter += 1
+      optionBContainer.addEventListener("click", optionBClicked)
+    }
+  }
+}
+
+
+const generateBatchC = (current) => {
+  for(let i = 0; i < 3; i++){
+    for(let z = 0; z < 2; z++ ){
+      console.log(i)
+      let new_elem = document.createElement("li")
+      let val = data2DArray[current][3][1][i][z]
+      console.log(val)
+      if(z == 0){
+        new_elem.style.fontWeight = "bold";
+        new_elem.classList = "rec-title"
+      } else{
+      new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
+      }
+   
+
+      new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
+      optionAList.appendChild(new_elem)
+      optionAContainer.addEventListener("click", optionAClicked)
+      
+    }
+  }
+
+  //Interleaved, so try to get both a and b
+  let eng_esp_counter = 0
+  for(let j = 3; j < 6; j++) {
+    
+    for(let p = 0; p < 2; p++ ){
+      let new_elem = document.createElement("li")
+      
+      if (eng_esp_counter == 0){
+        eng_esp_counter = 1
+        val = data2DArray[current][3][eng_esp_counter][j][p]
+      }
+      else{
+        eng_esp_counter = 0
+        val = data2DArray[current][3][eng_esp_counter][j][p]
+      }
+      if(p == 0){
+        new_elem.style.fontWeight = "bold"
+        new_elem.classList = "rec-title"
+
+      }
+      else{
+        new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
+
+
+      }
+      new_elem.textContent = val
+      optionBList.appendChild(new_elem)
+      eng_esp_counter += 1
+      optionBContainer.addEventListener("click", optionBClicked)
+    }
+  }
+}
+
+// [question][texts][eng/spanish][title and desc]
+// Esp article, mono spanish, multilingual block
+const generateBatchB = (current) => {
+  for(let i = 0; i < 3; i++){
+    for(let z = 0; z < 2; z++ ){
+      console.log(i)
+      let new_elem = document.createElement("li")
+      let val = data2DArray[current][3][1][i][z]
+      console.log(val)
+      if(z == 0){
+        new_elem.style.fontWeight = "bold";
+        new_elem.classList = "rec-title"
+      } else{
+      new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
+      }
+   
+
+      new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
+      optionAList.appendChild(new_elem)
+      optionAContainer.addEventListener("click", optionAClicked)
+      
+    }
+  }
+
+  for(let j = 6; j < 12; j++) {
+    for(let p = 0; p < 2; p++ ){
+      console.log(j)
+      let new_elem = document.createElement("li")
+      if(p == 0){
+        new_elem.style.fontWeight = "bold"
+        new_elem.classList = "rec-title"
+
+      }
+      else{
+        new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
+
+
+      }
+
+      let val = data2DArray[j][3][p]
+      new_elem.textContent = val
+      optionBList.appendChild(new_elem)
+      optionBContainer.addEventListener("click", optionBClicked)
+    }
+  }
+}
+
+const generateBatchA = (current) =>{
+
+// batchA is List A: Monolingual English; List B is Multilingual block, 3 eng, 3 esp
+  for(let i = 0; i < 3; i++){
+    for(let z = 0; z < 2; z++ ){
+      console.log(i)
+      let new_elem = document.createElement("li")
+      let val = data2DArray[current][3][0][i][z]
+      if(z == 0){
+        new_elem.style.fontWeight = "bold";
+        new_elem.classList = "rec-title"
+      } else{
+      new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
+      }
+   
+
+      new_elem.textContent = val
+      optionAList.appendChild(new_elem)
+      optionAContainer.addEventListener("click", optionAClicked)
+      
+    }
 
     
   }
+
+  // batch A:
+  // English article
+  // Option A: monolingual english
+  // Option B: multilingual block eng and esp
+
+  for(let j = 3; j < 6; j++) {
+    for(let p = 0; p < 2; p++ ){
+      let new_elem = document.createElement("li")
+      let val
+      // Eng block
+      if (j < 9){
+        val = data2DArray[current][3][0][j][p]
+      } else {
+        val = data2DArray[current][3][1][j][p]
+        
+      }
+      console.log(val)
+      new_elem.textContent = val
+      if(p == 0){
+        new_elem.style.fontWeight = "bold"
+        new_elem.classList = "rec-title"
+      }
+      else{
+        new_elem.classList = "rec-desc"
+      new_elem.style.paddingBottom = "20px"
+
+
+      }
+
+
+      optionBList.appendChild(new_elem)
+      optionBContainer.addEventListener("click", optionBClicked)
+    
+  }
+}
+}
 
   // batch A:
   // English article
@@ -274,13 +474,68 @@ const generateColumn = () => {
       new_elem.textContent = val
       optionBList.appendChild(new_elem)
       optionBContainer.addEventListener("click", optionBClicked)
-    
-      
-    }
-  }
-
 
 }
+  }
+// const generateColumn = (currentQuestion) => {
+
+// get whatever is here and try to get it to a certain point, if its not there then we have to move it
+
+  // for(let i = 0; i < 6; i++){
+  //   for(let z = 0; z < 2; z++ ){
+  //     console.log(i)
+  //     let new_elem = document.createElement("li")
+  //     let val = data2DArray[currentQuestionIndex][3][z]
+  //     console.log(val)
+  //     if(z == 0){
+  //       new_elem.style.fontWeight = "bold";
+  //       new_elem.classList = "rec-title"
+  //     } else{
+  //     new_elem.classList = "rec-desc"
+  //     new_elem.style.paddingBottom = "20px"
+  //     }
+   
+
+  //     new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
+  //     optionAList.appendChild(new_elem)
+  //     optionAContainer.addEventListener("click", optionAClicked)
+      
+  //   }
+
+    
+  // }
+
+  // // batch A:
+  // // English article
+  // // Option A: monolingual english
+  // // Option B: multilingual block eng and esp
+
+  // for(let j = 6; j < 12; j++) {
+  //   for(let p = 0; p < 2; p++ ){
+  //     console.log(j)
+  //     let new_elem = document.createElement("li")
+  //     if(p == 0){
+  //       new_elem.style.fontWeight = "bold"
+  //       new_elem.classList = "rec-title"
+
+  //     }
+  //     else{
+  //       new_elem.classList = "rec-desc"
+  //     new_elem.style.paddingBottom = "20px"
+
+
+  //     }
+
+  //     let val = data2DArray[j][3][p]
+  //     new_elem.textContent = val
+  //     optionBList.appendChild(new_elem)
+  //     optionBContainer.addEventListener("click", optionBClicked)
+    
+      
+  //   }
+  // }
+
+// }
 function storePrestudyQuestionsInArray() {
   for (const entry of prestudyTableData.data) {
     const questionText = entry.question_text;
