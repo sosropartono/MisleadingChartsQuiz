@@ -59,15 +59,18 @@ export let prestudyData2DArray = [];
 
 const decideBatch = (currentQuestion) => {
 
+  // A: Eng B: Esp C: Eng, D: Esp
   if (num >= 1 && num <= 18) {
+    imageElement.src = "img/" + data2DArray[currentQuestion][2][0];
     generateBatchA(currentQuestion)
-    
-    
 } else if (num >= 19 && num <= 36) {
+  imageElement.src = "img/" + data2DArray[currentQuestion][2][1];
   generateBatchB(currentQuestion)
 } else if (num >= 37 && num <= 54) {
+  imageElement.src = "img/" + data2DArray[currentQuestion][2][0];
   generateBatchC(currentQuestion)
 } else if (num >= 55 && num <= 72) {
+  imageElement.src = "img/" + data2DArray[currentQuestion][2][1];
   generateBatchD(currentQuestion)
 } else {
     console.log("Number is outside the specified tiers");
@@ -448,35 +451,6 @@ const generateBatchA = (current) =>{
   }
 }
 }
-
-  // batch A:
-  // English article
-  // Option A: monolingual english
-  // Option B: multilingual block eng and esp
-
-  for(let j = 6; j < 12; j++) {
-    for(let p = 0; p < 2; p++ ){
-      console.log(j)
-      let new_elem = document.createElement("li")
-      if(p == 0){
-        new_elem.style.fontWeight = "bold"
-        new_elem.classList = "rec-title"
-
-      }
-      else{
-        new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "20px"
-
-
-      }
-
-      let val = data2DArray[j][3][p]
-      new_elem.textContent = val
-      optionBList.appendChild(new_elem)
-      optionBContainer.addEventListener("click", optionBClicked)
-
-}
-  }
 // const generateColumn = (currentQuestion) => {
 
 // get whatever is here and try to get it to a certain point, if its not there then we have to move it
