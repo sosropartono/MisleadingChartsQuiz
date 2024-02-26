@@ -262,35 +262,65 @@ const generateBatchD = (current) => {
 
   // Column B
   let eng_esp_counter = 0
-  // TODO: Change this so it includes more reccommendations, start index at 0
-  for(let j = 0; j < 6; j++) {
-    
-    for(let p = 0; p < 2; p++ ){
-      let new_elem = document.createElement("li")
-      let val
-
-      val = data2DArray[current][3][eng_esp_counter][j][p]
-      
-      if(p == 0){
-        new_elem.style.fontWeight = "bold"
-        new_elem.classList = "rec-title"
+  let num_arr_eng = []
+  let num_arr_esp = []
+  for(let i = 0; i < 6; i++) {
+    let num= Math.floor(Math.random() * 6);
+    if (eng_esp_counter == 0) {
+      while(num_arr_eng.includes(num)) {
+        num = Math.floor(Math.random() * 6);
       }
-      else{
-        new_elem.classList = "rec-desc"
-        new_elem.style.paddingBottom = "20px"
+      for(let p = 0; p < 2; p++ ){
+        let new_elem = document.createElement("li")
+        let val
+        // Eng block
+        val = data2DArray[current][3][0][num][p]
+        new_elem.textContent = val
+
+        if(p == 0){
+          new_elem.style.fontWeight = "bold"
+          new_elem.classList = "rec-title"
+        }
+        else{
+          new_elem.classList = "rec-desc"
+          new_elem.style.paddingBottom = "20px"
+        }
+
+        optionBList.appendChild(new_elem)
       }
 
-      new_elem.textContent = val
-      optionBList.appendChild(new_elem)
-      optionBContainer.addEventListener("click", optionBClicked)
-    }
-    if (eng_esp_counter == 0){
+      num_arr_eng.push(num) 
       eng_esp_counter = 1
     }
-    else{
+    else {
+      while(num_arr_eng.includes(num)) {
+        num = Math.floor(Math.random() * 6);
+      }
+      for(let p = 0; p < 2; p++ ){
+        let new_elem = document.createElement("li")
+        let val
+        // Eng block
+        val = data2DArray[current][3][1][num][p]
+        new_elem.textContent = val
+
+        if(p == 0){
+          new_elem.style.fontWeight = "bold"
+          new_elem.classList = "rec-title"
+        }
+        else{
+          new_elem.classList = "rec-desc"
+          new_elem.style.paddingBottom = "20px"
+        }
+
+        optionBList.appendChild(new_elem)
+      }
+      
+      num_arr_esp.push(num)
       eng_esp_counter = 0
     }
+    
     // eng_esp_counter += 1
+    optionBContainer.addEventListener("click", optionBClicked)
   }
 }
 
@@ -317,34 +347,65 @@ const generateBatchC = (current) => {
 
   //Interleaved, so try to get both a and b
   let eng_esp_counter = 0
-  for(let j = 0; j < 6; j++) {
-    
-    for(let p = 0; p < 2; p++ ){
-      let new_elem = document.createElement("li")
-      let val
-
-      val = data2DArray[current][3][eng_esp_counter][j][p]
-      
-      if(p == 0){
-        new_elem.style.fontWeight = "bold"
-        new_elem.classList = "rec-title"
+  let num_arr_eng = []
+  let num_arr_esp = []
+  for(let i = 0; i < 6; i++) {
+    let num= Math.floor(Math.random() * 6);
+    if (eng_esp_counter == 0) {
+      while(num_arr_eng.includes(num)) {
+        num = Math.floor(Math.random() * 6);
       }
-      else{
-        new_elem.classList = "rec-desc"
-        new_elem.style.paddingBottom = "20px"
+      for(let p = 0; p < 2; p++ ){
+        let new_elem = document.createElement("li")
+        let val
+        // Eng block
+        val = data2DArray[current][3][0][num][p]
+        new_elem.textContent = val
+
+        if(p == 0){
+          new_elem.style.fontWeight = "bold"
+          new_elem.classList = "rec-title"
+        }
+        else{
+          new_elem.classList = "rec-desc"
+          new_elem.style.paddingBottom = "20px"
+        }
+
+        optionBList.appendChild(new_elem)
       }
 
-      new_elem.textContent = val
-      optionBList.appendChild(new_elem)
-      optionBContainer.addEventListener("click", optionBClicked)
-    }
-    if (eng_esp_counter == 0){
+      num_arr_eng.push(num) 
       eng_esp_counter = 1
     }
-    else{
+    else {
+      while(num_arr_eng.includes(num)) {
+        num = Math.floor(Math.random() * 6);
+      }
+      for(let p = 0; p < 2; p++ ){
+        let new_elem = document.createElement("li")
+        let val
+        // Eng block
+        val = data2DArray[current][3][1][num][p]
+        new_elem.textContent = val
+
+        if(p == 0){
+          new_elem.style.fontWeight = "bold"
+          new_elem.classList = "rec-title"
+        }
+        else{
+          new_elem.classList = "rec-desc"
+          new_elem.style.paddingBottom = "20px"
+        }
+
+        optionBList.appendChild(new_elem)
+      }
+      
+      num_arr_esp.push(num)
       eng_esp_counter = 0
     }
+    
     // eng_esp_counter += 1
+    optionBContainer.addEventListener("click", optionBClicked)
   }
 }
 
@@ -374,60 +435,59 @@ const generateBatchB = (current) => {
   for(let i = 0; i < 6; i++) {
     let num_arr = []
     for(let j = 0; j < 3; j++) {
-      let num 
-
-      do {
+      let num = Math.floor(Math.random() * 6); 
+      while(num_arr.includes(num)) {
         num = Math.floor(Math.random() * 6);
-        for(let p = 0; p < 2; p++ ){
-          let new_elem = document.createElement("li")
-          let val
-          // Eng block
-          val = data2DArray[current][3][0][num][p]
-          new_elem.textContent = val
-          if(p == 0){
-            new_elem.style.fontWeight = "bold"
-            new_elem.classList = "rec-title"
-          }
-          else{
-            new_elem.classList = "rec-desc"
-            new_elem.style.paddingBottom = "20px"
-          }
-          
-          
-          optionBList.appendChild(new_elem)
-          
+      }
+      for(let p = 0; p < 2; p++ ){
+        let new_elem = document.createElement("li")
+        let val
+        // Eng block
+        val = data2DArray[current][3][0][num][p]
+        new_elem.textContent = val
+        if(p == 0){
+          new_elem.style.fontWeight = "bold"
+          new_elem.classList = "rec-title"
         }
-      } while(num_arr.includes(num));
+        else{
+          new_elem.classList = "rec-desc"
+          new_elem.style.paddingBottom = "20px"
+        }
+        
+        
+        optionBList.appendChild(new_elem)
+        
+      }
       num_arr.push(num) 
     }
 
     num_arr = []
 
     for(let j = 3; j < 6; j++) {
-      let num 
-
-      do {
+      let num = Math.floor(Math.random() * 6);
+      while(num_arr.includes(num)) {
         num = Math.floor(Math.random() * 6);
-        for(let p = 0; p < 2; p++ ){
-          let new_elem = document.createElement("li")
-          let val
-          // Eng block
-          val = data2DArray[current][3][1][num][p]
-          new_elem.textContent = val
-          if(p == 0){
-            new_elem.style.fontWeight = "bold"
-            new_elem.classList = "rec-title"
-          }
-          else{
-            new_elem.classList = "rec-desc"
-            new_elem.style.paddingBottom = "20px"
-          }
-          
-          
-          optionBList.appendChild(new_elem)
-          
+      }
+      for(let p = 0; p < 2; p++ ){
+        let new_elem = document.createElement("li")
+        let val
+        // Eng block
+        val = data2DArray[current][3][1][num][p]
+        new_elem.textContent = val
+        if(p == 0){
+          new_elem.style.fontWeight = "bold"
+          new_elem.classList = "rec-title"
         }
-      } while(num_arr.includes(num));
+        else{
+          new_elem.classList = "rec-desc"
+          new_elem.style.paddingBottom = "20px"
+        }
+        
+        
+        optionBList.appendChild(new_elem)
+        
+      }
+      
       num_arr.push(num) 
     }
     optionBContainer.addEventListener("click", optionBClicked)
@@ -464,60 +524,59 @@ const generateBatchA = (current) =>{
   for(let i = 0; i < 6; i++) {
     let num_arr = []
     for(let j = 0; j < 3; j++) {
-      let num 
-
-      do {
+      let num = Math.floor(Math.random() * 6); 
+      while(num_arr.includes(num)) {
         num = Math.floor(Math.random() * 6);
-        for(let p = 0; p < 2; p++ ){
-          let new_elem = document.createElement("li")
-          let val
-          // Eng block
-          val = data2DArray[current][3][0][num][p]
-          new_elem.textContent = val
-          if(p == 0){
-            new_elem.style.fontWeight = "bold"
-            new_elem.classList = "rec-title"
-          }
-          else{
-            new_elem.classList = "rec-desc"
-            new_elem.style.paddingBottom = "20px"
-          }
-          
-          
-          optionBList.appendChild(new_elem)
-          
+      }
+      for(let p = 0; p < 2; p++ ){
+        let new_elem = document.createElement("li")
+        let val
+        // Eng block
+        val = data2DArray[current][3][0][num][p]
+        new_elem.textContent = val
+        if(p == 0){
+          new_elem.style.fontWeight = "bold"
+          new_elem.classList = "rec-title"
         }
-      } while(num_arr.includes(num));
+        else{
+          new_elem.classList = "rec-desc"
+          new_elem.style.paddingBottom = "20px"
+        }
+        
+        
+        optionBList.appendChild(new_elem)
+        
+      }
       num_arr.push(num) 
     }
 
     num_arr = []
 
     for(let j = 3; j < 6; j++) {
-      let num 
-
-      do {
+      let num = Math.floor(Math.random() * 6);
+      while(num_arr.includes(num)) {
         num = Math.floor(Math.random() * 6);
-        for(let p = 0; p < 2; p++ ){
-          let new_elem = document.createElement("li")
-          let val
-          // Eng block
-          val = data2DArray[current][3][1][num][p]
-          new_elem.textContent = val
-          if(p == 0){
-            new_elem.style.fontWeight = "bold"
-            new_elem.classList = "rec-title"
-          }
-          else{
-            new_elem.classList = "rec-desc"
-            new_elem.style.paddingBottom = "20px"
-          }
-          
-          
-          optionBList.appendChild(new_elem)
-          
+      }
+      for(let p = 0; p < 2; p++ ){
+        let new_elem = document.createElement("li")
+        let val
+        // Eng block
+        val = data2DArray[current][3][1][num][p]
+        new_elem.textContent = val
+        if(p == 0){
+          new_elem.style.fontWeight = "bold"
+          new_elem.classList = "rec-title"
         }
-      } while(num_arr.includes(num));
+        else{
+          new_elem.classList = "rec-desc"
+          new_elem.style.paddingBottom = "20px"
+        }
+        
+        
+        optionBList.appendChild(new_elem)
+        
+      }
+      
       num_arr.push(num) 
     }
     optionBContainer.addEventListener("click", optionBClicked)
