@@ -353,7 +353,7 @@ const generateBatchC = (current) => {
 // [question][texts][eng/spanish][title and desc]
 // Esp article, mono spanish, multilingual block
 const generateBatchB = (current) => {
-  for(let i = 0; i < 3; i++){
+  for(let i = 0; i < 6; i++){
     for(let z = 0; z < 2; z++ ){
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][1][i][z]
@@ -361,21 +361,29 @@ const generateBatchB = (current) => {
         new_elem.style.fontWeight = "bold";
         new_elem.classList = "rec-title"
       } else{
-      new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "20px"
+        new_elem.classList = "rec-desc"
+        new_elem.style.paddingBottom = "20px"
       }
    
-
-      new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
+      new_elem.textContent = val
       optionAList.appendChild(new_elem)
       optionAContainer.addEventListener("click", optionAClicked)
       
     }
   }
 
-  for(let j = 6; j < 12; j++) {
+  for(let j = 0; j < 6; j++) {
     for(let p = 0; p < 2; p++ ){
       let new_elem = document.createElement("li")
+      let val
+      // Eng block
+      if (j < 3){
+        val = data2DArray[current][3][0][j][p]
+      } else {
+        val = data2DArray[current][3][1][j][p] 
+      }
+
+      new_elem.textContent = val
       if(p == 0){
         new_elem.style.fontWeight = "bold"
         new_elem.classList = "rec-title"
@@ -383,13 +391,10 @@ const generateBatchB = (current) => {
       }
       else{
         new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "20px"
-
+        new_elem.style.paddingBottom = "20px"
 
       }
 
-      let val = data2DArray[j][3][p]
-      new_elem.textContent = val
       optionBList.appendChild(new_elem)
       optionBContainer.addEventListener("click", optionBClicked)
     }
