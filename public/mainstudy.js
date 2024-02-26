@@ -25,6 +25,7 @@ const optionA = document.getElementById("option-a")
 const optionB = document.getElementById("option-b")
 const optionAList = document.getElementById("option-a-list")
 const optionBList = document.getElementById("option-b-list")
+let mainQuestion; 
 
 const configuration = ""
 
@@ -57,21 +58,40 @@ export let prestudyTableData = [];
 export let prestudyData2DArray = [];
 
 
-const decideBatch = (currentQuestion) => {
+
+const decideBatch = (mainQuestion) => {
 
   // A: Eng B: Esp C: Eng, D: Esp
-  if (num >= 1 && num <= 18) {
-    imageElement.src = "img/" + data2DArray[currentQuestion][2][0];
-    generateBatchA(currentQuestion)
-} else if (num >= 19 && num <= 36) {
-  imageElement.src = "img/" + data2DArray[currentQuestion][2][1];
-  generateBatchB(currentQuestion)
-} else if (num >= 37 && num <= 54) {
-  imageElement.src = "img/" + data2DArray[currentQuestion][2][0];
-  generateBatchC(currentQuestion)
-} else if (num >= 55 && num <= 72) {
-  imageElement.src = "img/" + data2DArray[currentQuestion][2][1];
-  generateBatchD(currentQuestion)
+  const imageElement = document.createElement("img");
+  imageElement.id = "actual-image"
+
+  imageElement.alt = "image";
+  imageElement.style.width = "100%"
+  imageElement.style.height = "auto"
+  
+
+  console.log("main question" , mainQuestion)
+
+  if (mainQuestion >= 1 && mainQuestion <= 18) {
+    imageElement.src = "img/" + data2DArray[mainQuestion][2][0];
+    imagePlaceholder.appendChild(imageElement);
+
+    generateBatchA(mainQuestion)
+} else if (mainQuestion >= 19 && mainQuestion <= 36) {
+  imageElement.src = "img/" + data2DArray[mainQuestion][2][1];
+  imagePlaceholder.appendChild(imageElement);
+  
+  generateBatchB(mainQuestion)
+} else if (mainQuestion >= 37 && mainQuestion <= 54) {
+  imageElement.src = "img/" + data2DArray[mainQuestion][2][0];
+  imagePlaceholder.appendChild(imageElement);
+
+  generateBatchC(mainQuestion)
+} else if (mainQuestion >= 55 && mainQuestion <= 72) {
+  imageElement.src = "img/" + data2DArray[mainQuestion][2][1];
+  imagePlaceholder.appendChild(imageElement);
+
+  generateBatchD(mainQuestion)
 } else {
     console.log("Number is outside the specified tiers");
 }
@@ -79,13 +99,17 @@ const decideBatch = (currentQuestion) => {
 }
 
 //display main study questions 1 by 1
+// question 1... question 2.. 
+// currentQuestionIndex 1 2 3 4 5 6
 function displayQuestion() {
   if (currentQuestionIndex < 72) {
     submitButton.style.display = "block";
     questionOrderRow = (userId - 1) % questionOrder.length;
-    currentQuestion = questionOrderRow[currentQuestionIndex]
+    mainQuestion = questionOrder[questionOrderRow][currentQuestionIndex]
 
-    decideBatch(currentQuestion)
+    decideBatch(mainQuestion)
+    console.log(data2DArray);
+
 
 
     questionElement.textContent = currentQuestion.value =
@@ -95,7 +119,6 @@ function displayQuestion() {
       
       
     // optionsElement.style.display = "flex"
-    imagePlaceholder.innerHTML = "";
     // currentQuestionId = questionOrder[questionOrderRow][currentQuestionIndex];
 
     //assign this question's correct answer to currentCorrectAnswer for answer checking
@@ -105,21 +128,6 @@ function displayQuestion() {
     // Create and append the image element
 
 
-    const imageElement = document.createElement("img");
-    imageElement.src = "img/" + data2DArray[questionOrder][2][0];
-
-      // "img/" + data2DArray[0][2][0];
-    imageElement.alt = "image";
-    imageElement.style.width = "100%"
-    imageElement.style.height = "auto"
-
-    imagePlaceholder.appendChild(imageElement);
-    generateColumn(currentQuestion)
-
-    console.log(optionA)
-    console.log(optionB)
-
-    console.log(imagePlaceholder)
 
 
     // option a or option b
@@ -227,7 +235,8 @@ const optionBClicked = () => {
 // Batch D: Englishh Article: Mono esp, Multi Interleaved
 
 const generateBatchD = (current) => {
-  for(let i = 0; i < 3; i++){
+  // Column A
+  for(let i = 0; i < 6; i++){
     for(let z = 0; z < 2; z++ ){
       console.log(i)
       let new_elem = document.createElement("li")
@@ -240,8 +249,6 @@ const generateBatchD = (current) => {
       new_elem.classList = "rec-desc"
       new_elem.style.paddingBottom = "20px"
       }
-   
-
       new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
       optionAList.appendChild(new_elem)
       optionAContainer.addEventListener("click", optionAClicked)
@@ -249,9 +256,10 @@ const generateBatchD = (current) => {
     }
   }
 
+  // Column B
   let eng_esp_counter = 0
+  // TODO: Change this so it includes more reccommendations, start index at 0
   for(let j = 3; j < 6; j++) {
-    
     for(let p = 0; p < 2; p++ ){
       let new_elem = document.createElement("li")
       
@@ -451,65 +459,7 @@ const generateBatchA = (current) =>{
   }
 }
 }
-// const generateColumn = (currentQuestion) => {
 
-// get whatever is here and try to get it to a certain point, if its not there then we have to move it
-
-  // for(let i = 0; i < 6; i++){
-  //   for(let z = 0; z < 2; z++ ){
-  //     console.log(i)
-  //     let new_elem = document.createElement("li")
-  //     let val = data2DArray[currentQuestionIndex][3][z]
-  //     console.log(val)
-  //     if(z == 0){
-  //       new_elem.style.fontWeight = "bold";
-  //       new_elem.classList = "rec-title"
-  //     } else{
-  //     new_elem.classList = "rec-desc"
-  //     new_elem.style.paddingBottom = "20px"
-  //     }
-   
-
-  //     new_elem.textContent = data2DArray[currentQuestionIndex][3][z]
-  //     optionAList.appendChild(new_elem)
-  //     optionAContainer.addEventListener("click", optionAClicked)
-      
-  //   }
-
-    
-  // }
-
-  // // batch A:
-  // // English article
-  // // Option A: monolingual english
-  // // Option B: multilingual block eng and esp
-
-  // for(let j = 6; j < 12; j++) {
-  //   for(let p = 0; p < 2; p++ ){
-  //     console.log(j)
-  //     let new_elem = document.createElement("li")
-  //     if(p == 0){
-  //       new_elem.style.fontWeight = "bold"
-  //       new_elem.classList = "rec-title"
-
-  //     }
-  //     else{
-  //       new_elem.classList = "rec-desc"
-  //     new_elem.style.paddingBottom = "20px"
-
-
-  //     }
-
-  //     let val = data2DArray[j][3][p]
-  //     new_elem.textContent = val
-  //     optionBList.appendChild(new_elem)
-  //     optionBContainer.addEventListener("click", optionBClicked)
-    
-      
-  //   }
-  // }
-
-// }
 function storePrestudyQuestionsInArray() {
   for (const entry of prestudyTableData.data) {
     const questionText = entry.question_text;
@@ -578,6 +528,11 @@ function storeQuestionsInArray() {
   }
 }
 
+const clearList = () => {
+  optionAList.innerHTML = ""
+  optionBList.innerHTML = ""
+}
+
 // Function to check the answer and proceed to the next question
 async function checkAnswer() {
   let selectedOption = (currentAnswer.value = document.querySelector(
@@ -610,15 +565,25 @@ async function checkAnswer() {
     console.log("Server response:", dataSubmit);
 
     currentQuestionIndex++;
+    clearList();
+    clearImage();
     displayQuestion();
+    
+
   } catch (error) {
     console.error("Error submitting response:", error);
   }
 }
 
+const clearImage = () => {
+  let img = document.getElementById("actual-image")
+  imagePlaceholder.removeChild(img)
+}
+
 // Add event listeners
 submitButton.addEventListener("click", () => {
   checkAnswer();
+
   recordInteraction("Submit", true, false);
 });
 
