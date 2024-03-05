@@ -149,7 +149,8 @@ async function recordPrestudyResponse() {
         body: JSON.stringify({
           userId,
           question: currentQuestion.value.substring(0, 100),
-          user_answer: selectedOption,
+          // user_answer: selectedOption,
+          userAnswer: selectedOption,
           isCorrect: selectedOption === currentCorrectAnswer,
         }),
       });
