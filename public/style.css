@@ -186,7 +186,6 @@ label {
 
 label > input {
   position: fixed;
-opacity: 0;
 pointer-events: none;
 }
 
