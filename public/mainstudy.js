@@ -74,8 +74,6 @@ const decideBatch = (mainQuestion) => {
   imageElement.style.height = "auto"
   
 
-  console.log("Main Question Index", mainQuestion)
-  console.log(currentQuestionIndex)
 //Batch A
 if (mainQuestion >= 1 && mainQuestion <= 18) {
     imageElement.src = "img/" + data2DArray[mainQuestion][2][0];
@@ -83,7 +81,6 @@ if (mainQuestion >= 1 && mainQuestion <= 18) {
     config += imageSource.slice(0, imageSource.length - 4)
     // config += "-" + data2DArray[mainQuestion][1]
     config += "-Batch-A"
-    console.log(config)
     imagePlaceholder.appendChild(imageElement);
     generateBatchA(mainQuestion)
 } 
@@ -135,7 +132,6 @@ function displayQuestion() {
     mainQuestion = questionOrder[questionOrderRow][currentQuestionIndex]
 
     decideBatch(mainQuestion)
-    console.log("Main Question is: ", mainQuestion)
     config += mainQuestion
 
 
@@ -261,7 +257,6 @@ const optionBClicked = () => {
 // Batch D: Englishh Article: Mono esp, Multi Interleaved
 
 const generateBatchD = (current) => {
-  console.log('batch d generated')
   // Column A
   for(let i = 0; i < 6; i++){
     // Input a div to a ul list?
@@ -363,7 +358,6 @@ const generateBatchD = (current) => {
 
 
 const generateBatchC = (current) => {
-  console.log("batch c called")
 
   for(let i = 0; i < 6; i++){
     let recBox = document.createElement('div')
@@ -480,7 +474,7 @@ const generateBatchC = (current) => {
 // [question][texts][eng/spanish][title and desc]
 // Esp article, mono spanish, multilingual block
 const generateBatchB = (current) => {
-  console.log("batch b called")
+
   for(let i = 0; i < 6; i++){
     let recBox = document.createElement('div')
     recBox.classList = 'rec-box'
@@ -571,8 +565,6 @@ const generateBatchB = (current) => {
 }
 
 const generateBatchA = (current) =>{
-  console.log('generated batch a ')
-  console.log(data2DArray)
 
 // Option A
   for(let i = 0; i < 6; i++){
@@ -805,7 +797,6 @@ beginPrestudyButton.addEventListener("click", () => {
   homeContent.style.display = "none";
   // prestudyquestions here must be populated right
   beginPrestudy()
-  console.log("after button length is" + prestudyData2DArray.length)
 
   displayPrestudyQuestions(prestudyData2DArray);
 });
