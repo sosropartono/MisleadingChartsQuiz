@@ -107,6 +107,7 @@ async function recordPrestudyResponse() {
           userId,
           userAnswer,
           question: currentQuestion.value.substring(0, 80),
+          isCorrect: ans
         }),
       });
   
@@ -128,6 +129,8 @@ async function recordPrestudyResponse() {
     let selectedOption = (currentAnswer.value = document.querySelector(
       'input[name="answer"]:checked'
     ).value);
+
+    console.log("selected: " + selectedOption);
   
     let currentCorrectAnswer = prestudyData2DArray[currentQuestionIndex][2]
   
@@ -135,6 +138,7 @@ async function recordPrestudyResponse() {
       alert("Please select an answer.");
       return;
     }
+
   
     try {
       const responseSubmit = await fetch("/submit-prestudy-response", {
@@ -143,7 +147,7 @@ async function recordPrestudyResponse() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: userId,
+          userId,
           question: currentQuestion.value.substring(0, 100),
           user_answer: selectedOption,
           isCorrect: selectedOption === currentCorrectAnswer,
