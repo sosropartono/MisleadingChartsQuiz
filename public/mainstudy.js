@@ -761,8 +761,8 @@ async function checkAnswer() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: userId,
-        userAnswer: selectedOption,
+        user: userId,
+        user_answer: selectedOption,
         config: config,
         questionNumber: currentQuestionIndex+1,
         questionSequence: questionOrderRow,
