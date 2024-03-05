@@ -27,7 +27,7 @@ const optionAList = document.getElementById("option-a-list")
 const optionBList = document.getElementById("option-b-list")
 let mainQuestion; 
 
-const configuration = ""
+let config = ""
 
 
 
@@ -75,29 +75,48 @@ const decideBatch = (mainQuestion) => {
   
 
   console.log("Main Question Index", mainQuestion)
+  console.log(currentQuestionIndex)
 //Batch A
 if (mainQuestion >= 1 && mainQuestion <= 18) {
     imageElement.src = "img/" + data2DArray[mainQuestion][2][0];
+    let imageSource = data2DArray[mainQuestion][2][0]
+    config += imageSource.slice(0, imageSource.length - 4)
+    // config += "-" + data2DArray[mainQuestion][1]
+    config += "-Batch-A"
+    console.log(config)
     imagePlaceholder.appendChild(imageElement);
     generateBatchA(mainQuestion)
 } 
 //Batch B
 else if (mainQuestion >= 19 && mainQuestion <= 36) {
   imageElement.src = "img/" + data2DArray[mainQuestion][2][1];
+  let imageSource = data2DArray[mainQuestion][2][0]
+  config += imageSource.slice(0, imageSource.length - 4)
+  // config +=  "-" + data2DArray[mainQuestion][1]
+  config += "-Batch-B"
   imagePlaceholder.appendChild(imageElement);
   generateBatchB(mainQuestion)
 } 
 //Batch C
 else if (mainQuestion >= 37 && mainQuestion <= 54) {
   imageElement.src = "img/" + data2DArray[mainQuestion][2][0];
+  let imageSource = data2DArray[mainQuestion][2][0]
+  config += imageSource.slice(0, imageSource.length - 4)
+  // config += "-" + data2DArray[mainQuestion][1]
+  config += "-Batch-C"
   imagePlaceholder.appendChild(imageElement);
   generateBatchC(mainQuestion)
 } 
 //Batch D
 else if (mainQuestion >= 55 && mainQuestion <= 72) {
+  let imageSource = data2DArray[mainQuestion][2][1];
   imageElement.src = "img/" + data2DArray[mainQuestion][2][1];
+  config += imageSource.slice(0, imageSource.length - 4)
+  // config += "-" + data2DArray[mainQuestion][1]
+  config += "-Batch-D"
   imagePlaceholder.appendChild(imageElement);
   generateBatchD(mainQuestion)
+  
 } else {
     console.log("Number is outside the specified tiers");
 }
@@ -109,19 +128,21 @@ else if (mainQuestion >= 55 && mainQuestion <= 72) {
 // currentQuestionIndex 1 2 3 4 5 6
 function displayQuestion() {
   if (currentQuestionIndex < 72) {
+
     submitButton.style.display = "block";
     questionOrderRow = (userId - 1) % questionOrder.length;
+    // Main Question here marks the
     mainQuestion = questionOrder[questionOrderRow][currentQuestionIndex]
 
     decideBatch(mainQuestion)
-    console.log(data2DArray);
+    console.log("Main Question is: ", mainQuestion)
+    config += mainQuestion
 
 
 
     questionElement.textContent = currentQuestion.value =
       currentQuestionIndex +
-      1 + ". " + "Choose your preferred list of recommendations\n" + 
-      "." + "Below is an article, please select the option that you would like to see recommended to you"
+      1 + ". " + "Choose your preferred list of recommendations." + " Below is an article, please select the option that you would like to see recommended to you."
       
       
     // optionsElement.style.display = "flex"
@@ -181,7 +202,6 @@ async function claimUserID() {
 
     prestudyNotif.style.display = "block";
 
-    console.log("User Id: " + userId);
     claimUserIDButton.style.display = "none";
     beginPrestudyButton.style.display = "block";
   } catch (error) {
@@ -241,23 +261,33 @@ const optionBClicked = () => {
 // Batch D: Englishh Article: Mono esp, Multi Interleaved
 
 const generateBatchD = (current) => {
+  console.log('batch d generated')
   // Column A
   for(let i = 0; i < 6; i++){
+    // Input a div to a ul list?
+    let recBox = document.createElement("div")
+    recBox.classList = "rec-box";
+
     for(let z = 0; z < 2; z++ ){
-      let new_elem = document.createElement("li")
+      let new_elem = document.createElement("div")
       let val = data2DArray[current][3][1][i][z]
       if(z == 0){
         new_elem.style.fontWeight = "bold";
         new_elem.classList = "rec-title"
+        recBox.appendChild(new_elem)
+        new_elem.textContent = val
+
       } else{
       new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "50px"
-      }
+      recBox.appendChild(new_elem)
       new_elem.textContent = val
-      optionAList.appendChild(new_elem)
-      optionAContainer.addEventListener("click", optionAClicked)
+      
+      }
       
     }
+    optionAList.appendChild(recBox)
+    optionAContainer.addEventListener("click", optionAClicked)
+
   }
 
   // Column B
@@ -266,6 +296,9 @@ const generateBatchD = (current) => {
   let num_arr_esp = []
   for(let i = 0; i < 6; i++) {
     let num= Math.floor(Math.random() * 6);
+    let recBox = document.createElement("div")
+    recBox.classList = 'rec-box'
+
     if (eng_esp_counter == 0) {
       while(num_arr_eng.includes(num)) {
         num = Math.floor(Math.random() * 6);
@@ -280,15 +313,16 @@ const generateBatchD = (current) => {
         if(p == 0){
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
+          recBox.append(new_elem)
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "50px"
+          recBox.append(new_elem)
+          
         }
 
-        optionBList.appendChild(new_elem)
       }
-
+      optionBList.appendChild(recBox)
       num_arr_eng.push(num) 
       eng_esp_counter = 1
     }
@@ -306,15 +340,18 @@ const generateBatchD = (current) => {
         if(p == 0){
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
+          recBox.append(new_elem)
+
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "50px"
+          recBox.append(new_elem)
+
+          
         }
 
-        optionBList.appendChild(new_elem)
       }
-      
+      optionBList.appendChild(recBox)
       num_arr_esp.push(num)
       eng_esp_counter = 0
     }
@@ -326,30 +363,45 @@ const generateBatchD = (current) => {
 
 
 const generateBatchC = (current) => {
+  console.log("batch c called")
+
   for(let i = 0; i < 6; i++){
+    let recBox = document.createElement('div')
+    recBox.classList = 'rec-box'
     for(let z = 0; z < 2; z++ ){
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][1][i][z]
       if(z == 0){
         new_elem.style.fontWeight = "bold";
         new_elem.classList = "rec-title"
+        new_elem.textContent = val
+
+        recBox.append(new_elem)
+
       } else{
       new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "50px"
+      new_elem.textContent = val
+
+      recBox.append(new_elem)
+
+      
       }
    
-      new_elem.textContent = val
-      optionAList.appendChild(new_elem)
-      optionAContainer.addEventListener("click", optionAClicked)
+      optionAList.appendChild(recBox)
       
     }
+
   }
+  optionAContainer.addEventListener("click", optionAClicked)
+
 
   //Interleaved, so try to get both a and b
   let eng_esp_counter = 0
   let num_arr_eng = []
   let num_arr_esp = []
   for(let i = 0; i < 6; i++) {
+    let recBox = document.createElement('div')
+    recBox.classList = 'rec-box'
     let num= Math.floor(Math.random() * 6);
     if (eng_esp_counter == 0) {
       while(num_arr_eng.includes(num)) {
@@ -365,13 +417,19 @@ const generateBatchC = (current) => {
         if(p == 0){
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
+          new_elem.textContent = val
+          recBox.appendChild(new_elem)
+
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "50px"
+          new_elem.textContent = val
+          recBox.appendChild(new_elem)
+
+          
         }
 
-        optionBList.appendChild(new_elem)
+        optionBList.appendChild(recBox)
       }
 
       num_arr_eng.push(num) 
@@ -381,6 +439,9 @@ const generateBatchC = (current) => {
       while(num_arr_eng.includes(num)) {
         num = Math.floor(Math.random() * 6);
       }
+      let recBox = document.createElement('div')
+      recBox.classList = 'rec-box'
+
       for(let p = 0; p < 2; p++ ){
         let new_elem = document.createElement("li")
         let val
@@ -391,13 +452,20 @@ const generateBatchC = (current) => {
         if(p == 0){
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
+          new_elem.textContent = val
+          recBox.appendChild(new_elem)
+
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "20px"
+          new_elem.textContent = val
+          recBox.appendChild(new_elem)
+
+
+          
         }
 
-        optionBList.appendChild(new_elem)
+        optionBList.appendChild(recBox)
       }
       
       num_arr_esp.push(num)
@@ -412,53 +480,62 @@ const generateBatchC = (current) => {
 // [question][texts][eng/spanish][title and desc]
 // Esp article, mono spanish, multilingual block
 const generateBatchB = (current) => {
+  console.log("batch b called")
   for(let i = 0; i < 6; i++){
+    let recBox = document.createElement('div')
+    recBox.classList = 'rec-box'
     for(let z = 0; z < 2; z++ ){
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][1][i][z]
       if(z == 0){
         new_elem.style.fontWeight = "bold";
+        new_elem.textContent = val
+
         new_elem.classList = "rec-title"
+        
+        recBox.appendChild(new_elem)
       } else{
         new_elem.classList = "rec-desc"
-        new_elem.style.paddingBottom = "20px"
+        new_elem.textContent = val
+
+        recBox.appendChild(new_elem)
+
       }
    
-      new_elem.textContent = val
-      optionAList.appendChild(new_elem)
-      optionAContainer.addEventListener("click", optionAClicked)
+      optionAList.appendChild(recBox)
       
     }
   }
+  optionAContainer.addEventListener("click", optionAClicked)
 
+
+  let num_arr = []
   // Option B
-  for(let i = 0; i < 6; i++) {
-    let num_arr = []
-    for(let j = 0; j < 3; j++) {
-      let num = Math.floor(Math.random() * 6); 
+  for(let i = 0; i < 3; i++) {
+    let recBox = document.createElement('div')
+    recBox.classList = 'rec-box'
+    let num = Math.floor(Math.random() * 6); 
       while(num_arr.includes(num)) {
         num = Math.floor(Math.random() * 6);
       }
       for(let p = 0; p < 2; p++ ){
         let new_elem = document.createElement("li")
-        let val
-        // Eng block
-        val = data2DArray[current][3][0][num][p]
+        let val = data2DArray[current][3][0][num][p]
         new_elem.textContent = val
         if(p == 0){
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
+          recBox.appendChild(new_elem)
         }
-        //place padding if its a description 
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "50px"
+          recBox.appendChild(new_elem)
+          
+          
         }
-        
-        
-        optionBList.appendChild(new_elem)
-        
+
       }
+      optionBList.appendChild(recBox)
       num_arr.push(num) 
     }
 
@@ -466,88 +543,93 @@ const generateBatchB = (current) => {
 
     for(let j = 3; j < 6; j++) {
       let num = Math.floor(Math.random() * 6);
+      let recBox = document.createElement('div')
+      recBox.classList = 'rec-box'
       while(num_arr.includes(num)) {
         num = Math.floor(Math.random() * 6);
       }
-      for(let p = 0; p < 2; p++ ){
+      for(let p = 0; p < 2; p++){
         let new_elem = document.createElement("li")
-        let val
-        // Eng block
-        val = data2DArray[current][3][1][num][p]
+        let val = data2DArray[current][3][1][num][p]
         new_elem.textContent = val
         if(p == 0){
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
+          recBox.appendChild(new_elem)
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "50px"
-        }
-        
-        
-        optionBList.appendChild(new_elem)
-        
+          recBox.appendChild(new_elem)
+        }       
       }
+      optionBList.appendChild(recBox)
       
       num_arr.push(num) 
     }
     optionBContainer.addEventListener("click", optionBClicked)
-  }
+  
 }
 
 const generateBatchA = (current) =>{
+  console.log('generated batch a ')
+  console.log(data2DArray)
 
 // Option A
   for(let i = 0; i < 6; i++){
+    let recBox = document.createElement('div')
+    recBox.classList = 'rec-box'
     for(let z = 0; z < 2; z++ ){
       let new_elem = document.createElement("li")
       let val = data2DArray[current][3][0][i][z]
       if(z == 0){
         new_elem.style.fontWeight = "bold";
         new_elem.classList = "rec-title"
+        new_elem.textContent = val
+        recBox.appendChild(new_elem)
+        
       } else{
       new_elem.classList = "rec-desc"
-      new_elem.style.paddingBottom = "50px"
+      new_elem.textContent = val
+      recBox.appendChild(new_elem)
+      
       }
    
 
-      new_elem.textContent = val
-      optionAList.appendChild(new_elem)
-      optionAContainer.addEventListener("click", optionAClicked)
+
       
     }
+    optionAList.appendChild(recBox)
+    optionAContainer.addEventListener("click", optionAClicked)
 
     
   }
-
-
+  let num_arr = []
   // Option B
-  for(let i = 0; i < 6; i++) {
-    let num_arr = []
-    for(let j = 0; j < 3; j++) {
-      let num = Math.floor(Math.random() * 6); 
+  for(let i = 0; i < 3; i++) {
+    let recBox = document.createElement('div')
+    recBox.classList = 'rec-box'
+    let num = Math.floor(Math.random() * 6); 
       while(num_arr.includes(num)) {
         num = Math.floor(Math.random() * 6);
       }
       for(let p = 0; p < 2; p++ ){
         let new_elem = document.createElement("li")
-        let val
-        // Eng block
-        val = data2DArray[current][3][0][num][p]
+        let val = data2DArray[current][3][0][num][p]
         new_elem.textContent = val
         if(p == 0){
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
+          recBox.appendChild(new_elem)
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "50px"
+          recBox.appendChild(new_elem)
+          
+          
         }
-        
-        
-        optionBList.appendChild(new_elem)
-        
+
       }
+      optionBList.appendChild(recBox)
       num_arr.push(num) 
     }
 
@@ -555,34 +637,31 @@ const generateBatchA = (current) =>{
 
     for(let j = 3; j < 6; j++) {
       let num = Math.floor(Math.random() * 6);
+      let recBox = document.createElement('div')
+      recBox.classList = 'rec-box'
       while(num_arr.includes(num)) {
         num = Math.floor(Math.random() * 6);
       }
-      for(let p = 0; p < 2; p++ ){
+      for(let p = 0; p < 2; p++){
         let new_elem = document.createElement("li")
-        let val
-        // Eng block
-        val = data2DArray[current][3][1][num][p]
+        let val = data2DArray[current][3][1][num][p]
         new_elem.textContent = val
         if(p == 0){
           new_elem.style.fontWeight = "bold"
           new_elem.classList = "rec-title"
+          recBox.appendChild(new_elem)
         }
         else{
           new_elem.classList = "rec-desc"
-          new_elem.style.paddingBottom = "50px"
-        }
-        
-        
-        optionBList.appendChild(new_elem)
-        
+          recBox.appendChild(new_elem)
+        }       
       }
+      optionBList.appendChild(recBox)
       
       num_arr.push(num) 
     }
     optionBContainer.addEventListener("click", optionBClicked)
   }
-}
 
 function storePrestudyQuestionsInArray() {
   for (const entry of prestudyTableData.data) {
@@ -657,6 +736,13 @@ const clearList = () => {
   optionBList.innerHTML = ""
 }
 
+const resetChoices = () => {
+  optionA.checked = false
+  optionB.checked = false
+  optionAContainer.style.backgroundColor = "#FFFFFF"
+  optionBContainer.style.backgroundColor = "#FFFFFF"
+}
+
 // Function to check the answer and proceed to the next question
 async function checkAnswer() {
   let selectedOption = (currentAnswer.value = document.querySelector(
@@ -675,11 +761,13 @@ async function checkAnswer() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId,
+        userId: userId,
         userAnswer: selectedOption,
-        questionNumber: currentQuestionId + 1,
-        question: currentQuestion.value.substring(0, 100),
-        isCorrect: selectedOption === currentCorrectAnswer,
+        config: config,
+        questionNumber: currentQuestionIndex+1,
+        questionSequence: questionOrderRow,
+        questionBasedOnSeq: mainQuestion
+
       }),
     });
 
@@ -689,7 +777,10 @@ async function checkAnswer() {
     currentQuestionIndex++;
     clearList();
     clearImage();
+    resetChoices();
+    config = ""
     displayQuestion();
+
     
 
   } catch (error) {

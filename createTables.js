@@ -35,13 +35,14 @@ con.connect(function (err) {
   )
 `;
 
-
   const createResponsesTableSQL = `
   CREATE TABLE IF NOT EXISTS test_responses (
     user_id VARCHAR(10) NOT NULL,
-    question VARCHAR(255),
     user_answer VARCHAR(255),
-    is_correct VARCHAR(5) NOT NULL,
+    config VARCHAR(255),
+    question_number VARCHAR(10) NOT NULL,
+    question_sequence VARCHAR(10) NOT NULL,
+    question_based_on_seq VARCHAR(10) NOT NULL,
     timestamp VARCHAR(40)
   )
 `;
@@ -55,8 +56,6 @@ CREATE TABLE IF NOT EXISTS prestudy_responses (
   timestamp VARCHAR(40)
 )
 `;
-
-
 
   const createMasterTable = `
   CREATE TABLE IF NOT EXISTS master_table (

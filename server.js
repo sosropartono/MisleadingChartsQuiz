@@ -53,21 +53,20 @@ app.get("/fetch-entire-table", async (req, res) => {
   }
 });
 
-//Define a route to submit a response
+
 app.post("/submit-response", async (req, res) => {
-  const { userId, userAnswer, questionNumber, question, isCorrect } = req.body;
+  // Log the entire request body and request object for debugging
+  console.log("Request Body:", req.body);
+  console.log("Request Object:", req);
 
   try {
-    const timestamp = new Date();
+    // Extract data from req.body
+    const { user, user_answer, config, questionNumber, questionSequence, questionBasedOnSeq } = req.body;
+
 
     //Insert the response into the test_responses
     await insertResponseIntoDatabase(
-      userId,
-      questionNumber,
-      question,
-      userAnswer,
-      isCorrect,
-      timestamp
+      user, user_answer, config, questionNumber, questionSequence, questionBasedOnSeq
     );
 
     res.json({
@@ -76,27 +75,26 @@ app.post("/submit-response", async (req, res) => {
     });
   } catch (error) {
     console.error("Error submitting response:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    // res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
+
 //Insert a response into test_responses
 function insertResponseIntoDatabase(
-  userId,
-  questionId,
-  question,
-  userAnswer,
-  isCorrect,
-  timestamp
+  user, user_answer, config, questionNumber, questionSequence, questionBasedOnSeq
 ) {
+  const timestamp = new Date();
+
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO test_responses (user_id, question_id, question, user_answer, is_correct, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO test_responses (user_id, user_answer, config, question_number, question_sequence, question_based_on_seq, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)";
     connection.query(
       query,
-      [userId, questionId, question, userAnswer, isCorrect, timestamp],
+      [user, user_answer, config, questionNumber, questionSequence, questionBasedOnSeq, timestamp],
       (err, results) => {
         if (err) {
+          console.log("error" + err)
           reject(err);
         } else {
           resolve(results);
