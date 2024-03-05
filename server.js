@@ -131,18 +131,19 @@ app.get("/fetch-prestudy-table", async (req, res) => {
 });
 
 function insertPrestudyResponseIntoDatabase(
-  userId,
+  user,
   question,
-  userAnswer,
+  user_answer,
+  isCorrect,
   timestamp
 ) {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO prestudy_responses (user_id, question_text, user_answer, is_correct timestamp) VALUES (?, ?, ?, ?)";
+      "INSERT INTO prestudy_responses (user_id, question_text, user_answer, is_correct, timestamp) VALUES (?, ?, ?, ?, ?)";
 
     connection.query(
       query,
-      [userId, question, userAnswer, timestamp, isCorrect],
+      [user, question, user_answer, isCorrect, timestamp],
       (err, results) => {
         if (err) {
           reject(err);
@@ -161,9 +162,10 @@ app.post("/submit-prestudy-response", async (req, res) => {
     const timestamp = new Date();
 
     // Insert the response into the database
-    await insertDataIntoMasterTable(
+    await insertPrestudyResponseIntoDatabase(
       userId,
       question,
+      userAnswer,
       isCorrect,
       timestamp
     );
