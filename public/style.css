@@ -220,6 +220,15 @@ ul{
   height: 100px;
 }
 
+#option-a {
+  opacity: 0;
+}
+
+
+#option-b {
+  opacity: 0;
+}
+
 .rec-title{
   display: -webkit-box;
   -webkit-line-clamp: 2;
