@@ -27,7 +27,7 @@ export let localQuestions = [
 
 //display prestudy questions 1 by 1
 export function displayPrestudyQuestions(questions) {
-  prestudyContent.style.display = "block";
+  prestudyContent.style.display = "flex";
   prestudySubmitButton.style.display = "block";
   startCalibrationButton.style.display = "none";
 
@@ -43,7 +43,7 @@ export function displayPrestudyQuestions(questions) {
     prestudyOption.innerHTML = ""
     prestudyMsgElement.textContent = "Below is a prompt in English. Answer the following prompt with the most appropriate response."
 
-    if (currentQuestionIndex > 5){
+    if (currentQuestionIndex > 7){
       prestudyMsgElement.textContent = "Below is a prompt in Spanish. Answer the following prompt with the most appropriate response."
     }
 
@@ -55,6 +55,7 @@ export function displayPrestudyQuestions(questions) {
         input.type = "radio";
         input.name = "answer";
         input.value = option;
+        label.classList = "one-option"
         label.appendChild(input);
         label.appendChild(document.createTextNode(option));
         prestudyOption.appendChild(label);

@@ -9,14 +9,17 @@ li {
   overflow: hidden;
 }
 
+
+
 #prestudy-options{
   display: flex;
-  row-gap: 20px;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: space-between;
-  margin: 0px 400px 0 20px;
+  height: 400px;
+  width: 500px;
+  justify-content: center;
+
 }
+
 
 #submit-container{
   display: flex;
@@ -83,6 +86,12 @@ button:hover {
   transform: translate(-50%, -50%);
 }
 
+#prestudy-submit-button{
+  width: 15%;
+  height: 7%;
+
+}
+
 #prestudy-notif {
   font-size: 1em;
 }
@@ -96,14 +105,18 @@ button:hover {
 #prestudy {
   font-size: 1.2em;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: space-between;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+  min-width: 100%;
+  min-height: 100%;
+
   top: 50px;
   left: 70px;
   right: 70px;
   margin: 0 auto;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+
 }
 
 #prestudy-msg {
@@ -121,10 +134,15 @@ button:hover {
   width: 50%;
 }
 
-
+#prestudy-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 #inputText {
-  width: auto;
+  width: 35%;
   height: 1em;
   font-size: 1.5em;
   text-align: left;
@@ -132,7 +150,8 @@ button:hover {
 }
 
 #prestudy button {
-  margin: 50px 20px;
+  width: 15%;
+  height: 7%;
   position: unset;
 }
 
@@ -154,6 +173,13 @@ button:hover {
 }
 /* How does it mix in with set height? I thought flex box strechted the last one down to fill out the last part?  */
 
+
+.one-option{
+  text-align: center;
+  min-height: 40px;
+  min-width: auto;
+  padding: 10px
+}
 #study-content-container {
   display: flex;
   flex-direction: column;
@@ -187,7 +213,7 @@ label {
 }
 
 label > input {
-  position: fixed;
+  /* position: fixed; */
 pointer-events: none;
 }
 
