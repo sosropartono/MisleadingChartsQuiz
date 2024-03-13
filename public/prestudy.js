@@ -43,7 +43,7 @@ export function displayPrestudyQuestions(questions) {
     prestudyOption.innerHTML = ""
     prestudyMsgElement.textContent = "Below is a prompt in English. Answer the following prompt with the most appropriate response."
 
-    if (currentQuestionIndex > 7){
+    if (currentQuestionIndex > 5){
       prestudyMsgElement.textContent = "Below is a prompt in Spanish. Answer the following prompt with the most appropriate response."
     }
 
