@@ -44,10 +44,13 @@ export function displayPrestudyQuestions(questions) {
     prestudyQuestionElement.innerHTML = ""
     prestudyOption.innerHTML = ""
     prestudyMsgElement.textContent = "Below is a prompt in English. Answer the following prompt with the most appropriate response."
+    if(currentQuestionIndex <2){
+      prestudyMsgElement.textContent  = ''
+    }
     if(currentQuestionIndex <4){
       prestudyQuestionElement.innerHTML  = ''
     }
-    if (currentQuestionIndex > 10){
+    if (currentQuestionIndex > 11){
       prestudyMsgElement.textContent = "Below is a prompt in Spanish. Answer the following prompt with the most appropriate response."
     }
 

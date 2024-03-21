@@ -76,6 +76,7 @@ const decideBatch = (mainQuestion) => {
 
 //Batch A
 if (mainQuestion >= 1 && mainQuestion <= 18) {
+    console.log(data2DArray)
     imageElement.src = "img/" + data2DArray[mainQuestion][2][0];
     let imageSource = data2DArray[mainQuestion][2][0]
     config += imageSource.slice(0, imageSource.length - 4)
@@ -106,6 +107,7 @@ else if (mainQuestion >= 37 && mainQuestion <= 54) {
 } 
 //Batch D
 else if (mainQuestion >= 55 && mainQuestion <= 72) {
+  console.log(data2DArray)
   let imageSource = data2DArray[mainQuestion][2][1];
   imageElement.src = "img/" + data2DArray[mainQuestion][2][1];
   config += imageSource.slice(0, imageSource.length - 4)
@@ -124,12 +126,17 @@ else if (mainQuestion >= 55 && mainQuestion <= 72) {
 // question 1... question 2.. 
 // currentQuestionIndex 1 2 3 4 5 6
 function displayQuestion() {
-  if (currentQuestionIndex < 35) {
+  if (currentQuestionIndex < 36) {
 
     submitButton.style.display = "block";
     questionOrderRow = (userId - 1) % questionOrder.length;
     // Main Question here marks the
     mainQuestion = questionOrder[questionOrderRow][currentQuestionIndex]
+    console.log("questionOrder", questionOrder)
+    console.log("OrderRow",questionOrderRow)
+    console.log("currentQIndex", currentQuestionIndex)
+
+
 
     decideBatch(mainQuestion)
     config += mainQuestion
@@ -173,8 +180,9 @@ function displayQuestion() {
     postStudyCongrats.style.display = "block";
     questionElement.textContent =
       "Study complete. Thank you for participating!";
-    optionsElement.innerHTML = "";
-    chartPlaceholder.innerHTML = "";
+    // optionsElement.innerHTML = "";
+    // chartPlaceholder.innerHTML = "";
+    studyContent.style.display = "none";
     submitButton.style.display = "none";
   }
 }
