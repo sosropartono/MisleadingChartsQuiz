@@ -124,7 +124,7 @@ else if (mainQuestion >= 55 && mainQuestion <= 72) {
 // question 1... question 2.. 
 // currentQuestionIndex 1 2 3 4 5 6
 function displayQuestion() {
-  if (currentQuestionIndex < 72) {
+  if (currentQuestionIndex < 35) {
 
     submitButton.style.display = "block";
     questionOrderRow = (userId - 1) % questionOrder.length;
