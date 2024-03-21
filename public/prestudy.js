@@ -30,6 +30,7 @@ export function displayPrestudyQuestions(questions) {
   prestudyContent.style.display = "flex";
   prestudySubmitButton.style.display = "block";
   startCalibrationButton.style.display = "none";
+  console.log(questions)
 
 
   if (currentQuestionIndex < 2) {
@@ -38,18 +39,23 @@ export function displayPrestudyQuestions(questions) {
     
   } 
   else if (currentQuestionIndex < questions.length){
+    let indo  = currentQuestionIndex -2
     inputElement.style.display = "none"
     prestudyQuestionElement.innerHTML = ""
     prestudyOption.innerHTML = ""
     prestudyMsgElement.textContent = "Below is a prompt in English. Answer the following prompt with the most appropriate response."
-
-    if (currentQuestionIndex > 5){
+    if(currentQuestionIndex <4){
+      prestudyQuestionElement.innerHTML  = ''
+    }
+    if (currentQuestionIndex > 10){
       prestudyMsgElement.textContent = "Below is a prompt in Spanish. Answer the following prompt with the most appropriate response."
     }
 
-      prestudyQuestionElement.innerHTML = currentQuestion.value = questions[currentQuestionIndex][0];
+      prestudyQuestionElement.innerHTML = currentQuestion.value = questions[indo][0];
+      console.log(currentQuestion.value)
+      console.log(questions[indo][0])
 
-      questions[currentQuestionIndex][1].forEach((option, index) => {
+      questions[indo][1].forEach((option, index) => {
         const label = document.createElement("label");
         const input = document.createElement("input");
         input.type = "radio";

@@ -15,7 +15,7 @@ li {
   display: flex;
   flex-wrap: wrap;
   height: 400px;
-  width: 500px;
+  width: auto;
   justify-content: center;
 
 }

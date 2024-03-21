@@ -3747,7 +3747,9 @@ CREATE TABLE IF NOT EXISTS prestudy_responses (
 
   const insertPrestudy  = `
   INSERT INTO prestudy_test_questions (question_text, options, correct_answer) VALUES
-  ("Can I park here?", '["Sorry, I did that.", "It is the same place.", "Only for half an hour."]', "Only for half an hour."),
+  ("What is your proficiency in English? 1 being Elementary, 5 being Native", '["1", "2", "3", "4", "5"]', "1"),
+  ("What is your proficiency in Spanish? 1 being Elementary, 5 being Native", '["1", "2", "3", "4", "5"]', "1"),
+  ("Can I park hereee?", '["Sorry, I did that.", "It is the same place.", "Only for half an hour."]', "Only for half an hour."),
   ("What colour will you paint the childrens bedroom?", '["I hope it was right.", "We can not decide.", "It was not very difficult."]', "We can not decide."),
   ("I can not understand this email.", '["Would you like some help?", "Do not you know?", "I suppose you can."]', "I suppose you can."),
   ("I would like two tickets for tomorrow night.", '["How much did you pay?", "Afternoon and evening.", "I will just check for you."]', "Afternoon and evening."),
