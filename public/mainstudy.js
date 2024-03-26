@@ -177,11 +177,12 @@ function displayQuestion() {
   } else {
     //Study is complete
     currentQuestionIndex = 0;
-    postStudyCongrats.style.display = "block";
+    postStudyCongrats.style.display = "flex";
     questionElement.textContent =
       "Study complete. Thank you for participating!";
     // optionsElement.innerHTML = "";
     // chartPlaceholder.innerHTML = "";
+
     studyContent.style.display = "none";
     submitButton.style.display = "none";
   }
