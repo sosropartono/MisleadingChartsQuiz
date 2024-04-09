@@ -235,5 +235,5 @@ startCalibrationButton.addEventListener("click", () => {
   setTimeout(() => {
     beginMainStudyButton.style.display = "block";
     calibrationScreen.style.display = "none";
-  }, 0);
+  }, 5000);
 });
