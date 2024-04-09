@@ -3757,7 +3757,7 @@ CREATE TABLE IF NOT EXISTS prestudy_responses (
   ("His eyes were ...... bad that he couldnt read the number plate of the car in front.", '["such", "so", "too", "very"]', "so"),
   ("The company needs to decide ...... and for all what its position is on this point.", '["here", "once", "first", "finally"]', "once"),
   ("Do not put your cup on the ...... of the table someone will knock it off.", '["outside", "edge", "boundary", "border"]', "edge"),
-  ("Al oír del accidente de su buen amigo, Paco se puso _____", '["hope", "think", "mean", "suppose"]', "mean"),
+  ("Al oír del accidente de su buen amigo, Paco se puso _____", '["alegre", "fatigado", "hambriento", "desconsolado"]', "desconsolado"),
   ("No puedo comprarlo porque me _____ dinero", '["falta", "dan", "presta", "regalan"]', "regalan"),
   ("Tuvo que guardar cama por estar _____ .", '["enfermo", "vestido", "ocupado", "parado"]', "parado"),
   ("Aquí está tu café, Juanito. No te quemes, que está muy _____", '["dulce", "amargo", "agrio", "caliente"]', "caliente"),
