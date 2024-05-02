@@ -15,8 +15,10 @@ export const prestudyMsgElement = document.getElementById("prestudy-msg");
 export const calibrationScreen = document.getElementById("calibration-screen");
 const prestudyOption = document.getElementById("prestudy-options")
 var inputElement = document.getElementById("inputText");
-let correct_ans
+let currentPrestudy = 0
 let currentQuestionIndex = 0;
+let currentInput = 0;
+
 let userAnswer;
 export let currentQuestion = { value: "" };
 export let currentAnswer = { value: "" };
@@ -30,35 +32,32 @@ export function displayPrestudyQuestions(questions) {
   prestudyContent.style.display = "flex";
   prestudySubmitButton.style.display = "block";
   startCalibrationButton.style.display = "none";
-  console.log(questions)
 
 
-  if (currentQuestionIndex < 2) {
+  if (currentPrestudy < 2) {
     prestudyQuestionElement.innerHTML = currentQuestion.value =
-      localQuestions[currentQuestionIndex][0];
+      localQuestions[currentPrestudy][0];
     
   } 
   else if (currentQuestionIndex < questions.length){
-    let indo  = currentQuestionIndex -2
     inputElement.style.display = "none"
     prestudyQuestionElement.innerHTML = ""
     prestudyOption.innerHTML = ""
     prestudyMsgElement.textContent = "Below is a prompt in English. Answer the following prompt with the most appropriate response."
-    if(currentQuestionIndex <2){
+    if(currentPrestudy < 2){
       prestudyMsgElement.textContent  = ''
     }
     if(currentQuestionIndex <4){
       prestudyQuestionElement.innerHTML  = ''
     }
-    if (currentQuestionIndex > 11){
+    if (currentQuestionIndex > 9){
       prestudyMsgElement.textContent = "Below is a prompt in Spanish. Answer the following prompt with the most appropriate response."
     }
 
-      prestudyQuestionElement.innerHTML = currentQuestion.value = questions[indo][0];
-      console.log(currentQuestion.value)
-      console.log(questions[indo][0])
+      prestudyQuestionElement.innerHTML = currentQuestion.value = questions[currentQuestionIndex][0];
 
-      questions[indo][1].forEach((option, index) => {
+      console.log(currentQuestion.value)
+      questions[currentQuestionIndex][1].forEach((option, index) => {
         const label = document.createElement("label");
         const input = document.createElement("input");
         input.type = "radio";
@@ -96,7 +95,7 @@ export function displayPrestudyQuestions(questions) {
 //record user response to prestudy questions to database (table prestudy_responses)
 async function recordPrestudyResponse() {
 
-  if (currentQuestionIndex < 2){
+  if (currentPrestudy < 2){
     var inputValue = inputElement.value;
 
     if (!inputValue) {
@@ -121,14 +120,11 @@ async function recordPrestudyResponse() {
         }),
       });
   
-
-      console.log(userId, currentQuestionIndex + 1, question, userAnswer, ans)
-
   
       const dataSubmit = await responseSubmit.json();
       console.log("server response", dataSubmit)
   
-      currentQuestionIndex++;
+      currentPrestudy++;
       displayPrestudyQuestions(prestudyData2DArray);
     } catch (error) {
       console.error("Error submitting response:", error);
@@ -148,6 +144,8 @@ async function recordPrestudyResponse() {
       alert("Please select an answer.");
       return;
     }
+    console.log(currentCorrectAnswer === selectedOption)
+    console.log(currentQuestionIndex, prestudyData2DArray[currentQuestionIndex][2])
 
   
     try {
